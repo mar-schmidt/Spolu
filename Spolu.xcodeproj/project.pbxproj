@@ -1,0 +1,427 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2CF21F511A97BF6100D2FFBA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F501A97BF6100D2FFBA /* main.m */; };
+		2CF21F541A97BF6100D2FFBA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F531A97BF6100D2FFBA /* AppDelegate.m */; };
+		2CF21F571A97BF6100D2FFBA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F561A97BF6100D2FFBA /* ViewController.m */; };
+		2CF21F5A1A97BF6100D2FFBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF21F581A97BF6100D2FFBA /* Main.storyboard */; };
+		2CF21F5C1A97BF6100D2FFBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CF21F5B1A97BF6100D2FFBA /* Images.xcassets */; };
+		2CF21F5F1A97BF6100D2FFBA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */; };
+		2CF21F6B1A97BF6100D2FFBA /* SpoluTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F6A1A97BF6100D2FFBA /* SpoluTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2CF21F651A97BF6100D2FFBA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CF21F431A97BF6100D2FFBA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CF21F4A1A97BF6100D2FFBA;
+			remoteInfo = Spolu;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2CF21F4B1A97BF6100D2FFBA /* Spolu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spolu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CF21F4F1A97BF6100D2FFBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CF21F501A97BF6100D2FFBA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2CF21F521A97BF6100D2FFBA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		2CF21F531A97BF6100D2FFBA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		2CF21F551A97BF6100D2FFBA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		2CF21F561A97BF6100D2FFBA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		2CF21F591A97BF6100D2FFBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2CF21F5B1A97BF6100D2FFBA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2CF21F5E1A97BF6100D2FFBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		2CF21F641A97BF6100D2FFBA /* SpoluTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpoluTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CF21F691A97BF6100D2FFBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CF21F6A1A97BF6100D2FFBA /* SpoluTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpoluTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2CF21F481A97BF6100D2FFBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CF21F611A97BF6100D2FFBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2CF21F421A97BF6100D2FFBA = {
+			isa = PBXGroup;
+			children = (
+				2CF21F4D1A97BF6100D2FFBA /* Spolu */,
+				2CF21F671A97BF6100D2FFBA /* SpoluTests */,
+				2CF21F4C1A97BF6100D2FFBA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2CF21F4C1A97BF6100D2FFBA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2CF21F4B1A97BF6100D2FFBA /* Spolu.app */,
+				2CF21F641A97BF6100D2FFBA /* SpoluTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2CF21F4D1A97BF6100D2FFBA /* Spolu */ = {
+			isa = PBXGroup;
+			children = (
+				2CF21F521A97BF6100D2FFBA /* AppDelegate.h */,
+				2CF21F531A97BF6100D2FFBA /* AppDelegate.m */,
+				2CF21F551A97BF6100D2FFBA /* ViewController.h */,
+				2CF21F561A97BF6100D2FFBA /* ViewController.m */,
+				2CF21F581A97BF6100D2FFBA /* Main.storyboard */,
+				2CF21F5B1A97BF6100D2FFBA /* Images.xcassets */,
+				2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */,
+				2CF21F4E1A97BF6100D2FFBA /* Supporting Files */,
+			);
+			path = Spolu;
+			sourceTree = "<group>";
+		};
+		2CF21F4E1A97BF6100D2FFBA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2CF21F4F1A97BF6100D2FFBA /* Info.plist */,
+				2CF21F501A97BF6100D2FFBA /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2CF21F671A97BF6100D2FFBA /* SpoluTests */ = {
+			isa = PBXGroup;
+			children = (
+				2CF21F6A1A97BF6100D2FFBA /* SpoluTests.m */,
+				2CF21F681A97BF6100D2FFBA /* Supporting Files */,
+			);
+			path = SpoluTests;
+			sourceTree = "<group>";
+		};
+		2CF21F681A97BF6100D2FFBA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2CF21F691A97BF6100D2FFBA /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2CF21F4A1A97BF6100D2FFBA /* Spolu */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CF21F6E1A97BF6100D2FFBA /* Build configuration list for PBXNativeTarget "Spolu" */;
+			buildPhases = (
+				2CF21F471A97BF6100D2FFBA /* Sources */,
+				2CF21F481A97BF6100D2FFBA /* Frameworks */,
+				2CF21F491A97BF6100D2FFBA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Spolu;
+			productName = Spolu;
+			productReference = 2CF21F4B1A97BF6100D2FFBA /* Spolu.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2CF21F631A97BF6100D2FFBA /* SpoluTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CF21F711A97BF6100D2FFBA /* Build configuration list for PBXNativeTarget "SpoluTests" */;
+			buildPhases = (
+				2CF21F601A97BF6100D2FFBA /* Sources */,
+				2CF21F611A97BF6100D2FFBA /* Frameworks */,
+				2CF21F621A97BF6100D2FFBA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2CF21F661A97BF6100D2FFBA /* PBXTargetDependency */,
+			);
+			name = SpoluTests;
+			productName = SpoluTests;
+			productReference = 2CF21F641A97BF6100D2FFBA /* SpoluTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2CF21F431A97BF6100D2FFBA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Spolu Apps";
+				TargetAttributes = {
+					2CF21F4A1A97BF6100D2FFBA = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					2CF21F631A97BF6100D2FFBA = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 2CF21F4A1A97BF6100D2FFBA;
+					};
+				};
+			};
+			buildConfigurationList = 2CF21F461A97BF6100D2FFBA /* Build configuration list for PBXProject "Spolu" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2CF21F421A97BF6100D2FFBA;
+			productRefGroup = 2CF21F4C1A97BF6100D2FFBA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2CF21F4A1A97BF6100D2FFBA /* Spolu */,
+				2CF21F631A97BF6100D2FFBA /* SpoluTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2CF21F491A97BF6100D2FFBA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CF21F5A1A97BF6100D2FFBA /* Main.storyboard in Resources */,
+				2CF21F5F1A97BF6100D2FFBA /* LaunchScreen.xib in Resources */,
+				2CF21F5C1A97BF6100D2FFBA /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CF21F621A97BF6100D2FFBA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2CF21F471A97BF6100D2FFBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CF21F571A97BF6100D2FFBA /* ViewController.m in Sources */,
+				2CF21F541A97BF6100D2FFBA /* AppDelegate.m in Sources */,
+				2CF21F511A97BF6100D2FFBA /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CF21F601A97BF6100D2FFBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CF21F6B1A97BF6100D2FFBA /* SpoluTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2CF21F661A97BF6100D2FFBA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CF21F4A1A97BF6100D2FFBA /* Spolu */;
+			targetProxy = 2CF21F651A97BF6100D2FFBA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2CF21F581A97BF6100D2FFBA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2CF21F591A97BF6100D2FFBA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2CF21F5E1A97BF6100D2FFBA /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2CF21F6C1A97BF6100D2FFBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2CF21F6D1A97BF6100D2FFBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2CF21F6F1A97BF6100D2FFBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Spolu/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2CF21F701A97BF6100D2FFBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Spolu/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		2CF21F721A97BF6100D2FFBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SpoluTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Spolu.app/Spolu";
+			};
+			name = Debug;
+		};
+		2CF21F731A97BF6100D2FFBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SpoluTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Spolu.app/Spolu";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2CF21F461A97BF6100D2FFBA /* Build configuration list for PBXProject "Spolu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CF21F6C1A97BF6100D2FFBA /* Debug */,
+				2CF21F6D1A97BF6100D2FFBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2CF21F6E1A97BF6100D2FFBA /* Build configuration list for PBXNativeTarget "Spolu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CF21F6F1A97BF6100D2FFBA /* Debug */,
+				2CF21F701A97BF6100D2FFBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2CF21F711A97BF6100D2FFBA /* Build configuration list for PBXNativeTarget "SpoluTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CF21F721A97BF6100D2FFBA /* Debug */,
+				2CF21F731A97BF6100D2FFBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2CF21F431A97BF6100D2FFBA /* Project object */;
+}
