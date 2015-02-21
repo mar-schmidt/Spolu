@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CDD98061A99096700B3C591 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CDD98051A99096700B3C591 /* AVFoundation.framework */; };
+		2CDD98111A9925A200B3C591 /* DZImageEditingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD98091A9925A200B3C591 /* DZImageEditingController.m */; };
+		2CDD98121A9925A300B3C591 /* DZImageEditingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CDD980A1A9925A200B3C591 /* DZImageEditingController.xib */; };
+		2CDD98131A9925A300B3C591 /* DZImageEditingController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CDD980B1A9925A200B3C591 /* DZImageEditingController~iphone.xib */; };
+		2CDD98141A9925A300B3C591 /* DZImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD980E1A9925A200B3C591 /* DZImageHelper.m */; };
 		2CF21F511A97BF6100D2FFBA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F501A97BF6100D2FFBA /* main.m */; };
 		2CF21F541A97BF6100D2FFBA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F531A97BF6100D2FFBA /* AppDelegate.m */; };
 		2CF21F571A97BF6100D2FFBA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F561A97BF6100D2FFBA /* ViewController.m */; };
@@ -19,6 +24,8 @@
 		2CF21F7C1A97CAE000D2FFBA /* JFADoubleSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F7B1A97CAE000D2FFBA /* JFADoubleSlider.m */; };
 		2CF21F7F1A980B8300D2FFBA /* ResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */; };
 		2CF21F821A981B1400D2FFBA /* InteractionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */; };
+		2CFE37FC1A98DE3900A5CDE0 /* LocationServiceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFE37FB1A98DE3900A5CDE0 /* LocationServiceHandler.m */; };
+		2CFE38001A98DF5B00A5CDE0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CFE37FF1A98DF5B00A5CDE0 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +39,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2CDD98051A99096700B3C591 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2CDD98081A9925A200B3C591 /* DZImageEditingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZImageEditingController.h; sourceTree = "<group>"; };
+		2CDD98091A9925A200B3C591 /* DZImageEditingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZImageEditingController.m; sourceTree = "<group>"; };
+		2CDD980A1A9925A200B3C591 /* DZImageEditingController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DZImageEditingController.xib; sourceTree = "<group>"; };
+		2CDD980B1A9925A200B3C591 /* DZImageEditingController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "DZImageEditingController~iphone.xib"; sourceTree = "<group>"; };
+		2CDD980D1A9925A200B3C591 /* DZImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZImageHelper.h; sourceTree = "<group>"; };
+		2CDD980E1A9925A200B3C591 /* DZImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZImageHelper.m; sourceTree = "<group>"; };
+		2CDD98101A9925A200B3C591 /* DZImageEditingControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZImageEditingControllerDelegate.h; sourceTree = "<group>"; };
 		2CF21F4B1A97BF6100D2FFBA /* Spolu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spolu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF21F4F1A97BF6100D2FFBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CF21F501A97BF6100D2FFBA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -54,6 +69,9 @@
 		2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultViewController.m; sourceTree = "<group>"; };
 		2CF21F801A981B1400D2FFBA /* InteractionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractionsViewController.h; sourceTree = "<group>"; };
 		2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractionsViewController.m; sourceTree = "<group>"; };
+		2CFE37FA1A98DE3900A5CDE0 /* LocationServiceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationServiceHandler.h; sourceTree = "<group>"; };
+		2CFE37FB1A98DE3900A5CDE0 /* LocationServiceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationServiceHandler.m; sourceTree = "<group>"; };
+		2CFE37FF1A98DF5B00A5CDE0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +79,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CDD98061A99096700B3C591 /* AVFoundation.framework in Frameworks */,
+				2CFE38001A98DF5B00A5CDE0 /* CoreLocation.framework in Frameworks */,
 				2CF21F751A97C1FA00D2FFBA /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,11 +95,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CDD98071A9925A200B3C591 /* DZImageEditing */ = {
+			isa = PBXGroup;
+			children = (
+				2CDD98081A9925A200B3C591 /* DZImageEditingController.h */,
+				2CDD98091A9925A200B3C591 /* DZImageEditingController.m */,
+				2CDD980A1A9925A200B3C591 /* DZImageEditingController.xib */,
+				2CDD980B1A9925A200B3C591 /* DZImageEditingController~iphone.xib */,
+				2CDD980C1A9925A200B3C591 /* Helpers */,
+				2CDD980F1A9925A200B3C591 /* Protocols */,
+			);
+			path = DZImageEditing;
+			sourceTree = "<group>";
+		};
+		2CDD980C1A9925A200B3C591 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2CDD980D1A9925A200B3C591 /* DZImageHelper.h */,
+				2CDD980E1A9925A200B3C591 /* DZImageHelper.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		2CDD980F1A9925A200B3C591 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				2CDD98101A9925A200B3C591 /* DZImageEditingControllerDelegate.h */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		2CF21F421A97BF6100D2FFBA = {
 			isa = PBXGroup;
 			children = (
-				2CF21F741A97C1FA00D2FFBA /* QuartzCore.framework */,
 				2CF21F4D1A97BF6100D2FFBA /* Spolu */,
+				2CFE37FE1A98DF3F00A5CDE0 /* Frameworks */,
 				2CF21F671A97BF6100D2FFBA /* SpoluTests */,
 				2CF21F4C1A97BF6100D2FFBA /* Products */,
 			);
@@ -102,14 +152,9 @@
 				2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */,
 				2CF21F521A97BF6100D2FFBA /* AppDelegate.h */,
 				2CF21F531A97BF6100D2FFBA /* AppDelegate.m */,
-				2CF21F551A97BF6100D2FFBA /* ViewController.h */,
-				2CF21F561A97BF6100D2FFBA /* ViewController.m */,
-				2CF21F761A97C93400D2FFBA /* FilterViewController.h */,
-				2CF21F771A97C93400D2FFBA /* FilterViewController.m */,
-				2CF21F7D1A980B8300D2FFBA /* ResultViewController.h */,
-				2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */,
-				2CF21F801A981B1400D2FFBA /* InteractionsViewController.h */,
-				2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */,
+				2CFE37FD1A98DE4500A5CDE0 /* ViewControllers */,
+				2CFE37FA1A98DE3900A5CDE0 /* LocationServiceHandler.h */,
+				2CFE37FB1A98DE3900A5CDE0 /* LocationServiceHandler.m */,
 				2CF21F791A97CACC00D2FFBA /* 3rd part */,
 				2CF21F4E1A97BF6100D2FFBA /* Supporting Files */,
 			);
@@ -145,10 +190,37 @@
 		2CF21F791A97CACC00D2FFBA /* 3rd part */ = {
 			isa = PBXGroup;
 			children = (
+				2CDD98071A9925A200B3C591 /* DZImageEditing */,
 				2CF21F7A1A97CAE000D2FFBA /* JFADoubleSlider.h */,
 				2CF21F7B1A97CAE000D2FFBA /* JFADoubleSlider.m */,
 			);
 			name = "3rd part";
+			sourceTree = "<group>";
+		};
+		2CFE37FD1A98DE4500A5CDE0 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2CF21F551A97BF6100D2FFBA /* ViewController.h */,
+				2CF21F561A97BF6100D2FFBA /* ViewController.m */,
+				2CF21F761A97C93400D2FFBA /* FilterViewController.h */,
+				2CF21F771A97C93400D2FFBA /* FilterViewController.m */,
+				2CF21F7D1A980B8300D2FFBA /* ResultViewController.h */,
+				2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */,
+				2CF21F801A981B1400D2FFBA /* InteractionsViewController.h */,
+				2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		2CFE37FE1A98DF3F00A5CDE0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2CDD98051A99096700B3C591 /* AVFoundation.framework */,
+				2CFE37FF1A98DF5B00A5CDE0 /* CoreLocation.framework */,
+				2CF21F741A97C1FA00D2FFBA /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			path = Spolu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +305,9 @@
 			files = (
 				2CF21F5A1A97BF6100D2FFBA /* Main.storyboard in Resources */,
 				2CF21F5F1A97BF6100D2FFBA /* LaunchScreen.xib in Resources */,
+				2CDD98121A9925A300B3C591 /* DZImageEditingController.xib in Resources */,
 				2CF21F5C1A97BF6100D2FFBA /* Images.xcassets in Resources */,
+				2CDD98131A9925A300B3C591 /* DZImageEditingController~iphone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,11 +327,14 @@
 			files = (
 				2CF21F571A97BF6100D2FFBA /* ViewController.m in Sources */,
 				2CF21F821A981B1400D2FFBA /* InteractionsViewController.m in Sources */,
+				2CDD98111A9925A200B3C591 /* DZImageEditingController.m in Sources */,
 				2CF21F541A97BF6100D2FFBA /* AppDelegate.m in Sources */,
+				2CFE37FC1A98DE3900A5CDE0 /* LocationServiceHandler.m in Sources */,
 				2CF21F781A97C93400D2FFBA /* FilterViewController.m in Sources */,
 				2CF21F7C1A97CAE000D2FFBA /* JFADoubleSlider.m in Sources */,
 				2CF21F511A97BF6100D2FFBA /* main.m in Sources */,
 				2CF21F7F1A980B8300D2FFBA /* ResultViewController.m in Sources */,
+				2CDD98141A9925A300B3C591 /* DZImageHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +525,7 @@
 				2CF21F701A97BF6100D2FFBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2CF21F711A97BF6100D2FFBA /* Build configuration list for PBXNativeTarget "SpoluTests" */ = {
 			isa = XCConfigurationList;
@@ -456,6 +534,7 @@
 				2CF21F731A97BF6100D2FFBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

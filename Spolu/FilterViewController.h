@@ -7,24 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import "locationServiceHandler.h"
+#import "DZImageEditingController.h"
 
-@interface FilterViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface FilterViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationServiceHandlerDelegate>
 {
+    __weak IBOutlet UIBarButtonItem *startCameraButton;
     UIImage *takenGroupImage;
     
     // Distance elements
-    IBOutlet UISlider *distanceSlideControl;
-    IBOutlet UILabel *distanceLabel;
+    __weak IBOutlet UISlider *distanceSlideControl;
+    __weak IBOutlet UILabel *distanceLabel;
+    __weak IBOutlet UILabel *areaLabel;
     
     // Age elements
-    IBOutlet UISlider *ageSlideControl;
-    IBOutlet UILabel *ageLabel;
+    __weak IBOutlet UISlider *ageSlideControl;
+    __weak IBOutlet UILabel *ageLabel;
     
     // Segmented control properties
-    IBOutlet UISegmentedControl *weAreSegmentedControl;
-    IBOutlet UISegmentedControl *lookingForSegmentedControl;
+    __weak IBOutlet UISegmentedControl *weAreSegmentedControl;
+    __weak IBOutlet UISegmentedControl *lookingForSegmentedControl;
 }
 
+@property (nonatomic, strong) LocationServiceHandler *locationServiceHandler;
 
 // Navbar elements
 - (IBAction)startCamera:(id)sender;
