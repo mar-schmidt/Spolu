@@ -33,10 +33,12 @@
 
 - (void)designSetup
 {
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    
     // Slider for distance and age
-    [distanceSlideControl setThumbImage:[UIImage imageNamed:@"knob"] forState:UIControlStateNormal];
+    [distanceSlideControl setThumbImage:[UIImage imageNamed:@"knob_trans"] forState:UIControlStateNormal];
     [distanceSlideControl setMaximumTrackTintColor:[UIColor colorWithRed:220/255.0f green:237/255.0f blue:200/255.0f alpha:1]];
-    [ageSlideControl setThumbImage:[UIImage imageNamed:@"knob"] forState:UIControlStateNormal];
+    [ageSlideControl setThumbImage:[UIImage imageNamed:@"knob_trans"] forState:UIControlStateNormal];
     [ageSlideControl setMaximumTrackTintColor:[UIColor colorWithRed:220/255.0f green:237/255.0f blue:200/255.0f alpha:1]];
     
     ////////////////
