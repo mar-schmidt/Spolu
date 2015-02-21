@@ -93,6 +93,9 @@
                                     <segment title="Males"/>
                                     <segment title="Females"/>
                                 </segments>
+                                <connections>
+                                    <action selector="lookingForSegmentedControl:" destination="hSl-Gu-vSq" eventType="valueChanged" id="MnI-Er-vie"/>
+                                </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PYN-zh-U10">
                                 <rect key="frame" x="16" y="286" width="131" height="29"/>
@@ -101,6 +104,9 @@
                                     <segment title="Females"/>
                                 </segments>
                                 <color key="tintColor" red="0.33333333329999998" green="0.5450980392" blue="0.1843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="weAreSegmentedControl:" destination="hSl-Gu-vSq" eventType="valueChanged" id="oa5-Go-wFg"/>
+                                </connections>
                             </segmentedControl>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="25" minValue="1" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="c6s-7l-w0p">
                                 <rect key="frame" x="30" y="476" width="540" height="31"/>
@@ -283,6 +289,8 @@ But first, enter your prefered criterias</string>
                         <outlet property="ageSlideControl" destination="ila-R0-Uye" id="y4Z-a9-TZy"/>
                         <outlet property="distanceLabel" destination="PJk-AP-boJ" id="zK6-E7-wYn"/>
                         <outlet property="distanceSlideControl" destination="c6s-7l-w0p" id="bFh-Ic-dPr"/>
+                        <outlet property="lookingForSegmentedControl" destination="1j2-pK-Ppd" id="BLF-fr-EqV"/>
+                        <outlet property="weAreSegmentedControl" destination="PYN-zh-U10" id="vox-Dc-p86"/>
                         <segue destination="P5w-H7-omK" kind="show" identifier="showResultViewController" id="LPd-gz-3qx"/>
                     </connections>
                 </viewController>
@@ -423,7 +431,7 @@ But first, enter your prefered criterias</string>
         <image name="home2" width="1430" height="2008"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6ay-f1-alb"/>
+        <segue reference="LPd-gz-3qx"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.48627450979999998" green="0.70196078429999997" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

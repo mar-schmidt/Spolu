@@ -11,14 +11,22 @@
 @interface FilterViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     UIImage *takenGroupImage;
+    
+    // Distance elements
+    IBOutlet UISlider *distanceSlideControl;
+    IBOutlet UILabel *distanceLabel;
+    
+    // Age elements
+    IBOutlet UISlider *ageSlideControl;
+    IBOutlet UILabel *ageLabel;
+    
+    // Segmented control properties
+    IBOutlet UISegmentedControl *weAreSegmentedControl;
+    IBOutlet UISegmentedControl *lookingForSegmentedControl;
 }
-@property (weak, nonatomic) IBOutlet UISlider *distanceSlideControl;
-@property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 
 
-@property (weak, nonatomic) IBOutlet UISlider *ageSlideControl;
-@property (weak, nonatomic) IBOutlet UILabel *ageLabel;
-
+// Navbar elements
 - (IBAction)startCamera:(id)sender;
 - (IBAction)dismissViewController:(id)sender;
 

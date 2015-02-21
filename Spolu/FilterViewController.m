@@ -23,8 +23,8 @@
     [self designSetup];
     
     // Add targets to distance and age sliders so that we can update corresponding labels when dragging
-    [_distanceSlideControl addTarget:self action:@selector(distanceSlideControlValueChanged:) forControlEvents:UIControlEventValueChanged];
-    [_ageSlideControl addTarget:self action:@selector(ageSlideControlValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [distanceSlideControl addTarget:self action:@selector(distanceSlideControlValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [ageSlideControl addTarget:self action:@selector(ageSlideControlValueChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -34,21 +34,21 @@
 - (void)designSetup
 {
     // Slider for distance and age
-    [_distanceSlideControl setThumbImage:[UIImage imageNamed:@"knob"] forState:UIControlStateNormal];
-    [_distanceSlideControl setMaximumTrackTintColor:[UIColor colorWithRed:220/255.0f green:237/255.0f blue:200/255.0f alpha:1]];
-    [_ageSlideControl setThumbImage:[UIImage imageNamed:@"knob"] forState:UIControlStateNormal];
-    [_ageSlideControl setMaximumTrackTintColor:[UIColor colorWithRed:220/255.0f green:237/255.0f blue:200/255.0f alpha:1]];
+    [distanceSlideControl setThumbImage:[UIImage imageNamed:@"knob"] forState:UIControlStateNormal];
+    [distanceSlideControl setMaximumTrackTintColor:[UIColor colorWithRed:220/255.0f green:237/255.0f blue:200/255.0f alpha:1]];
+    [ageSlideControl setThumbImage:[UIImage imageNamed:@"knob"] forState:UIControlStateNormal];
+    [ageSlideControl setMaximumTrackTintColor:[UIColor colorWithRed:220/255.0f green:237/255.0f blue:200/255.0f alpha:1]];
     
     ////////////////
     // Set distanceLabels value to current distanceSlide-value
     //
     // Round float to an integer
-    int distanceDiscreteValue = roundl(_distanceSlideControl.value);
-    int ageDiscreteValue = roundl(_ageSlideControl.value);
+    int distanceDiscreteValue = roundl(distanceSlideControl.value);
+    int ageDiscreteValue = roundl(ageSlideControl.value);
     
     // Update distanceLabel and ageLabel
-    _distanceLabel.text = [NSString stringWithFormat:@"%d km", distanceDiscreteValue];
-    _ageLabel.text = [NSString stringWithFormat:@"%d isch", ageDiscreteValue];
+    distanceLabel.text = [NSString stringWithFormat:@"%d km", distanceDiscreteValue];
+    ageLabel.text = [NSString stringWithFormat:@"%d isch", ageDiscreteValue];
     
     // Set status bar dark for this viewcontroller
     [self setNeedsStatusBarAppearanceUpdate];
@@ -60,7 +60,7 @@
     int discreteValue = roundl([sender value]);
     
     // Update distanceLabel
-    _distanceLabel.text = [NSString stringWithFormat:@"%d km", discreteValue];
+    distanceLabel.text = [NSString stringWithFormat:@"%d km", discreteValue];
 }
 
 - (IBAction)ageSlideControlValueChanged:(UISlider *)sender
@@ -69,11 +69,51 @@
     int discreteValue = roundl([sender value]);
     
     // Update distanceLabel
-    _ageLabel.text = [NSString stringWithFormat:@"%d isch", discreteValue];
+    ageLabel.text = [NSString stringWithFormat:@"%d isch", discreteValue];
 }
 
 
 
+
+
+- (IBAction)weAreSegmentedControl:(UISegmentedControl *)sender {
+    UIColor *blueColor = [UIColor colorWithRed:41/255.0f green:182/255.0f blue:246/255.0f alpha:1];
+    UIColor *pinkColor = [UIColor colorWithRed:236/255.0f green:64/255.0f blue:122/255.0f alpha:1];
+    
+    switch ([sender selectedSegmentIndex]) {
+        case 0:
+            [self transitionColorOnSegmentedControl:sender toColor:blueColor duration:0.3];
+            break;
+        case 1:
+            [self transitionColorOnSegmentedControl:sender toColor:pinkColor duration:0.3];
+            break;
+    }
+}
+
+- (IBAction)lookingForSegmentedControl:(UISegmentedControl *)sender {
+    UIColor *blueColor = [UIColor colorWithRed:41/255.0f green:182/255.0f blue:246/255.0f alpha:1];
+    UIColor *pinkColor = [UIColor colorWithRed:236/255.0f green:64/255.0f blue:122/255.0f alpha:1];
+    
+    switch ([sender selectedSegmentIndex]) {
+        case 0:
+            [self transitionColorOnSegmentedControl:sender toColor:blueColor duration:0.3];
+            break;
+        case 1:
+            [self transitionColorOnSegmentedControl:sender toColor:pinkColor duration:0.3];
+            break;
+    }
+}
+
+
+- (void)transitionColorOnSegmentedControl:(UISegmentedControl *)segmentedControl toColor:(UIColor *)color duration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:duration
+                     animations:^{
+                         segmentedControl.tintColor = color;
+                     } completion:^(BOOL finished) {
+                        
+                     }];
+}
 
 
 - (IBAction)startCamera:(id)sender {
