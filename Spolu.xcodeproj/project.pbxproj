@@ -14,6 +14,11 @@
 		2CF21F5C1A97BF6100D2FFBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CF21F5B1A97BF6100D2FFBA /* Images.xcassets */; };
 		2CF21F5F1A97BF6100D2FFBA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */; };
 		2CF21F6B1A97BF6100D2FFBA /* SpoluTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F6A1A97BF6100D2FFBA /* SpoluTests.m */; };
+		2CF21F751A97C1FA00D2FFBA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF21F741A97C1FA00D2FFBA /* QuartzCore.framework */; };
+		2CF21F781A97C93400D2FFBA /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F771A97C93400D2FFBA /* FilterViewController.m */; };
+		2CF21F7C1A97CAE000D2FFBA /* JFADoubleSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F7B1A97CAE000D2FFBA /* JFADoubleSlider.m */; };
+		2CF21F7F1A980B8300D2FFBA /* ResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */; };
+		2CF21F821A981B1400D2FFBA /* InteractionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +45,15 @@
 		2CF21F641A97BF6100D2FFBA /* SpoluTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpoluTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF21F691A97BF6100D2FFBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CF21F6A1A97BF6100D2FFBA /* SpoluTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpoluTests.m; sourceTree = "<group>"; };
+		2CF21F741A97C1FA00D2FFBA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2CF21F761A97C93400D2FFBA /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
+		2CF21F771A97C93400D2FFBA /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
+		2CF21F7A1A97CAE000D2FFBA /* JFADoubleSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JFADoubleSlider.h; path = "../../../../Downloads/JFADoubleSlider-master/JFADoubleSlider/JFADoubleSlider.h"; sourceTree = "<group>"; };
+		2CF21F7B1A97CAE000D2FFBA /* JFADoubleSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JFADoubleSlider.m; path = "../../../../Downloads/JFADoubleSlider-master/JFADoubleSlider/JFADoubleSlider.m"; sourceTree = "<group>"; };
+		2CF21F7D1A980B8300D2FFBA /* ResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultViewController.h; sourceTree = "<group>"; };
+		2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultViewController.m; sourceTree = "<group>"; };
+		2CF21F801A981B1400D2FFBA /* InteractionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractionsViewController.h; sourceTree = "<group>"; };
+		2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractionsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CF21F751A97C1FA00D2FFBA /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +78,7 @@
 		2CF21F421A97BF6100D2FFBA = {
 			isa = PBXGroup;
 			children = (
+				2CF21F741A97C1FA00D2FFBA /* QuartzCore.framework */,
 				2CF21F4D1A97BF6100D2FFBA /* Spolu */,
 				2CF21F671A97BF6100D2FFBA /* SpoluTests */,
 				2CF21F4C1A97BF6100D2FFBA /* Products */,
@@ -81,13 +97,20 @@
 		2CF21F4D1A97BF6100D2FFBA /* Spolu */ = {
 			isa = PBXGroup;
 			children = (
+				2CF21F5B1A97BF6100D2FFBA /* Images.xcassets */,
+				2CF21F581A97BF6100D2FFBA /* Main.storyboard */,
+				2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */,
 				2CF21F521A97BF6100D2FFBA /* AppDelegate.h */,
 				2CF21F531A97BF6100D2FFBA /* AppDelegate.m */,
 				2CF21F551A97BF6100D2FFBA /* ViewController.h */,
 				2CF21F561A97BF6100D2FFBA /* ViewController.m */,
-				2CF21F581A97BF6100D2FFBA /* Main.storyboard */,
-				2CF21F5B1A97BF6100D2FFBA /* Images.xcassets */,
-				2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */,
+				2CF21F761A97C93400D2FFBA /* FilterViewController.h */,
+				2CF21F771A97C93400D2FFBA /* FilterViewController.m */,
+				2CF21F7D1A980B8300D2FFBA /* ResultViewController.h */,
+				2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */,
+				2CF21F801A981B1400D2FFBA /* InteractionsViewController.h */,
+				2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */,
+				2CF21F791A97CACC00D2FFBA /* 3rd part */,
 				2CF21F4E1A97BF6100D2FFBA /* Supporting Files */,
 			);
 			path = Spolu;
@@ -117,6 +140,15 @@
 				2CF21F691A97BF6100D2FFBA /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2CF21F791A97CACC00D2FFBA /* 3rd part */ = {
+			isa = PBXGroup;
+			children = (
+				2CF21F7A1A97CAE000D2FFBA /* JFADoubleSlider.h */,
+				2CF21F7B1A97CAE000D2FFBA /* JFADoubleSlider.m */,
+			);
+			name = "3rd part";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,8 +252,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CF21F571A97BF6100D2FFBA /* ViewController.m in Sources */,
+				2CF21F821A981B1400D2FFBA /* InteractionsViewController.m in Sources */,
 				2CF21F541A97BF6100D2FFBA /* AppDelegate.m in Sources */,
+				2CF21F781A97C93400D2FFBA /* FilterViewController.m in Sources */,
+				2CF21F7C1A97CAE000D2FFBA /* JFADoubleSlider.m in Sources */,
 				2CF21F511A97BF6100D2FFBA /* main.m in Sources */,
+				2CF21F7F1A980B8300D2FFBA /* ResultViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

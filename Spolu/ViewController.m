@@ -17,6 +17,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    // Set border radius on begin button
+    _beginView.layer.cornerRadius = 7;
+    _beginView.layer.masksToBounds = YES;
+    
+    // Set status bar to light for this viewcontroller
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,4 +35,6 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)beginButton:(id)sender {
+}
 @end

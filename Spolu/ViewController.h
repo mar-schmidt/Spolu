@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface ViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *beginView;
+
+- (IBAction)beginButton:(id)sender;
 
 @end
 
