@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2CD275851A9BB13600F7D5CF /* IRImageViewDisplayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275841A9BB13600F7D5CF /* IRImageViewDisplayer.m */; };
 		2CD275881A9BB1F400F7D5CF /* IRAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275871A9BB1F400F7D5CF /* IRAVAudioPlayer.m */; };
-		2CD275991A9BB32200F7D5CF /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2CD2758A1A9BB32200F7D5CF /* MJRefresh.bundle */; };
 		2CD2759A1A9BB32200F7D5CF /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2758D1A9BB32200F7D5CF /* MJRefreshBaseView.m */; };
 		2CD2759B1A9BB32200F7D5CF /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2758F1A9BB32200F7D5CF /* MJRefreshConst.m */; };
 		2CD2759C1A9BB32200F7D5CF /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275911A9BB32200F7D5CF /* MJRefreshFooterView.m */; };
@@ -41,6 +40,7 @@
 		2CD275EE1A9BC6C200F7D5CF /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275E51A9BC6C200F7D5CF /* UIRefreshControl+AFNetworking.m */; };
 		2CD275EF1A9BC6C200F7D5CF /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275E71A9BC6C200F7D5CF /* UIWebView+AFNetworking.m */; };
 		2CD276121A9BCA3200F7D5CF /* InteractionsChatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD276111A9BCA3200F7D5CF /* InteractionsChatModel.m */; };
+		2CD688AC1A9CA373008D446A /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CD688AB1A9CA373008D446A /* arrow@2x.png */; };
 		2CDD98061A99096700B3C591 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CDD98051A99096700B3C591 /* AVFoundation.framework */; };
 		2CF21F511A97BF6100D2FFBA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F501A97BF6100D2FFBA /* main.m */; };
 		2CF21F541A97BF6100D2FFBA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F531A97BF6100D2FFBA /* AppDelegate.m */; };
@@ -74,7 +74,6 @@
 		2CD275841A9BB13600F7D5CF /* IRImageViewDisplayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRImageViewDisplayer.m; sourceTree = "<group>"; };
 		2CD275861A9BB1F400F7D5CF /* IRAVAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRAVAudioPlayer.h; sourceTree = "<group>"; };
 		2CD275871A9BB1F400F7D5CF /* IRAVAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRAVAudioPlayer.m; sourceTree = "<group>"; };
-		2CD2758A1A9BB32200F7D5CF /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		2CD2758B1A9BB32200F7D5CF /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		2CD2758C1A9BB32200F7D5CF /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
 		2CD2758D1A9BB32200F7D5CF /* MJRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBaseView.m; sourceTree = "<group>"; };
@@ -141,6 +140,7 @@
 		2CD275E71A9BC6C200F7D5CF /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		2CD276101A9BCA3200F7D5CF /* InteractionsChatModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractionsChatModel.h; sourceTree = "<group>"; };
 		2CD276111A9BCA3200F7D5CF /* InteractionsChatModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractionsChatModel.m; sourceTree = "<group>"; };
+		2CD688AB1A9CA373008D446A /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		2CDD98051A99096700B3C591 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2CF21F4B1A97BF6100D2FFBA /* Spolu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spolu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF21F4F1A97BF6100D2FFBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -221,8 +221,8 @@
 		2CD275891A9BB32200F7D5CF /* MJRefresh */ = {
 			isa = PBXGroup;
 			children = (
-				2CD2758A1A9BB32200F7D5CF /* MJRefresh.bundle */,
 				2CD2758B1A9BB32200F7D5CF /* MJRefresh.h */,
+				2CD688AB1A9CA373008D446A /* arrow@2x.png */,
 				2CD2758C1A9BB32200F7D5CF /* MJRefreshBaseView.h */,
 				2CD2758D1A9BB32200F7D5CF /* MJRefreshBaseView.m */,
 				2CD2758E1A9BB32200F7D5CF /* MJRefreshConst.h */,
@@ -513,8 +513,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CF21F5A1A97BF6100D2FFBA /* Main.storyboard in Resources */,
+				2CD688AC1A9CA373008D446A /* arrow@2x.png in Resources */,
 				2CF21F5F1A97BF6100D2FFBA /* LaunchScreen.xib in Resources */,
-				2CD275991A9BB32200F7D5CF /* MJRefresh.bundle in Resources */,
 				2CF21F5C1A97BF6100D2FFBA /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
