@@ -8,7 +8,7 @@
 
 #import "FilterViewController.h"
 #import "ResultViewController.h"
-#import "LocationServiceHandler.h"
+#import "IRLocationServiceHandler.h"
 
 @interface FilterViewController ()
 
@@ -31,7 +31,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     // Start fetching location
-    _locationServiceHandler = [LocationServiceHandler sharedLocationServiceHandler];
+    _locationServiceHandler = [IRLocationServiceHandler sharedLocationServiceHandler];
     _locationServiceHandler.delegate = self;
     
     [_locationServiceHandler startUpdatingLocation];
@@ -60,19 +60,19 @@
     
     // Update distanceLabel and ageLabel
     distanceLabel.text = [NSString stringWithFormat:@"%d km", distanceDiscreteValue];
-    ageLabel.text = [NSString stringWithFormat:@"%d isch", ageDiscreteValue];
+    ageLabel.text = [NSString stringWithFormat:@"%d ish", ageDiscreteValue];
     
     // Set status bar dark for this viewcontroller
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
 #pragma mark LocationServiceHandler Delegates
-- (void)locationServiceHandler:(LocationServiceHandler *)service didUpdateCurrentLocation:(NSString *)city
+- (void)locationServiceHandler:(IRLocationServiceHandler *)service didUpdateCurrentLocation:(NSString *)city
 {
     areaLabel.text = [NSString stringWithFormat:@"Area (around %@)", city];
 }
 
-- (void)locationServiceHandler:(LocationServiceHandler *)service didFailGettingLocation:(NSError *)error
+- (void)locationServiceHandler:(IRLocationServiceHandler *)service didFailGettingLocation:(NSError *)error
 {
 ////////////////////////////
 // Error codes:
@@ -115,7 +115,7 @@
     int discreteValue = roundl([sender value]);
     
     // Update distanceLabel
-    ageLabel.text = [NSString stringWithFormat:@"%d isch", discreteValue];
+    ageLabel.text = [NSString stringWithFormat:@"%d ish", discreteValue];
 }
 
 

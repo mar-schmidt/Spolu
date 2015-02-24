@@ -347,111 +347,64 @@ But first, enter your prefered criterias</string>
                     <view key="view" contentMode="scaleToFill" id="G6D-nn-LZo">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3QD-rA-nnY">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="wvK-FH-560" appends="YES" id="aEe-Hu-Nrk"/>
-                                    <outletCollection property="gestureRecognizers" destination="trE-9n-efq" appends="YES" id="jzz-Ew-Xt6"/>
-                                </connections>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="3QD-rA-nnY" secondAttribute="trailing" id="1S5-3Y-ubp"/>
-                            <constraint firstItem="3QD-rA-nnY" firstAttribute="leading" secondItem="G6D-nn-LZo" secondAttribute="leading" id="UdJ-DM-rMr"/>
-                            <constraint firstItem="3QD-rA-nnY" firstAttribute="top" secondItem="G6D-nn-LZo" secondAttribute="top" id="bkM-C2-ODb"/>
-                            <constraint firstItem="3QD-rA-nnY" firstAttribute="bottom" secondItem="pPx-9v-jrl" secondAttribute="top" id="jEr-BU-SXo"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="T3A-08-yNQ">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="gU7-fz-bH6">
                             <connections>
-                                <segue destination="K2v-MQ-T03" kind="presentation" id="UPE-G4-Dy5"/>
+                                <segue destination="N79-5y-xx2" kind="show" id="EwC-As-8Mb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="groupImageView" destination="3QD-rA-nnY" id="gHD-9I-Z6E"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D6n-py-mSB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="wvK-FH-560">
-                    <connections>
-                        <action selector="rightSwipe:" destination="P5w-H7-omK" id="vbh-fR-c16"/>
-                    </connections>
-                </swipeGestureRecognizer>
-                <swipeGestureRecognizer direction="left" id="trE-9n-efq">
-                    <connections>
-                        <action selector="leftSwipe:" destination="P5w-H7-omK" id="6lU-Wm-AA8"/>
-                    </connections>
-                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-5" y="1484"/>
         </scene>
-        <!--Interactions View Controller-->
-        <scene sceneID="i4g-i2-QrI">
+        <!--Interactions-->
+        <scene sceneID="3Oj-lC-HEs">
             <objects>
-                <viewController storyboardIdentifier="InteractionsViewController" id="K2v-MQ-T03" customClass="InteractionsViewController" sceneMemberID="viewController">
+                <viewController id="N79-5y-xx2" customClass="InteractionsViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="A3U-cx-mtz"/>
-                        <viewControllerLayoutGuide type="bottom" id="4cs-mG-beW"/>
+                        <viewControllerLayoutGuide type="top" id="3L1-aa-N1T"/>
+                        <viewControllerLayoutGuide type="bottom" id="0k4-4E-Sbf"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="1uV-Eq-CQY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <view key="view" contentMode="scaleToFill" id="1L8-wa-kCb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="um0-Lj-J6A">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <items>
-                                    <navigationItem title="Interactions" id="IAH-7e-EcK">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="kkM-aQ-ior">
-                                            <connections>
-                                                <action selector="dismissViewController:" destination="K2v-MQ-T03" id="FXu-3y-OEF"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="0OA-vq-aau">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="496"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="N79-5y-xx2" id="MVW-NY-edN"/>
+                                    <outlet property="delegate" destination="N79-5y-xx2" id="m94-t1-iOz"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="um0-Lj-J6A" firstAttribute="top" secondItem="A3U-cx-mtz" secondAttribute="bottom" id="7Bz-CR-xET"/>
-                            <constraint firstItem="um0-Lj-J6A" firstAttribute="leading" secondItem="1uV-Eq-CQY" secondAttribute="leading" id="KAM-kY-mvc"/>
-                            <constraint firstAttribute="trailing" secondItem="um0-Lj-J6A" secondAttribute="trailing" id="f95-cB-CW6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0OA-vq-aau" secondAttribute="trailing" constant="-16" id="Vl6-7q-vwq"/>
+                            <constraint firstItem="0OA-vq-aau" firstAttribute="leading" secondItem="1L8-wa-kCb" secondAttribute="leadingMargin" constant="-16" id="Wkd-ac-cVq"/>
+                            <constraint firstAttribute="bottom" secondItem="0OA-vq-aau" secondAttribute="bottom" constant="40" id="gTb-vC-A0M"/>
+                            <constraint firstItem="0OA-vq-aau" firstAttribute="top" secondItem="1L8-wa-kCb" secondAttribute="top" id="xCk-aj-vMf"/>
                         </constraints>
                     </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qpI-cp-b2q" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="731" y="1484"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="aU4-L2-h93">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UR2-Vl-VCt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="w9I-Y0-Oit" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" id="Zyz-UX-pWE">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
+                    <navigationItem key="navigationItem" title="Interactions" id="2Ie-XA-bms"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <segue destination="P5w-H7-omK" kind="relationship" relationship="rootViewController" id="6ay-f1-alb"/>
+                        <outlet property="bottomConstraint" destination="gTb-vC-A0M" id="yTJ-Sd-ldt"/>
+                        <outlet property="chatTableView" destination="0OA-vq-aau" id="Ynf-5s-UxQ"/>
                     </connections>
-                </navigationController>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fMp-b6-pTs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-743" y="1484"/>
+            <point key="canvasLocation" x="766" y="1484"/>
         </scene>
     </scenes>
     <resources>
         <image name="home2" width="1430" height="2008"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="6ay-f1-alb"/>
-    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.48627450979999998" green="0.70196078429999997" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

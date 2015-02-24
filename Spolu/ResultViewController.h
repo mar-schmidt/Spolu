@@ -7,15 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 
-@interface ResultViewController : UIViewController <UIGestureRecognizerDelegate>
+@interface ResultViewController : UIViewController <MDCSwipeToChooseDelegate>
 {
     __weak IBOutlet UIImageView *groupImageView;
-    IBOutlet UISwipeGestureRecognizer *rightSwipeGesture;
-    IBOutlet UISwipeGestureRecognizer *leftSwipeGesture;
 }
 @property (weak, nonatomic) UIImage *groupImage;
 
-- (IBAction)rightSwipe:(id)sender;
-- (IBAction)leftSwipe:(id)sender;
 @end

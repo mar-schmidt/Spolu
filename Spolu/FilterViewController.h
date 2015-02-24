@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "locationServiceHandler.h"
-#import "DZImageEditingController.h"
+#import "IRLocationServiceHandler.h"
 
 @interface FilterViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationServiceHandlerDelegate>
 {
@@ -30,7 +29,7 @@
     __weak IBOutlet UISegmentedControl *lookingForSegmentedControl;
 }
 
-@property (nonatomic, strong) LocationServiceHandler *locationServiceHandler;
+@property (nonatomic, strong) IRLocationServiceHandler *locationServiceHandler;
 
 // Navbar elements
 - (IBAction)startCamera:(id)sender;
