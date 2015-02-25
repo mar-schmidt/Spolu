@@ -52,26 +52,32 @@
 - (void)updateTimeLabel
 {
     if (!_lastUpdateTime) return;
+
+    _lastUpdateTimeLabel.text = [NSString stringWithFormat:@"Last updated：%@", [self currentTime]];
+}
+
+- (NSString *)currentTime
+{
+    //Get current time
+    NSDate* now = [NSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:now];
+    NSInteger hour = [dateComponents hour];
+    NSString *am_OR_pm=@"AM";
     
-    // 1.获得年月日
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSUInteger unitFlags = NSYearCalendarUnit| NSMonthCalendarUnit | NSDayCalendarUnit |NSHourCalendarUnit |NSMinuteCalendarUnit;
-    NSDateComponents *cmp1 = [calendar components:unitFlags fromDate:_lastUpdateTime];
-    NSDateComponents *cmp2 = [calendar components:unitFlags fromDate:[NSDate date]];
-    
-    // 2.格式化日期
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    if ([cmp1 day] == [cmp2 day]) { // 今天
-        formatter.dateFormat = @"HH:mm";
-    } else if ([cmp1 year] == [cmp2 year]) { // 今年
-        formatter.dateFormat = @"MM-dd HH:mm";
-    } else {
-        formatter.dateFormat = @"yyyy-MM-dd HH:mm";
+    if (hour>12)
+    {
+        hour=hour%12;
+        
+        am_OR_pm = @"PM";
     }
-    NSString *time = [formatter stringFromDate:_lastUpdateTime];
     
-    // 3.显示日期
-    _lastUpdateTimeLabel.text = [NSString stringWithFormat:@"Last updated：%@", time];
+    NSInteger minute = [dateComponents minute];
+    NSInteger second = [dateComponents second];
+    
+    NSString *currentTime = [NSString stringWithFormat:@"%02ld:%02ld:%02ld %@", (long)hour, (long)minute, (long)second,am_OR_pm];
+    
+    return currentTime;
 }
 
 #pragma mark 设置状态

@@ -47,7 +47,7 @@
 
 // Sent before a choice is made. Cancel the choice by returning `NO`. Otherwise return `YES`.
 - (BOOL)view:(UIView *)view shouldBeChosenWithDirection:(MDCSwipeDirection)direction {
-    if (direction == MDCSwipeDirectionLeft) {
+    if (direction == MDCSwipeDirectionLeft || direction == MDCSwipeDirectionRight) {
         return YES;
     } else {
         // Snap the view back and cancel the choice.
@@ -75,6 +75,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 
 @end

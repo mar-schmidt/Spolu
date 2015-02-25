@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "IRWebSocketServiceHandler.h"
 
 @interface InteractionsViewController : UIViewController
-
+{
+    IRWebSocketServiceHandler *webSocketHandler;
+}
 - (IBAction)dismissViewController:(id)sender;
 @end

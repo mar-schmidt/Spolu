@@ -9,12 +9,28 @@
 #import "InteractionsChatModel.h"
 #import "IRMessage.h"
 #import "IRMessageFrame.h"
+#import "IRGroup.h"
 
 @implementation InteractionsChatModel
 
 - (id)init {
     if (self = [super init]) {
+        ownGroup = [IROwnGroup sharedGroup];
         
+        // This is temporary, IROwnGroup singelton props should be set earlier in filtering section
+        if (!ownGroup.imageUrl) {
+            ownGroup.imageUrl = @"http://1.bp.blogspot.com/-kDNQy7tDriY/U6cpcnboZXI/AAAAAAAAI08/lWEmI_JQafQ/s1600/miss-tampa-bay-usa-seminar-weekend-1.png";
+            ownGroup.gender = IRGenderTypeMales;
+            ownGroup.lookingForGender = IRGenderTypeFemales;
+            ownGroup.age = 26;
+            ownGroup.lookingForAgeLower = 20;
+            ownGroup.lookingForAgeUpper = 30;
+            ownGroup.locationLat = 1234;
+            ownGroup.locationLong = 1234;
+            ownGroup.lookingForInAreaWithDistanceInKm = 40;
+        }
+        
+        matchedGroups = [IRMatchedGroups sharedMatchedGroups];
     }
     return self;
 }
@@ -29,76 +45,97 @@
 
 - (void)populateRandomDataSource {
     self.dataSource = [NSMutableArray array];
-    [self.dataSource addObjectsFromArray:[self additems:2]];
+    NSArray *messageArray = @[[self randomMessage], [self randomMessage], [self randomMessage]];
+    [self.dataSource addObjectsFromArray:[self receivedMessages:messageArray fromMatchedGroup:matchedGroups.groups[1]]];
 }
 
-- (void)addRandomItemsToDataSource:(NSInteger)number{
+- (void)addRandomItemsToDataSource:(NSInteger)number {
     
     for (int i=0; i<number; i++) {
-        [self.dataSource insertObject:[[self additems:1] firstObject] atIndex:0];
+        
+        NSArray *messageArray = @[[self randomMessage]];
+        
+        [self.dataSource insertObject:[[self receivedMessages:messageArray fromMatchedGroup:matchedGroups.groups[1]] firstObject] atIndex:0];
     }
 }
 
-- (void)addSpecifiedItem:(NSDictionary *)dic
+// This referes to message from me
+- (void)sendMessage:(IRMessage *)message
 {
-    IRMessageFrame *messageFrame = [[IRMessageFrame alloc]init];
-    IRMessage *message = [[IRMessage alloc] init];
-    NSMutableDictionary *dataDic = [NSMutableDictionary dictionaryWithDictionary:dic];
-    
-    NSString *URLStr = @"https://lh5.googleusercontent.com/nQn_fk9jILbWar1rGvY6LSh9s0zIyP5fWm23ZAmv-i0Wi4S2VjQWJquUlZkJw6A8B3_VvQrjVRY=w2033-h1154";
-    [dataDic setObject:@1 forKey:@"from"];
-    [dataDic setObject:[[NSDate date] description] forKey:@"strTime"];
-    [dataDic setObject:@"Marcus" forKey:@"strName"];
-    [dataDic setObject:URLStr forKey:@"strIcon"];
-    
-    [message setWithDict:dataDic];
-    [message minuteOffSetStart:previousTime end:dataDic[@"strTime"]];
+    IRMessageFrame *messageFrame = [[IRMessageFrame alloc] init];
+    message.from = IRMessageFromMe;
+    message.strTime = [self currentTime];
+    message.strIcon = ownGroup.imageUrl;
+    [message minuteOffSetStart:previousTime end:[self currentTime]];
     messageFrame.showTime = message.showDateLabel;
     [messageFrame setMessage:message];
     
     if (message.showDateLabel) {
-        previousTime = dataDic[@"strTime"];
+        previousTime = [[NSDate date] description];
     }
     [self.dataSource addObject:messageFrame];
 }
 
+- (NSString *)currentTime
+{
+    //Get current time
+    NSDate* now = [NSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:now];
+    NSInteger hour = [dateComponents hour];
+    NSString *am_OR_pm=@"AM";
+    
+    if (hour>12)
+    {
+        hour=hour%12;
+        
+        am_OR_pm = @"PM";
+    }
+    
+    NSInteger minute = [dateComponents minute];
+    NSInteger second = [dateComponents second];
+    
+    NSString *currentTime = [NSString stringWithFormat:@"%02ld:%02ld:%02ld %@", (long)hour, (long)minute, (long)second,am_OR_pm];
+    
+    return currentTime;
+}
+
 static NSString *previousTime = nil;
 
-- (NSArray *)additems:(NSInteger)number
+
+- (NSArray *)receivedMessages:(NSArray *)messages fromMatchedGroup:(IRGroup *)group
 {
+    // Prod
     NSMutableArray *result = [NSMutableArray array];
     
-    for (int i=0; i<number; i++) {
-        
-        IRMessageFrame *messageFrame = [[IRMessageFrame alloc]init];
-        IRMessage *message = [[IRMessage alloc] init];
-        NSDictionary *dataDic = [self getDic];
-        
-        [message setWithDict:dataDic];
-        [message minuteOffSetStart:previousTime end:dataDic[@"strTime"]];
+    for (IRMessage *message in messages) {
+        IRMessageFrame *messageFrame = [[IRMessageFrame alloc] init];
+        [message minuteOffSetStart:previousTime end:[self currentTime]];
         messageFrame.showTime = message.showDateLabel;
         [messageFrame setMessage:message];
+        message.from = IRMessageFromOther;
+        message.strTime = [self currentTime];
         
-        if (message.showDateLabel) {
-            previousTime = dataDic[@"strTime"];
-        }
         [result addObject:messageFrame];
     }
+    [self.dataSource addObjectsFromArray:result];
+    
     return result;
 }
 
+
 static int dateNum = 10;
 
-- (NSDictionary *)getDic
+- (IRMessage *)randomMessage
 {
-    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+    IRMessage *message = [[IRMessage alloc] init];
     int randomNum = arc4random()%2;
     switch (randomNum) {
         case 0:// text
-            [dictionary setObject:[self randomString] forKey:@"strContent"];
+            message.strContent = [self randomString];
             break;
         case 1:// picture
-            [dictionary setObject:[UIImage imageNamed:@"haha.jpeg"] forKey:@"picture"];
+            message.picture = [UIImage imageNamed:@"haha.jpeg"];
             break;
             //            case 2:// audio
             //                [dictionary setObject:@"" forKey:@"voice"];
@@ -107,15 +144,13 @@ static int dateNum = 10;
         default:
             break;
     }
-    NSString *URLStr = @"https://pbs.twimg.com/profile_images/433593115698417665/ihgmGPl4.jpeg";
     NSDate *date = [[NSDate date]dateByAddingTimeInterval:arc4random()%1000*(dateNum++) ];
-    [dictionary setObject:[NSNumber numberWithInt:0] forKey:@"from"];
-    [dictionary setObject:[NSNumber numberWithInt:randomNum] forKey:@"type"];
-    [dictionary setObject:[date description] forKey:@"strTime"];
-    [dictionary setObject:@"Robin" forKey:@"strName"];
-    [dictionary setObject:URLStr forKey:@"strIcon"];
+    message.from = IRMessageFromOther;
+    message.type = randomNum;
+    message.strTime = [date description];
+    message.strIcon = @"http://3.bp.blogspot.com/-2bS7s_58AN8/U5QqhnoSuYI/AAAAAAAAA1M/Gm7PXvMm7Wk/s1600/IMG-20140529-WA0020.jpg";
     
-    return dictionary;
+    return message;
 }
 
 

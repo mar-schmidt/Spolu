@@ -10,45 +10,10 @@
 #import "NSDate+Utils.h"
 
 @implementation IRMessage
-- (void)setWithDict:(NSDictionary *)dict {
-    
-    self.strIcon = dict[@"strIcon"];
-    //self.strName = dict[@"strName"];
-    self.strId = dict[@"strId"];
-    self.strTime = [self changeTheDateString:dict[@"strTime"]];
-    
-    if ([dict[@"from"] intValue]==1) {
-        self.from = IRMessageFromMe;
-    } else {
-        self.from = IRMessageFromOther;
-    }
-    
-    switch ([dict[@"type"] integerValue]) {
-            
-        case 0:
-            self.type = IRMessageTypeText;
-            self.strContent = dict[@"strContent"];
-            break;
-            
-        case 1:
-            self.type = IRMessageTypePicture;
-            self.picture = dict[@"picture"];
-            break;
-            
-        case 2:
-            self.type = IRMessageTypeVoice;
-            self.voice = dict[@"voice"];
-            self.strVoiceTime = dict[@"strVoiceTime"];
-            break;
-            
-        default:
-            break;
-    }
-}
 
 - (NSString *)changeTheDateString:(NSString *)Str
 {
-    NSString *subString = [Str substringWithRange:NSMakeRange(0, 19)];
+    NSString *subString = [Str substringWithRange:NSMakeRange(0, 11)];
     NSDate *lastDate = [NSDate dateFromString:subString withFormat:@"yyyy-MM-dd HH:mm:ss"];
     
     NSString *dateStr;
@@ -86,11 +51,11 @@
         return;
     }
     
-    NSString *subStart = [start substringWithRange:NSMakeRange(0, 19)];
-    NSDate *startDate = [NSDate dateFromString:subStart withFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *subStart = [start substringWithRange:NSMakeRange(0, 11)];
+    NSDate *startDate = [NSDate dateFromString:subStart withFormat:@"HH:mm:ss"];
     
-    NSString *subEnd = [end substringWithRange:NSMakeRange(0, 19)];
-    NSDate *endDate = [NSDate dateFromString:subEnd withFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *subEnd = [end substringWithRange:NSMakeRange(0, 11)];
+    NSDate *endDate = [NSDate dateFromString:subEnd withFormat:@"HH:mm:ss"];
     
     NSTimeInterval timeInterval = [startDate timeIntervalSinceDate:endDate];
     

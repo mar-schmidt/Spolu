@@ -10,15 +10,15 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    IRMessageTypeText     = 0 , // 文字
-    IRMessageTypePicture  = 1 , // 图片
-    IRMessageTypeVoice    = 2   // 语音
+    IRMessageTypeText     = 0,
+    IRMessageTypePicture  = 1,
+    IRMessageTypeVoice    = 2
 } MessageType;
 
 
 typedef enum {
-    IRMessageFromMe    = 100,   // 自己发的
-    IRMessageFromOther = 101    // 别人发得
+    IRMessageFromMe    = 100,
+    IRMessageFromOther = 101
 } MessageFrom;
 
 
@@ -38,8 +38,6 @@ typedef enum {
 @property (nonatomic, assign) MessageFrom from;
 
 @property (nonatomic, assign) BOOL showDateLabel;
-
-- (void)setWithDict:(NSDictionary *)dict;
 
 - (void)minuteOffSetStart:(NSString *)start end:(NSString *)end;
 

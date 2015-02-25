@@ -12,7 +12,7 @@ static UIImageView *orginImageView;
 
 @implementation IRImageViewDisplayer
 
-+ (void)showImage:(UIImageView *)avatarImageView{
++ (void)showImage:(UIImageView *)avatarImageView {
     UIImage *image = avatarImageView.image;
     
     orginImageView = avatarImageView;
@@ -35,7 +35,7 @@ static UIImageView *orginImageView;
     [[backgroundView contentView] addSubview:vibrancyEffectView];
     
     CGRect oldframe = [avatarImageView convertRect:avatarImageView.bounds toView:window];
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:oldframe];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:oldframe];
     imageView.image = image;
     imageView.tag = 1;
     
@@ -44,7 +44,7 @@ static UIImageView *orginImageView;
     
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
-    [backgroundView addGestureRecognizer: tap];
+    [backgroundView addGestureRecognizer:tap];
     
     [UIView animateWithDuration:0.2 animations:^{
         imageView.frame=CGRectMake(0,
@@ -57,7 +57,7 @@ static UIImageView *orginImageView;
     }];
 }
 
-+ (void)hideImage:(UITapGestureRecognizer *)tap{
++ (void)hideImage:(UITapGestureRecognizer *)tap {
     UIView *backgroundView = tap.view;
     UIImageView *imageView = (UIImageView *)[tap.view viewWithTag:1];
     

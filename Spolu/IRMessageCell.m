@@ -14,6 +14,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "UIButton+AFNetworking.h"
 #import "IRImageViewDisplayer.h"
+#import "InteractionsViewController.h"
 
 @interface IRMessageCell () <IRAVAudioPlayerDelegate>
 {
@@ -73,9 +74,9 @@
     return self;
 }
 
-- (void)btnHeadImageClick:(UIButton *)button{
-    if ([self.delegate respondsToSelector:@selector(headImageDidClick:userId:)])  {
-        [self.delegate headImageDidClick:self userId:self.messageFrame.message.strId];
+- (void)btnHeadImageClick:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(headImageDidClick:imageUrl:)])  {
+        [self.delegate headImageDidClick:self imageUrl:self.messageFrame.message.strIcon];
     }
 }
 
@@ -95,8 +96,8 @@
         if (self.btnContent.backImageView) {
             [IRImageViewDisplayer showImage:self.btnContent.backImageView];
         }
-        if ([self.delegate isKindOfClass:[UIViewController class]]) {
-            [[(UIViewController *)self.delegate view] endEditing:YES];
+        if ([self.delegate isKindOfClass:[InteractionsViewController class]]) {
+            [[(InteractionsViewController *)self.delegate view] endEditing:YES];
         }
     }
     // Show text to copy it
@@ -124,7 +125,7 @@
 }
 
 
-- (void)setMessageFrame:(IRMessageFrame *)messageFrame{
+- (void)setMessageFrame:(IRMessageFrame *)messageFrame {
     
     _messageFrame = messageFrame;
     IRMessage *message = messageFrame.message;

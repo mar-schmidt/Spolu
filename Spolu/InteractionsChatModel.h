@@ -7,8 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IRMessage.h"
+#import "IROwnGroup.h"
+#import "IRMatchedGroups.h"
+#import "IRWebSocketServiceHandler.h"
 
 @interface InteractionsChatModel : NSObject
+{
+    IROwnGroup *ownGroup;
+    IRMatchedGroups *matchedGroups;
+}
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
@@ -16,6 +24,8 @@
 
 - (void)addRandomItemsToDataSource:(NSInteger)number;
 
-- (void)addSpecifiedItem:(NSDictionary *)dic;
+- (void)sendMessage:(IRMessage *)message;
+
+- (NSArray *)receivedMessages:(NSArray *)messages fromMatchedGroup:(IRGroup *)group;
 
 @end
