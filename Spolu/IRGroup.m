@@ -12,7 +12,7 @@
 
 @synthesize groupId;
 @synthesize imageUrl;
-@synthesize image;
+@synthesize downloadedImage;
 @synthesize genderInt;
 @synthesize gender;
 @synthesize lookingForGenderInt;
@@ -73,6 +73,13 @@
     
     group.groupId = arc4random()%5555;
     group.imageUrl = @"http://lorempixel.com/400/400/people/";
+    group.downloadingImageView = [[UIImageView alloc] init];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:group.imageUrl]];
+    [group.downloadingImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        group.downloadedImage = image;
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        
+    }];
 
     // Randomize gender
     GenderType randomGender = (GenderType) (arc4random() % (int) 2);

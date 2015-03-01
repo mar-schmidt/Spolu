@@ -17,13 +17,19 @@
 #import "IRMatchedGroups.h"
 #import "IRWebSocketServiceHandler.h"
 
-@interface InteractionsViewController () <IRInputFunctionViewDelegate, IRMessageCellDelegate, UITableViewDataSource, UITableViewDelegate, WebSocketServiceHandlerDelegate>
+#import <QuartzCore/QuartzCore.h>
+#import <Accelerate/Accelerate.h>
+#import "BTSimpleSideMenu.h"
+
+@interface InteractionsViewController () <IRInputFunctionViewDelegate, IRMessageCellDelegate, UITableViewDataSource, UITableViewDelegate, WebSocketServiceHandlerDelegate, BTSimpleSideMenuDelegate>
 
 @property (strong, nonatomic) MJRefreshHeaderView *head;
-@property (strong, nonatomic) InteractionsChatModel *chatModel;
+@property (strong, nonatomic) IRChatDataSourceManager *chatDataSourceManager;
 
 @property (weak, nonatomic) IBOutlet UITableView *chatTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
+
+@property (nonatomic) BTSimpleSideMenu *sideMenu;
 
 @end
 
@@ -44,12 +50,73 @@
     self.navigationController.navigationBar.barTintColor = barColour;
     [self.navigationController.navigationBar.layer insertSublayer:colourView.layer atIndex:1];
     
-    // Register delegate of IRWebSocketServiceHandler
-    webSocketHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
-    webSocketHandler.delegate = self;
-    
     [self addRefreshViews];
     [self loadBaseViewsAndData];
+    
+    
+    BTSimpleMenuItem *item1 = [[BTSimpleMenuItem alloc]initWithTitle:@"One"
+                                                               image:[UIImage imageNamed:@"icon1.png"]
+                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+                                                            
+                                                            NSLog(@"I am Item 1");
+                                                        }];
+    
+    BTSimpleMenuItem *item2 = [[BTSimpleMenuItem alloc]initWithTitle:@"Two"
+                                                               image:[UIImage imageNamed:@"icon2.png"]
+                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+                                                            
+                                                            NSLog(@"I am Item 2");
+                                                        }];
+    
+    BTSimpleMenuItem *item3 = [[BTSimpleMenuItem alloc]initWithTitle:@"Three"
+                                                               image:[UIImage imageNamed:@"icon3.png"]
+                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+                                                            
+                                                            NSLog(@"I am Item 3");
+                                                        }];
+    
+    BTSimpleMenuItem *item4 = [[BTSimpleMenuItem alloc]initWithTitle:@"Four"
+                                                               image:[UIImage imageNamed:@"icon4.png"]
+                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+                                                            NSLog(@"I am Item 4");
+                                                        }];
+    
+    BTSimpleMenuItem *item5 = [[BTSimpleMenuItem alloc]initWithTitle:@"Five"
+                                                               image:[UIImage imageNamed:@"icon5.png"]
+                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+                                                            
+                                                            NSLog(@"I am Item 5");
+                                                        }];
+    
+    BTSimpleMenuItem *item6 = [[BTSimpleMenuItem alloc]initWithTitle:@"Six"
+                                                               image:[UIImage imageNamed:@"icon6.png"]
+                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+                                                            
+                                                            NSLog(@"I am Item 6");
+                                                        }];
+    
+    BTSimpleMenuItem *item7 = [[BTSimpleMenuItem alloc]initWithTitle:@"Seven"
+                                                               image:[UIImage imageNamed:@"icon7.png"]
+                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+                                                            
+                                                            NSLog(@"I am Item 7");
+                                                            
+                                                        }];
+    
+    _sideMenu = [[BTSimpleSideMenu alloc] initWithItem:[self arrayOfMenuConversations:_chatDataSourceManager.conversationsDataSource]
+                                 addToViewController:self];
+    _sideMenu.delegate = self;
+}
+
+- (NSArray *)arrayOfMenuConversations:(NSArray *)conversations
+{
+    NSMutableArray *sideMenuItems;
+    for (IRGroupConversation *conversation in conversations) {
+        BTSimpleMenuItem *item = [[BTSimpleMenuItem alloc] initWithTitle:@"test" image:conversation.group.downloadedImage onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+            [sideMenuItems addObject:item];
+        }];
+    }
+    return sideMenuItems;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -79,9 +146,9 @@
     _head.scrollView = self.chatTableView;
     _head.beginRefreshingBlock = ^(MJRefreshBaseView *refreshView) {
         
-        [weakSelf.chatModel addRandomItemsToDataSource:pageNum];
+        //[weakSelf.chatDataSourceManager addRandomItemsToDataSource:pageNum];
         
-        if (weakSelf.chatModel.dataSource.count>pageNum) {
+        if (weakSelf.chatDataSourceManager.currentConversationDataSource.messages.count>pageNum) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:pageNum inSection:0];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -97,7 +164,9 @@
 {
     self.chatTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
-    self.chatModel = [[InteractionsChatModel alloc] init];
+    _chatDataSourceManager = [IRChatDataSourceManager sharedChatDataSourceManager];
+    _chatDataSourceManager.delegate = self;
+    
     //[self.chatModel populateRandomDataSource];
     
     IFView = [[IRInputFunctionView alloc] initWithSuperVC:self];
@@ -143,10 +212,10 @@
 //tableView Scroll to bottom
 - (void)tableViewScrollToBottom
 {
-    if (self.chatModel.dataSource.count==0)
+    if (self.chatDataSourceManager.currentConversationDataSource.messages.count==0)
         return;
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.chatModel.dataSource.count-1 inSection:0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.chatDataSourceManager.currentConversationDataSource.messages.count-1 inSection:0];
     [self.chatTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
@@ -186,17 +255,27 @@
     [self addMessageAndUpdateTable:message];
 }
 
-- (void)webSocketServiceHandler:(IRWebSocketServiceHandler *)service didReceiveNewMessage:(IRMessage *)message fromGroup:(IRGroup *)group
+
+#pragma IRChatDataSourceManager delegate methods
+- (void)chatDataSourceManager:(IRChatDataSourceManager *)manager didReceiveMessages:(NSArray *)messages inGroupChat:(IRGroupConversation *)groupChat
 {
-    NSArray *messageArray = @[message];
-    [self.chatModel receivedMessages:messageArray fromMatchedGroup:group];
+    NSArray *messageArray = @[messages];
+    //[self.chatDataSourceManager receivedMessages:messageArray fromMatchedGroup:group];
     
-    if (self.chatModel.dataSource.count>=messageArray.count) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[messageArray count]-1 inSection:0];
+    /****
+     * Only for test, set currentGroupConversation of chatDataSourceManagers conversationDataSource array to 1
+     * in reality, this will be set by the controller that manages which conversation the user is clicking on
+     ****/
+    if (!_chatDataSourceManager.currentConversationDataSource) {
+        _chatDataSourceManager.currentConversationDataSource = _chatDataSourceManager.conversationsDataSource[0];
+    }
+    
+    if (self.chatDataSourceManager.currentConversationDataSource.messages.count>=messageArray.count) {
+        //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[messageArray count]-1 inSection:0];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.chatTableView reloadData];
-            NSIndexPath *totalRowsIndexPath = [NSIndexPath indexPathForRow:self.chatModel.dataSource.count-1 inSection:0];
+            NSIndexPath *totalRowsIndexPath = [NSIndexPath indexPathForRow:self.chatDataSourceManager.currentConversationDataSource.messages.count-1 inSection:0];
             [self.chatTableView scrollToRowAtIndexPath:totalRowsIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
         });
     }
@@ -204,14 +283,14 @@
 
 - (void)addMessageAndUpdateTable:(IRMessage *)message
 {
-    [self.chatModel sendMessage:message];
+    [self.chatDataSourceManager sendMessage:message forGroupConversation:_chatDataSourceManager.currentConversationDataSource];
     [self.chatTableView reloadData];
     [self tableViewScrollToBottom];
 }
 
 #pragma mark - tableView delegate & datasource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.chatModel.dataSource.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _chatDataSourceManager.currentConversationDataSource.messages.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -220,12 +299,12 @@
         cell = [[IRMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CellID"];
         cell.delegate = self;
     }
-    [cell setMessageFrame:self.chatModel.dataSource[indexPath.row]];
+    [cell setMessageFrame:self.chatDataSourceManager.currentConversationDataSource.messages[indexPath.row]];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [self.chatModel.dataSource[indexPath.row] cellHeight];
+    return [self.chatDataSourceManager.currentConversationDataSource.messages[indexPath.row] cellHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -252,4 +331,17 @@
 }
 
 
+- (IBAction)showSidebar:(id)sender {
+    [_sideMenu toggleMenu];
+}
+
+#pragma -mark BTSimpleSideMenuDelegate
+
+-(void)BTSimpleSideMenu:(BTSimpleSideMenu *)menu didSelectItemAtIndex:(NSInteger)index {
+    NSLog(@"Item Cliecked : %ld", (long)index);
+}
+
+-(void)BTSimpleSideMenu:(BTSimpleSideMenu *)menu selectedItemTitle:(NSString *)title {
+    
+}
 @end

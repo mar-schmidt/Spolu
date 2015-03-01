@@ -10,31 +10,35 @@
 #import "IRMessage.h"
 #import "IRGroup.h"
 #import "IRMatchedGroups.h"
+#import "IRGroupConversation.h"
 
 @protocol WebSocketServiceHandlerDelegate;
 
 @interface IRWebSocketServiceHandler : NSObject
-{
-    
-}
+
 
 @property (nonatomic, strong) id<WebSocketServiceHandlerDelegate>delegate;
 
 
 + (IRWebSocketServiceHandler *)sharedWebSocketHandler;
 
+- (void)sendMessage:(IRMessage *)message toGroup:(IRGroup *)group withCompletionBlockSuccess:(void (^)(BOOL succeeded))success failure:(void (^)(NSError *error))failure;
 
 @end
 
+
+
+/****
+*
+* Delegates of WebSocketServiceHandler
+*
+****/
 @protocol WebSocketServiceHandlerDelegate <NSObject>
 @optional
 
 // Retrieving
 - (void)webSocketServiceHandler:(IRWebSocketServiceHandler *)service didReceiveNewMessage:(IRMessage *)message fromGroup:(IRGroup *)group;
 
-// Send
-- (void)webSocketServiceHandler:(IRWebSocketServiceHandler *)service didSendMessage:(IRMessage *)message;
-
 // Error
-- (void)webSocketServiceHandler:(IRWebSocketServiceHandler *)service didFailWithError:(NSError *)error;
+- (void)webSocketServiceHandler:(IRWebSocketServiceHandler *)service didFailWithError:(NSError *)error whileSendingToGroup:(IRGroup *)group;
 @end

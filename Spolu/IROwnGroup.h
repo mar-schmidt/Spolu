@@ -12,4 +12,6 @@
 
 + (id)sharedGroup;
 
+@property (nonatomic) NSInteger *groupId;
+
 @end

@@ -170,15 +170,19 @@
 
 - (IBAction)startCamera:(id)sender {
     NSError *error = nil;
+    /*
     error = [self deviceHasCamera];
     
     if (!error && !_locationServiceHandler.locationError) {
+     */
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.delegate = self;
-        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-        
+        //imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        //imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+     
         [self presentViewController:imagePicker animated:YES completion:nil];
+    /*
     }
     else if (error) {
         [self showAlertForCameraError:error];
@@ -186,6 +190,7 @@
     else if (_locationServiceHandler.locationError) {
         [_locationServiceHandler sendCurrentErrorToDelegate];
     }
+     */
 }
 
 - (NSError *)deviceHasCamera

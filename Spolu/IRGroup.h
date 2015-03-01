@@ -17,12 +17,13 @@ typedef enum {
 
 @interface IRGroup : NSObject
 {
-
+    NSInteger distanceTo;
 }
 
 @property (nonatomic) NSInteger groupId;
 @property (nonatomic, retain) NSString *imageUrl;
-@property (nonatomic, retain) UIImage *image;
+@property (nonatomic, retain) UIImage *downloadedImage;
+@property (nonatomic, retain) UIImageView *downloadingImageView;
 @property (nonatomic) NSInteger genderInt;
 @property (nonatomic) GenderType gender;
 @property (nonatomic) NSInteger lookingForGenderInt;

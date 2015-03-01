@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IRWebSocketServiceHandler.h"
+#import "IRChatDataSourceManager.h"
 
-@interface InteractionsViewController : UIViewController
+@interface InteractionsViewController : UIViewController <ChatDataSourceManagerDelegate>
 {
-    IRWebSocketServiceHandler *webSocketHandler;
+
 }
-- (IBAction)dismissViewController:(id)sender;
+
+@property (nonatomic) NSInteger currentGroupConversationId;
+
+
+- (IBAction)showSidebar:(id)sender;
+
 @end
