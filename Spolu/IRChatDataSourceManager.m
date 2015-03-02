@@ -102,24 +102,25 @@
     *****/
     
     if (_conversationsDataSource.count > 0) {
-        for (IRGroupConversation *currentGroupConversation in _conversationsDataSource) {
-            if (currentGroupConversation.group.groupId == group.groupId) {
-                [currentGroupConversation.messages addObject:[self embedMessageInMessageFrame:message]];
+        // If message comes from existing group, add it to its messages array. Otherwise we'll add a new conversation
+        for (IRGroupConversation *existingGroupConversation in _conversationsDataSource) {
+            if ((existingGroupConversation.group.groupId == group.groupId)) {
+                [existingGroupConversation.messages addObject:[self embedMessageInMessageFrame:message]];
                 
                 // Notifying delegate responder which is InteractionsChatModel
                 if ([self.delegate respondsToSelector:@selector(chatDataSourceManager:didReceiveMessages:inGroupChat:)]) {
-                    [self.delegate chatDataSourceManager:self didReceiveMessages:@[message] inGroupChat:currentGroupConversation];
+                    [self.delegate chatDataSourceManager:self didReceiveMessages:@[message] inGroupChat:existingGroupConversation];
                 }
+                return;
             }
-            else {
-                IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:message fromGroup:group];
-                [_conversationsDataSource addObject:newGroupConversation];
-                
-                // Notifying delegate responder which is InteractionsChatModel
-                if ([self.delegate respondsToSelector:@selector(chatDataSourceManager:didReceiveMessages:inGroupChat:)]) {
-                    [self.delegate chatDataSourceManager:self didReceiveMessages:newGroupConversation.messages inGroupChat:newGroupConversation];
-                }
-            }
+        }
+        // Otherwise, add new conversation
+        IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:message fromGroup:group];
+        [_conversationsDataSource addObject:newGroupConversation];
+        
+        // Notifying delegate responder which is InteractionsChatModel
+        if ([self.delegate respondsToSelector:@selector(chatDataSourceManager:didReceiveMessages:inGroupChat:)]) {
+            [self.delegate chatDataSourceManager:self didReceiveMessages:newGroupConversation.messages inGroupChat:newGroupConversation];
         }
     } else {
         IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:message fromGroup:group];

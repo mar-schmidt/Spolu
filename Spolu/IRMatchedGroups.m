@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-        NSArray *randomGroups = @[[self randomGroup], [self randomGroup], [self randomGroup]];
+        NSArray *randomGroups = @[[self randomGroupWithId:1], [self randomGroupWithId:2], [self randomGroupWithId:3], [self randomGroupWithId:4], [self randomGroupWithId:5], [self randomGroupWithId:6], [self randomGroupWithId:7]];
         _groups = [[NSMutableArray alloc] initWithArray:randomGroups];
     }
     return self;

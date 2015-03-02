@@ -62,13 +62,19 @@
     return self;
 }
 
+- (void)updateDataSourceWithArray:(NSArray *)array
+{
+    _itemsArray = [self arrayOfMenuConversations:array];
+}
+
 - (NSArray *)arrayOfMenuConversations:(NSArray *)conversations
 {
-    NSMutableArray *sideMenuItems;
+    NSMutableArray *sideMenuItems = [[NSMutableArray alloc] init];
     for (IRGroupConversation *conversation in conversations) {
-        BTSimpleMenuItem *item = [[BTSimpleMenuItem alloc] initWithTitle:@"test" image:conversation.group.downloadingImageView.image onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
-            [sideMenuItems addObject:item];
+        BTSimpleMenuItem *item = [[BTSimpleMenuItem alloc] initWithTitle:@"test" image:conversation.group.downloadedImage onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+            
         }];
+        [sideMenuItems addObject:item];
     }
     return sideMenuItems;
 }
@@ -81,7 +87,7 @@
     }
 }
 
--(void)show{
+-(void)show {
     if(!isOpen){
         [menuTable reloadData];
         [UIView animateWithDuration:0.2 animations:^{
@@ -118,7 +124,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80;
+    return 160;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -155,28 +161,29 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.backgroundColor = [UIColor clearColor];
         
-        circleView = [[UIView alloc]initWithFrame:CGRectMake(10, 10, 55, 55)];
+        circleView = [[UIView alloc]initWithFrame:CGRectMake(self.bounds.size.width/2-65, 10, 130, 130)];
         circleView.tag = MAIN_VIEW_TAG;
         circleView.backgroundColor = [UIColor clearColor];
-        circleView.layer.borderWidth = 0.5;
-        circleView.layer.borderColor = [UIColor colorWithWhite:0.3 alpha:0.7].CGColor;
+        circleView.layer.borderWidth = 1.5;
+        circleView.layer.borderColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
         circleView.layer.cornerRadius = circleView.bounds.size.height/2;
         circleView.clipsToBounds = YES;
         
         [cell.contentView addSubview:circleView];
         
+        /*
         titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 10.0, 120, 60)];
         titleLabel.tag = TITLE_LABLE_TAG;
         titleLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1];
         titleLabel.font = [UIFont fontWithName:@"Avenir Next" size:16];
         
         [cell.contentView addSubview:titleLabel];
-        
-        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 32, 32)];
+        */
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 130, 130)];
         imageView.tag = IMAGE_VIEW_TAG;
-        imageView.center = circleView.center;
-        [cell.contentView addSubview:imageView];
-    }else {
+        //imageView.center = circleView.center;
+        [circleView addSubview:imageView];
+    } else {
         
         circleView = (UIView *)[cell.contentView viewWithTag:MAIN_VIEW_TAG];
         titleLabel = (UILabel *)[cell.contentView viewWithTag:TITLE_LABLE_TAG];

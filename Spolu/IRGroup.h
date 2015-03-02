@@ -37,6 +37,6 @@ typedef enum {
 @property (nonatomic, retain) NSString *token;
 @property (nonatomic, strong) IRGroup *localGroup;
 
-- (IRGroup *)randomGroup;
+- (IRGroup *)randomGroupWithId:(NSInteger)gId;
 
 @end

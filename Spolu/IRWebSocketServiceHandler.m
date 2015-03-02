@@ -28,7 +28,7 @@
         // Test
         NSDate *d = [NSDate dateWithTimeIntervalSinceNow:5.0];
         NSTimer *t = [[NSTimer alloc] initWithFireDate:d
-                                              interval:15
+                                              interval:5
                                                 target:self
                                               selector:@selector(sendRandomMessage)
                                               userInfo:nil repeats:YES];
@@ -60,9 +60,9 @@
 ****/
 - (void)receivedMessageFromWebSocket:(NSData *)data
 {
-    IRMessage *message = [self randomMessage];
     IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
-    IRGroup *group = matchedGroups.groups[1];
+    IRGroup *group = matchedGroups.groups[arc4random()%3];
+    IRMessage *message = [self randomMessageFromGroup:group];
     
     if ([self.delegate respondsToSelector:@selector(webSocketServiceHandler:didReceiveNewMessage:fromGroup:)]) {
         [self.delegate webSocketServiceHandler:self didReceiveNewMessage:message fromGroup:group];
@@ -79,10 +79,9 @@
 - (void)sendRandomMessage
 {
     if ([self.delegate respondsToSelector:@selector(webSocketServiceHandler:didReceiveNewMessage:fromGroup:)]) {
-        
-        IRMessage *message = [self randomMessage];
         IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
-        IRGroup *group = matchedGroups.groups[1];
+        IRGroup *group = matchedGroups.groups[arc4random()%7];
+        IRMessage *message = [self randomMessageFromGroup:group];
         
         NSLog(@"TEST: Received new message");
         if ([self.delegate respondsToSelector:@selector(webSocketServiceHandler:didReceiveNewMessage:fromGroup:)]) {
@@ -94,7 +93,7 @@
 static int dateNum = 10;
 static NSString *previousTime = nil;
 
-- (IRMessage *)randomMessage
+- (IRMessage *)randomMessageFromGroup:(IRGroup *)group
 {
     IRMessage *message = [[IRMessage alloc] init];
     int randomNum = arc4random()%2;
@@ -116,7 +115,7 @@ static NSString *previousTime = nil;
     message.from = IRMessageFromOther;
     message.type = randomNum;
     message.strTime = [date description];
-    message.strIcon = @"http://3.bp.blogspot.com/-2bS7s_58AN8/U5QqhnoSuYI/AAAAAAAAA1M/Gm7PXvMm7Wk/s1600/IMG-20140529-WA0020.jpg";
+    message.strIcon = group.imageUrl;
     
     [message minuteOffSetStart:previousTime end:[self currentTime]];
     

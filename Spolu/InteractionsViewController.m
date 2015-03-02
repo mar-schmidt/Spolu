@@ -332,6 +332,7 @@
 
 
 - (IBAction)showSidebar:(id)sender {
+    [_sideMenu updateDataSourceWithArray:_chatDataSourceManager.conversationsDataSource];
     [_sideMenu toggleMenu];
 }
 

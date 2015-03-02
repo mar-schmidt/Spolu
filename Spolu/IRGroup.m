@@ -67,12 +67,12 @@
 }
 
 
-- (IRGroup *)randomGroup
+- (IRGroup *)randomGroupWithId:(NSInteger)gId
 {
     IRGroup *group = [[IRGroup alloc] init];
     
-    group.groupId = arc4random()%5555;
-    group.imageUrl = @"http://lorempixel.com/400/400/people/";
+    group.groupId = gId;
+    group.imageUrl = [self imageUrlStringFromNumber:group.groupId];
     group.downloadingImageView = [[UIImageView alloc] init];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:group.imageUrl]];
     [group.downloadingImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
@@ -95,6 +95,36 @@
     group.token = [NSString stringWithFormat:@"%ld", arc4random()%555598712379361];
     
     return group;
+}
+
+- (NSString *)imageUrlStringFromNumber:(NSInteger)imageNumber
+{
+    NSString *randomImageString = [[NSString alloc] init];
+    
+    switch (imageNumber) {
+        case 1:
+            randomImageString = @"http://3.bp.blogspot.com/-2bS7s_58AN8/U5QqhnoSuYI/AAAAAAAAA1M/Gm7PXvMm7Wk/s1600/IMG-20140529-WA0020.jpg";
+            break;
+        case 2:
+            randomImageString = @"http://i1.mirror.co.uk/incoming/article3036092.ece/alternates/s615/The-Kardashian-ladies-pose-for-group-selfie-at-Eagles-gig.jpg";
+            break;
+        case 3:
+            randomImageString = @"http://images.scribblelive.com/2014/1/21/37087f85-fb99-4cf3-8661-0fad9b71bc4b_500.jpg";
+            break;
+        case 4:
+            randomImageString = @"http://d7.freedomworks.org.s3.amazonaws.com/field/image/group%20selfie.jpeg";
+            break;
+        case 5:
+            randomImageString = @"http://www.colorado.edu/umc/sites/default/files/page/BOARD-GROUP-SELFIE-960X640.jpg";
+            break;
+        case 6:
+            randomImageString = @"http://outoftownblog.com/wp-content/uploads/2014/03/Group-Selfie-Shot-ontop-of-Poro-Point-Lighthouse-600x450.jpg";
+            break;
+        case 7:
+            randomImageString = @"http://spectrum.ph/wp-content/uploads/2014/05/selfie-group.jpg";
+            break;
+    }
+    return randomImageString;
 }
 
 
