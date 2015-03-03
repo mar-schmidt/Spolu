@@ -7,16 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C7138C91AA39EEF001D2582 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138C81AA39EEF001D2582 /* ConversationsTableViewController.m */; };
-		2C7138E11AA3C11D001D2582 /* btSimpleMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138DE1AA3C11D001D2582 /* btSimpleMenuItem.m */; };
-		2C7138E21AA3C11D001D2582 /* btSimpleSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138E01AA3C11D001D2582 /* btSimpleSideMenu.m */; };
-		2C7138EA1AA3C1F1001D2582 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C7138E31AA3C1F1001D2582 /* icon1.png */; };
-		2C7138EB1AA3C1F1001D2582 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C7138E41AA3C1F1001D2582 /* icon2.png */; };
-		2C7138EC1AA3C1F1001D2582 /* icon3.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C7138E51AA3C1F1001D2582 /* icon3.png */; };
-		2C7138ED1AA3C1F1001D2582 /* icon4.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C7138E61AA3C1F1001D2582 /* icon4.png */; };
-		2C7138EE1AA3C1F1001D2582 /* icon5.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C7138E71AA3C1F1001D2582 /* icon5.png */; };
-		2C7138EF1AA3C1F1001D2582 /* icon6.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C7138E81AA3C1F1001D2582 /* icon6.png */; };
-		2C7138F01AA3C1F1001D2582 /* icon7.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C7138E91AA3C1F1001D2582 /* icon7.png */; };
+		2C7138E11AA3C11D001D2582 /* InteractionsConversationsMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138DE1AA3C11D001D2582 /* InteractionsConversationsMenuItem.m */; };
+		2C7138E21AA3C11D001D2582 /* InteractionsConversationsMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */; };
+		2C7138F41AA65269001D2582 /* UIView+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138F31AA65269001D2582 /* UIView+Animation.m */; };
 		2CD275851A9BB13600F7D5CF /* IRImageViewDisplayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275841A9BB13600F7D5CF /* IRImageViewDisplayer.m */; };
 		2CD275881A9BB1F400F7D5CF /* IRAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275871A9BB1F400F7D5CF /* IRAVAudioPlayer.m */; };
 		2CD2759A1A9BB32200F7D5CF /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2758D1A9BB32200F7D5CF /* MJRefreshBaseView.m */; };
@@ -86,19 +79,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2C7138C71AA39EEF001D2582 /* ConversationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationsTableViewController.h; sourceTree = "<group>"; };
-		2C7138C81AA39EEF001D2582 /* ConversationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewController.m; sourceTree = "<group>"; };
-		2C7138DD1AA3C11D001D2582 /* btSimpleMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btSimpleMenuItem.h; sourceTree = "<group>"; };
-		2C7138DE1AA3C11D001D2582 /* btSimpleMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = btSimpleMenuItem.m; sourceTree = "<group>"; };
-		2C7138DF1AA3C11D001D2582 /* btSimpleSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btSimpleSideMenu.h; sourceTree = "<group>"; };
-		2C7138E01AA3C11D001D2582 /* btSimpleSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = btSimpleSideMenu.m; sourceTree = "<group>"; };
-		2C7138E31AA3C1F1001D2582 /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
-		2C7138E41AA3C1F1001D2582 /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
-		2C7138E51AA3C1F1001D2582 /* icon3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon3.png; sourceTree = "<group>"; };
-		2C7138E61AA3C1F1001D2582 /* icon4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon4.png; sourceTree = "<group>"; };
-		2C7138E71AA3C1F1001D2582 /* icon5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon5.png; sourceTree = "<group>"; };
-		2C7138E81AA3C1F1001D2582 /* icon6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon6.png; sourceTree = "<group>"; };
-		2C7138E91AA3C1F1001D2582 /* icon7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon7.png; sourceTree = "<group>"; };
+		2C7138DD1AA3C11D001D2582 /* InteractionsConversationsMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InteractionsConversationsMenuItem.h; path = btSimpleSideMenu/InteractionsConversationsMenuItem.h; sourceTree = "<group>"; };
+		2C7138DE1AA3C11D001D2582 /* InteractionsConversationsMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InteractionsConversationsMenuItem.m; path = btSimpleSideMenu/InteractionsConversationsMenuItem.m; sourceTree = "<group>"; };
+		2C7138DF1AA3C11D001D2582 /* InteractionsConversationsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InteractionsConversationsMenu.h; path = btSimpleSideMenu/InteractionsConversationsMenu.h; sourceTree = "<group>"; };
+		2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InteractionsConversationsMenu.m; path = btSimpleSideMenu/InteractionsConversationsMenu.m; sourceTree = "<group>"; };
+		2C7138F21AA65269001D2582 /* UIView+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Animation.h"; sourceTree = "<group>"; };
+		2C7138F31AA65269001D2582 /* UIView+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Animation.m"; sourceTree = "<group>"; };
 		2CD275831A9BB13600F7D5CF /* IRImageViewDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRImageViewDisplayer.h; sourceTree = "<group>"; };
 		2CD275841A9BB13600F7D5CF /* IRImageViewDisplayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRImageViewDisplayer.m; sourceTree = "<group>"; };
 		2CD275861A9BB1F400F7D5CF /* IRAVAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRAVAudioPlayer.h; sourceTree = "<group>"; };
@@ -236,22 +222,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2C7138DC1AA3C11D001D2582 /* btSimpleSideMenu */ = {
+		2C7138F11AA65238001D2582 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				2C7138E31AA3C1F1001D2582 /* icon1.png */,
-				2C7138E41AA3C1F1001D2582 /* icon2.png */,
-				2C7138E51AA3C1F1001D2582 /* icon3.png */,
-				2C7138E61AA3C1F1001D2582 /* icon4.png */,
-				2C7138E71AA3C1F1001D2582 /* icon5.png */,
-				2C7138E81AA3C1F1001D2582 /* icon6.png */,
-				2C7138E91AA3C1F1001D2582 /* icon7.png */,
-				2C7138DD1AA3C11D001D2582 /* btSimpleMenuItem.h */,
-				2C7138DE1AA3C11D001D2582 /* btSimpleMenuItem.m */,
-				2C7138DF1AA3C11D001D2582 /* btSimpleSideMenu.h */,
-				2C7138E01AA3C11D001D2582 /* btSimpleSideMenu.m */,
+				2C7138F21AA65269001D2582 /* UIView+Animation.h */,
+				2C7138F31AA65269001D2582 /* UIView+Animation.m */,
 			);
-			path = btSimpleSideMenu;
+			name = Category;
 			sourceTree = "<group>";
 		};
 		2CD275821A9BB0F500F7D5CF /* IRChat */ = {
@@ -275,6 +252,7 @@
 				2CD275A41A9BB4B100F7D5CF /* IRProgressHUD.m */,
 				2CD688BD1AA0DDCF008D446A /* IRChatDataSourceManager.h */,
 				2CD688BE1AA0DDCF008D446A /* IRChatDataSourceManager.m */,
+				2C7138F11AA65238001D2582 /* Category */,
 			);
 			name = IRChat;
 			sourceTree = "<group>";
@@ -469,7 +447,6 @@
 		2CF21F791A97CACC00D2FFBA /* 3rd part */ = {
 			isa = PBXGroup;
 			children = (
-				2C7138DC1AA3C11D001D2582 /* btSimpleSideMenu */,
 				2CD275B91A9BC6B600F7D5CF /* AFNetworking */,
 				2CD275891A9BB32200F7D5CF /* MJRefresh */,
 				2CD275941A9BB32200F7D5CF /* VoiceLib */,
@@ -491,10 +468,12 @@
 				2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */,
 				2CF21F801A981B1400D2FFBA /* InteractionsViewController.h */,
 				2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */,
-				2C7138C71AA39EEF001D2582 /* ConversationsTableViewController.h */,
-				2C7138C81AA39EEF001D2582 /* ConversationsTableViewController.m */,
 				2CD276101A9BCA3200F7D5CF /* InteractionsChatModel.h */,
 				2CD276111A9BCA3200F7D5CF /* InteractionsChatModel.m */,
+				2C7138DD1AA3C11D001D2582 /* InteractionsConversationsMenuItem.h */,
+				2C7138DE1AA3C11D001D2582 /* InteractionsConversationsMenuItem.m */,
+				2C7138DF1AA3C11D001D2582 /* InteractionsConversationsMenu.h */,
+				2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -603,16 +582,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CF21F5A1A97BF6100D2FFBA /* Main.storyboard in Resources */,
-				2C7138ED1AA3C1F1001D2582 /* icon4.png in Resources */,
-				2C7138F01AA3C1F1001D2582 /* icon7.png in Resources */,
 				2CD688AC1A9CA373008D446A /* arrow@2x.png in Resources */,
-				2C7138EF1AA3C1F1001D2582 /* icon6.png in Resources */,
-				2C7138EC1AA3C1F1001D2582 /* icon3.png in Resources */,
 				2CF21F5F1A97BF6100D2FFBA /* LaunchScreen.xib in Resources */,
-				2C7138EA1AA3C1F1001D2582 /* icon1.png in Resources */,
 				2CF21F5C1A97BF6100D2FFBA /* Images.xcassets in Resources */,
-				2C7138EB1AA3C1F1001D2582 /* icon2.png in Resources */,
-				2C7138EE1AA3C1F1001D2582 /* icon5.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,7 +649,7 @@
 				2CD275A91A9BB5A100F7D5CF /* NSDate+Utils.m in Sources */,
 				2CF21F821A981B1400D2FFBA /* InteractionsViewController.m in Sources */,
 				2CD2759C1A9BB32200F7D5CF /* MJRefreshFooterView.m in Sources */,
-				2C7138E21AA3C11D001D2582 /* btSimpleSideMenu.m in Sources */,
+				2C7138E21AA3C11D001D2582 /* InteractionsConversationsMenu.m in Sources */,
 				2CF21F541A97BF6100D2FFBA /* AppDelegate.m in Sources */,
 				2CFE37FC1A98DE3900A5CDE0 /* IRLocationServiceHandler.m in Sources */,
 				2CD275D11A9BC6B600F7D5CF /* AFSecurityPolicy.m in Sources */,
@@ -690,14 +662,13 @@
 				2CD275D01A9BC6B600F7D5CF /* AFNetworkReachabilityManager.m in Sources */,
 				2CD275B21A9BC36300F7D5CF /* IRMessageContentButton.m in Sources */,
 				2CD688B81A9DE6F9008D446A /* IROwnGroup.m in Sources */,
-				2C7138C91AA39EEF001D2582 /* ConversationsTableViewController.m in Sources */,
 				2CD275E81A9BC6C200F7D5CF /* AFNetworkActivityIndicatorManager.m in Sources */,
 				2CD275CE1A9BC6B600F7D5CF /* AFHTTPRequestOperationManager.m in Sources */,
 				2CD275D31A9BC6B600F7D5CF /* AFURLRequestSerialization.m in Sources */,
 				2CD2759A1A9BB32200F7D5CF /* MJRefreshBaseView.m in Sources */,
 				2CF21F7C1A97CAE000D2FFBA /* JFADoubleSlider.m in Sources */,
 				2CD688BF1AA0DDCF008D446A /* IRChatDataSourceManager.m in Sources */,
-				2C7138E11AA3C11D001D2582 /* btSimpleMenuItem.m in Sources */,
+				2C7138E11AA3C11D001D2582 /* InteractionsConversationsMenuItem.m in Sources */,
 				2CD275EA1A9BC6C200F7D5CF /* UIAlertView+AFNetworking.m in Sources */,
 				2CD2759B1A9BB32200F7D5CF /* MJRefreshConst.m in Sources */,
 				2CD275EE1A9BC6C200F7D5CF /* UIRefreshControl+AFNetworking.m in Sources */,
@@ -707,6 +678,7 @@
 				2CD688C21AA0E3D9008D446A /* IRGroupConversation.m in Sources */,
 				2CD275A51A9BB4B100F7D5CF /* IRProgressHUD.m in Sources */,
 				2CD275881A9BB1F400F7D5CF /* IRAVAudioPlayer.m in Sources */,
+				2C7138F41AA65269001D2582 /* UIView+Animation.m in Sources */,
 				2CD688BC1A9E05F0008D446A /* IRWebSocketServiceHandler.m in Sources */,
 				2CF21F511A97BF6100D2FFBA /* main.m in Sources */,
 				2CD275AC1A9BC1F200F7D5CF /* IRMessage.m in Sources */,

@@ -14,8 +14,11 @@
 {
     self = [super init];
     if (self) {
+        // Register for new messages notification
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessageNotification:) name:@"newMessageReceived" object:nil];
+        
         _conversationsDataSource = [[NSMutableArray alloc] init];
-        ownGroup = [IROwnGroup sharedGroup];
+        _ownGroup = [IROwnGroup sharedGroup];
         _webSocketHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
         _webSocketHandler.delegate = self;
     }
@@ -56,11 +59,7 @@
 - (void)sendMessage:(IRMessage *)message forGroupConversation:(IRGroupConversation *)groupConversation
 {
     // Begin encapsulating message in messageframe, then update the conversationDataSource array as well as sending message through to websocketservicehandler
-    for (IRGroupConversation *conversation in _conversationsDataSource) {
-        if (conversation == groupConversation) {
-            [conversation.messages addObject:[self embedMessageInMessageFrame:message]];
-        }
-    }
+    [_currentConversationDataSource.messages addObject:[self embedMessageInMessageFrame:message]];
     [self sendMessageToWebSocketServiceHandler:message toGroup:groupConversation.group];
 }
 
@@ -88,7 +87,7 @@
 
 
 #pragma mark IRWebSocketServiceHanderDelegate
-- (void)webSocketServiceHandler:(IRWebSocketServiceHandler *)service didReceiveNewMessage:(IRMessage *)message fromGroup:(IRGroup *)group
+- (void)didReceiveNewMessageNotification:(NSNotification *)notification
 {
     /*****
     * This will check if any existing group chats for received group exist in the dataSource.
@@ -101,21 +100,24 @@
     * and finish off by adding the message to the datasource
     *****/
     
+    IRMessage *receivedMessage = notification.userInfo[@"message"];
+    IRGroup *fromGroup = notification.userInfo[@"group"];
+    
     if (_conversationsDataSource.count > 0) {
         // If message comes from existing group, add it to its messages array. Otherwise we'll add a new conversation
         for (IRGroupConversation *existingGroupConversation in _conversationsDataSource) {
-            if ((existingGroupConversation.group.groupId == group.groupId)) {
-                [existingGroupConversation.messages addObject:[self embedMessageInMessageFrame:message]];
+            if ((existingGroupConversation.group.groupId == fromGroup.groupId)) {
+                [existingGroupConversation.messages addObject:[self embedMessageInMessageFrame:receivedMessage]];
                 
-                // Notifying delegate responder which is InteractionsChatModel
+                // Notifying delegate responder which is InteractionsViewController
                 if ([self.delegate respondsToSelector:@selector(chatDataSourceManager:didReceiveMessages:inGroupChat:)]) {
-                    [self.delegate chatDataSourceManager:self didReceiveMessages:@[message] inGroupChat:existingGroupConversation];
+                    [self.delegate chatDataSourceManager:self didReceiveMessages:@[receivedMessage] inGroupChat:existingGroupConversation];
                 }
                 return;
             }
         }
         // Otherwise, add new conversation
-        IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:message fromGroup:group];
+        IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:receivedMessage fromGroup:fromGroup];
         [_conversationsDataSource addObject:newGroupConversation];
         
         // Notifying delegate responder which is InteractionsChatModel
@@ -123,7 +125,7 @@
             [self.delegate chatDataSourceManager:self didReceiveMessages:newGroupConversation.messages inGroupChat:newGroupConversation];
         }
     } else {
-        IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:message fromGroup:group];
+        IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:receivedMessage fromGroup:fromGroup];
         [_conversationsDataSource addObject:newGroupConversation];
         
         // Notifying delegate responder which is InteractionsChatModel
@@ -139,6 +141,8 @@
 {
     
 }
+
+static NSString *previousTime = nil;
 
 - (IRGroupConversation *)createNewGroupConversationWithMessage:(IRMessage *)message fromGroup:(IRGroup *)group
 {
@@ -158,9 +162,39 @@
 {
     IRMessageFrame *messageFrame = [[IRMessageFrame alloc] init];
     messageFrame.message = message;
+    [message minuteOffSetStart:previousTime end:[self currentTime]];
     messageFrame.showTime = message.showDateLabel;
+    message.strTime = [self currentTime];
+    
+    if (message.showDateLabel) {
+        previousTime = [[NSDate date] description];
+    }
     
     return messageFrame;
+}
+
+- (NSString *)currentTime
+{
+    //Get current time
+    NSDate* now = [NSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:now];
+    NSInteger hour = [dateComponents hour];
+    NSString *am_OR_pm=@"AM";
+    
+    if (hour>12)
+    {
+        hour=hour%12;
+        
+        am_OR_pm = @"PM";
+    }
+    
+    NSInteger minute = [dateComponents minute];
+    NSInteger second = [dateComponents second];
+    
+    NSString *currentTime = [NSString stringWithFormat:@"%02ld:%02ld:%02ld %@", (long)hour, (long)minute, (long)second,am_OR_pm];
+    
+    return currentTime;
 }
 
 @end

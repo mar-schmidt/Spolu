@@ -47,7 +47,7 @@
 ****/
 - (void)sendMessage:(IRMessage *)message toGroup:(IRGroup *)group withCompletionBlockSuccess:(void (^)(BOOL))success failure:(void (^)(NSError *))failure
 {
-    NSLog(@"Message: %@\nGroup: %ld", message.strContent, (long)group.groupId);
+    NSLog(@"\nMessage Sent!\nMessage: %@\nGroup: %ld", message.strContent, (long)group.groupId);
     
     success(YES);
 }
@@ -78,16 +78,22 @@
 // Test
 - (void)sendRandomMessage
 {
+    IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
+    IRGroup *group = matchedGroups.groups[arc4random()%7];
+    IRMessage *message = [self randomMessageFromGroup:group];
+    
+    NSLog(@"Received new message..");
+    
+    NSDictionary *userInfo = @{@"message" : message, @"group" : group};
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:@"newMessageReceived" object:self userInfo:userInfo];
+    
+    /*
     if ([self.delegate respondsToSelector:@selector(webSocketServiceHandler:didReceiveNewMessage:fromGroup:)]) {
-        IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
-        IRGroup *group = matchedGroups.groups[arc4random()%7];
-        IRMessage *message = [self randomMessageFromGroup:group];
-        
-        NSLog(@"TEST: Received new message");
-        if ([self.delegate respondsToSelector:@selector(webSocketServiceHandler:didReceiveNewMessage:fromGroup:)]) {
-            [self.delegate webSocketServiceHandler:self didReceiveNewMessage:message fromGroup:group];
-        }
+        [self.delegate webSocketServiceHandler:self didReceiveNewMessage:message fromGroup:group];
     }
+     */
+
 }
 
 static int dateNum = 10;

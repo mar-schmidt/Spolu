@@ -1,14 +1,14 @@
 //
-//  BTSimpleMenuItem.m
-//  BTSimpleSideMenuDemo
+//  InteractionsConversationsMenu.m
+//  Spolu
 //
-//  Created by Balram Tiwari on 31/05/14.
-//  Copyright (c) 2014 Balram Tiwari. All rights reserved.
+//  Created by Marcus Ronélius on 2015-02-21.
+//  Copyright (c) 2015 Spolu Apps. All rights reserved.
 //
 
-#import "BTSimpleMenuItem.h"
+#import "InteractionsConversationsMenuItem.h"
 
-@implementation BTSimpleMenuItem
+@implementation InteractionsConversationsMenuItem
 
 -(id)initWithTitle:(NSString *)title image:(UIImage *)image onCompletion:(completion)completionBlock;
 {

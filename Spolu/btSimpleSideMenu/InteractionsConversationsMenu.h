@@ -1,26 +1,27 @@
 //
-//  BTSimpleSideMenu.h
-//  BTSimpleSideMenuDemo
+//  InteractionsConversationsMenu.h
+//  Spolu
 //
-//  Created by Balram on 29/05/14.
-//  Copyright (c) 2014 Balram Tiwari. All rights reserved.
+//  Created by Marcus Ronélius on 2015-02-21.
+//  Copyright (c) 2015 Spolu Apps. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "BTSimpleMenuItem.h"
+#import "InteractionsConversationsMenuItem.h"
 #import "IRChatDataSourceManager.h"
+#import "IRGroupConversation.h"
 
-@class BTSimpleSideMenu;
+@class InteractionsConversationsMenu;
 
-@protocol BTSimpleSideMenuDelegate <NSObject>
+@protocol InteractionsConversationsMenuDelegate <NSObject>
 
 @optional
--(void)BTSimpleSideMenu:(BTSimpleSideMenu *)menu didSelectItemAtIndex:(NSInteger)index;
--(void)BTSimpleSideMenu:(BTSimpleSideMenu *)menu selectedItemTitle:(NSString *)title;
+-(void)InteractionsConversationsMenu:(InteractionsConversationsMenu *)menu didSelectGroupConversation:(IRGroupConversation *)conversation;
+-(void)InteractionsConversationsMenu:(InteractionsConversationsMenu *)menu selectedItemTitle:(NSString *)title;
 
 @end
 
-@interface BTSimpleSideMenu : UIView<UITableViewDelegate, UITableViewDataSource> {
+@interface InteractionsConversationsMenu : UIView <UITableViewDelegate, UITableViewDataSource> {
     @private
     UITableView *menuTable;
     CGFloat xAxis, yAxis,height, width;
@@ -33,8 +34,8 @@
     UIImageView *screenShotView;
 }
 
-@property (nonatomic, retain) BTSimpleMenuItem *selectedItem;
-@property(nonatomic, weak) id <BTSimpleSideMenuDelegate> delegate;
+@property (nonatomic, retain) InteractionsConversationsMenuItem *selectedItem;
+@property(nonatomic, weak) id <InteractionsConversationsMenuDelegate> delegate;
 @property (nonatomic, retain) NSArray *titleArray;
 @property (nonatomic, retain) NSArray *imageArray;
 @property (nonatomic, retain) NSArray *itemsArray;

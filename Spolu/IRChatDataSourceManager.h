@@ -17,11 +17,12 @@
 
 @interface IRChatDataSourceManager : NSObject <WebSocketServiceHandlerDelegate>
 {
-    IROwnGroup *ownGroup;
+    
 }
 
 @property (nonatomic, strong) NSMutableArray *conversationsDataSource;
 @property (nonatomic, strong) IRGroupConversation *currentConversationDataSource;
+@property (nonatomic, strong) IROwnGroup *ownGroup;
 
 @property (nonatomic, strong) IRWebSocketServiceHandler *webSocketHandler;
 @property (nonatomic, strong) id<ChatDataSourceManagerDelegate>delegate;

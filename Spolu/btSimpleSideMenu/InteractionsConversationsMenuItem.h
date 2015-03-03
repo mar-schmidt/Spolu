@@ -1,18 +1,18 @@
 //
-//  BTSimpleMenuItem.h
-//  BTSimpleSideMenuDemo
+//  InteractionsConversationsMenu.h
+//  Spolu
 //
-//  Created by Balram Tiwari on 31/05/14.
-//  Copyright (c) 2014 Balram Tiwari. All rights reserved.
+//  Created by Marcus Ronélius on 2015-02-21.
+//  Copyright (c) 2015 Spolu Apps. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-@class BTSimpleMenuItem;
-typedef void (^completion)(BOOL success, BTSimpleMenuItem *item);
+@class InteractionsConversationsMenuItem;
+typedef void (^completion)(BOOL success, InteractionsConversationsMenuItem *item);
 
-@interface BTSimpleMenuItem : NSObject
+@interface InteractionsConversationsMenuItem : NSObject
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, strong) UIImage *image;

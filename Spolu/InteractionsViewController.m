@@ -16,12 +16,11 @@
 #import "IRImageViewDisplayer.h"
 #import "IRMatchedGroups.h"
 #import "IRWebSocketServiceHandler.h"
-
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>
-#import "BTSimpleSideMenu.h"
+#import "InteractionsConversationsMenu.h"
 
-@interface InteractionsViewController () <IRInputFunctionViewDelegate, IRMessageCellDelegate, UITableViewDataSource, UITableViewDelegate, WebSocketServiceHandlerDelegate, BTSimpleSideMenuDelegate>
+@interface InteractionsViewController () <IRInputFunctionViewDelegate, IRMessageCellDelegate, UITableViewDataSource, UITableViewDelegate, WebSocketServiceHandlerDelegate, InteractionsConversationsMenuDelegate>
 
 @property (strong, nonatomic) MJRefreshHeaderView *head;
 @property (strong, nonatomic) IRChatDataSourceManager *chatDataSourceManager;
@@ -29,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *chatTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 
-@property (nonatomic) BTSimpleSideMenu *sideMenu;
+@property (nonatomic) InteractionsConversationsMenu *sideMenu;
 
 @end
 
@@ -52,58 +51,8 @@
     
     [self addRefreshViews];
     [self loadBaseViewsAndData];
-    
-    
-    BTSimpleMenuItem *item1 = [[BTSimpleMenuItem alloc]initWithTitle:@"One"
-                                                               image:[UIImage imageNamed:@"icon1.png"]
-                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
-                                                            
-                                                            NSLog(@"I am Item 1");
-                                                        }];
-    
-    BTSimpleMenuItem *item2 = [[BTSimpleMenuItem alloc]initWithTitle:@"Two"
-                                                               image:[UIImage imageNamed:@"icon2.png"]
-                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
-                                                            
-                                                            NSLog(@"I am Item 2");
-                                                        }];
-    
-    BTSimpleMenuItem *item3 = [[BTSimpleMenuItem alloc]initWithTitle:@"Three"
-                                                               image:[UIImage imageNamed:@"icon3.png"]
-                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
-                                                            
-                                                            NSLog(@"I am Item 3");
-                                                        }];
-    
-    BTSimpleMenuItem *item4 = [[BTSimpleMenuItem alloc]initWithTitle:@"Four"
-                                                               image:[UIImage imageNamed:@"icon4.png"]
-                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
-                                                            NSLog(@"I am Item 4");
-                                                        }];
-    
-    BTSimpleMenuItem *item5 = [[BTSimpleMenuItem alloc]initWithTitle:@"Five"
-                                                               image:[UIImage imageNamed:@"icon5.png"]
-                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
-                                                            
-                                                            NSLog(@"I am Item 5");
-                                                        }];
-    
-    BTSimpleMenuItem *item6 = [[BTSimpleMenuItem alloc]initWithTitle:@"Six"
-                                                               image:[UIImage imageNamed:@"icon6.png"]
-                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
-                                                            
-                                                            NSLog(@"I am Item 6");
-                                                        }];
-    
-    BTSimpleMenuItem *item7 = [[BTSimpleMenuItem alloc]initWithTitle:@"Seven"
-                                                               image:[UIImage imageNamed:@"icon7.png"]
-                                                        onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
-                                                            
-                                                            NSLog(@"I am Item 7");
-                                                            
-                                                        }];
-    
-    _sideMenu = [[BTSimpleSideMenu alloc] initWithItem:[self arrayOfMenuConversations:_chatDataSourceManager.conversationsDataSource]
+     
+    _sideMenu = [[InteractionsConversationsMenu alloc] initWithItem:[self arrayOfMenuConversations:_chatDataSourceManager.conversationsDataSource]
                                  addToViewController:self];
     _sideMenu.delegate = self;
 }
@@ -112,7 +61,7 @@
 {
     NSMutableArray *sideMenuItems;
     for (IRGroupConversation *conversation in conversations) {
-        BTSimpleMenuItem *item = [[BTSimpleMenuItem alloc] initWithTitle:@"test" image:conversation.group.downloadedImage onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+        InteractionsConversationsMenuItem *item = [[InteractionsConversationsMenuItem alloc] initWithTitle:@"test" image:conversation.group.downloadedImage onCompletion:^(BOOL success, InteractionsConversationsMenuItem *item) {
             [sideMenuItems addObject:item];
         }];
     }
@@ -229,6 +178,8 @@
     
     IRMessage *message = [[IRMessage alloc] init];
     message.strContent = msg;
+    message.from = IRMessageFromMe;
+    message.strIcon = _chatDataSourceManager.ownGroup.imageUrl;
     message.type = IRMessageTypeText;
     
     [self addMessageAndUpdateTable:message];
@@ -239,6 +190,8 @@
     // TEST NSDictionary *dic = @{@"picture": image, @"type":@(IRMessageTypePicture)};
     IRMessage *message = [[IRMessage alloc] init];
     message.picture = image;
+    message.from = IRMessageFromMe;
+    message.strIcon = _chatDataSourceManager.ownGroup.imageUrl;
     message.type = IRMessageTypePicture;
     
     [self addMessageAndUpdateTable:message];
@@ -249,6 +202,8 @@
     // TEST NSDictionary *dic = @{@"voice": voice, @"strVoiceTime":[NSString stringWithFormat:@"%d",(int)second], @"type":@(IRMessageTypeVoice)};
     IRMessage *message = [[IRMessage alloc] init];
     message.voice = voice;
+    message.from = IRMessageFromMe;
+    message.strIcon = _chatDataSourceManager.ownGroup.imageUrl;
     message.strVoiceTime = [NSString stringWithFormat:@"%d",(int)second];
     message.type = IRMessageTypeVoice;
     
@@ -336,13 +291,15 @@
     [_sideMenu toggleMenu];
 }
 
-#pragma -mark BTSimpleSideMenuDelegate
-
--(void)BTSimpleSideMenu:(BTSimpleSideMenu *)menu didSelectItemAtIndex:(NSInteger)index {
-    NSLog(@"Item Cliecked : %ld", (long)index);
+#pragma mark InteractionsConversationsMenuDelegate methods
+-(void)InteractionsConversationsMenu:(InteractionsConversationsMenu *)menu didSelectGroupConversation:(IRGroupConversation *)conversation {
+    _chatDataSourceManager.currentConversationDataSource = conversation;
+    [self.chatTableView reloadData];
+    
+    [self tableViewScrollToBottom];
 }
 
--(void)BTSimpleSideMenu:(BTSimpleSideMenu *)menu selectedItemTitle:(NSString *)title {
+-(void)InteractionsConversationsMenu:(InteractionsConversationsMenu *)menu selectedItemTitle:(NSString *)title {
     
 }
 @end

@@ -1,20 +1,23 @@
 //
-//  BTSimpleSideMenu.m
-//  BTSimpleSideMenuDemo
-//  Created by Balram on 29/05/14.
-//  Copyright (c) 2014 Balram Tiwari. All rights reserved.
+//  InteractionsConversationsMenu.m
+//  Spolu
+//
+//  Created by Marcus Ronélius on 2015-02-21.
+//  Copyright (c) 2015 Spolu Apps. All rights reserved.
 //
 
 #define GENERIC_IMAGE_FRAME CGRectMake(0, 0, 40, 40)
 #define MENU_WIDTH 240
 
-#import "BTSimpleSideMenu.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>
+#import "InteractionsConversationsMenu.h"
+#import "UIView+Animation.h"
 
 
 
-@implementation BTSimpleSideMenu
+
+@implementation InteractionsConversationsMenu
 
 #pragma -mark public methods
 
@@ -26,8 +29,20 @@
         _itemsArray = [self arrayOfMenuConversations:_chatDataSourceManager.conversationsDataSource];
         //_itemsArray = items;
         menuTable.backgroundColor = [UIColor clearColor];
+        
+        // Register for new messages notification
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessageNotification:) name:@"newMessageReceived" object:nil];
     }
     return self;
+}
+
+#pragma mark IRWebSocketServiceHanderDelegate
+- (void)didReceiveNewMessageNotification:(NSNotification *)notification
+{
+    if (self) {
+        [self updateDataSourceWithArray:_chatDataSourceManager.conversationsDataSource];
+        [menuTable reloadData];
+    }
 }
 
 -(instancetype)initWithItemTitles:(NSArray *)itemsTitle addToViewController:(UIViewController *)sender {
@@ -37,7 +52,7 @@
         [self commonInit:sender];
         NSMutableArray *tempArray = [[NSMutableArray alloc]init];
         for(int i = 0;i<[itemsTitle count]; i++){
-            BTSimpleMenuItem *temp = [[BTSimpleMenuItem alloc]initWithTitle:[itemsTitle objectAtIndex:i]
+            InteractionsConversationsMenuItem *temp = [[InteractionsConversationsMenuItem alloc]initWithTitle:[itemsTitle objectAtIndex:i]
                                                                       image:nil onCompletion:nil];
             [tempArray addObject:temp];
         }
@@ -52,7 +67,7 @@
         [self commonInit:sender];
         NSMutableArray *tempArray = [[NSMutableArray alloc]init];
         for(int i = 0;i<[itemsTitle count]; i++){
-            BTSimpleMenuItem *temp = [[BTSimpleMenuItem alloc]initWithTitle:[itemsTitle objectAtIndex:i]
+            InteractionsConversationsMenuItem *temp = [[InteractionsConversationsMenuItem alloc]initWithTitle:[itemsTitle objectAtIndex:i]
                                                                       image:[itemsImage objectAtIndex:i]
                                                                onCompletion:nil];
             [tempArray addObject:temp];
@@ -71,7 +86,7 @@
 {
     NSMutableArray *sideMenuItems = [[NSMutableArray alloc] init];
     for (IRGroupConversation *conversation in conversations) {
-        BTSimpleMenuItem *item = [[BTSimpleMenuItem alloc] initWithTitle:@"test" image:conversation.group.downloadedImage onCompletion:^(BOOL success, BTSimpleMenuItem *item) {
+        InteractionsConversationsMenuItem *item = [[InteractionsConversationsMenuItem alloc] initWithTitle:@"test" image:conversation.group.downloadedImage onCompletion:^(BOOL success, InteractionsConversationsMenuItem *item) {
             
         }];
         [sideMenuItems addObject:item];
@@ -93,9 +108,9 @@
         [UIView animateWithDuration:0.2 animations:^{
             self.frame = CGRectMake(xAxis, yAxis, width, height);
             menuTable.frame = CGRectMake(menuTable.frame.origin.x, menuTable.frame.origin.y+15, width, height);
-            //menuTable.alpha = 1;
+            menuTable.alpha = 1;
             //backGroundImage.frame = CGRectMake(0, 0, width, height);
-            //backGroundImage.alpha = 1;
+            backGroundImage.alpha = 1;
         } completion:^(BOOL finished) {
             
         }];
@@ -129,12 +144,47 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self.delegate BTSimpleSideMenu:self didSelectItemAtIndex:indexPath.row];
+    IRGroupConversation *selectedGroupConversation = [_chatDataSourceManager.conversationsDataSource objectAtIndex:indexPath.row];
+    [self.delegate InteractionsConversationsMenu:self didSelectGroupConversation:selectedGroupConversation];
     
-    [self.delegate BTSimpleSideMenu:self selectedItemTitle:[[[_chatDataSourceManager.conversationsDataSource objectAtIndex:indexPath.row] group] token]];
-    //[self.delegate BTSimpleSideMenu:self selectedItemTitle:[titleArray objectAtIndex:indexPath.row]];
+    UITableViewCell *cell = [menuTable cellForRowAtIndexPath:indexPath];
+    /*
+    [UIView animateWithDuration:2 animations:^{
+        cell.alpha = 0;
+        cell.frame = CGRectMake(cell.frame.origin.x,
+                                cell.frame.origin.y,
+                                cell.frame.size.width*5,
+                                cell.frame.size.height*4);
+    }];
+    */
+    
+    /******
+    *
+    * TODO MORE ON
+    *
+    ******/
+    CGRect cellRightFrame = cell.frame;
+    cellRightFrame.origin.x = menuTable.bounds.size.width;
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1.0];
+    [UIView setAnimationDelay:0.0];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+    
+    cell.alpha = 0;
+    cell.transform = CGAffineTransformMakeScale(2,2);
+    cell.frame = cellRightFrame;
+    
+    
+    [UIView commitAnimations];
+    
+    
     _selectedItem = [_itemsArray objectAtIndex:indexPath.row];
+    
     [self hide];
+    
+    cell.transform = CGAffineTransformIdentity;
+    
     if (_selectedItem.block) {
         BOOL success= YES;
         _selectedItem.block(success, _selectedItem);
@@ -155,9 +205,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    BTSimpleMenuItem *item = [_itemsArray objectAtIndex:indexPath.row];
+    InteractionsConversationsMenuItem *item = [_itemsArray objectAtIndex:indexPath.row];
     
-    if(cell == nil){
+    if(cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.backgroundColor = [UIColor clearColor];
         
@@ -168,9 +218,7 @@
         circleView.layer.borderColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
         circleView.layer.cornerRadius = circleView.bounds.size.height/2;
         circleView.clipsToBounds = YES;
-        
-        [cell.contentView addSubview:circleView];
-        
+
         /*
         titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 10.0, 120, 60)];
         titleLabel.tag = TITLE_LABLE_TAG;
@@ -181,8 +229,11 @@
         */
         imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 130, 130)];
         imageView.tag = IMAGE_VIEW_TAG;
-        //imageView.center = circleView.center;
+        
         [circleView addSubview:imageView];
+        
+        [cell.contentView addSubviewWithBounce:circleView];
+        
     } else {
         
         circleView = (UIView *)[cell.contentView viewWithTag:MAIN_VIEW_TAG];
@@ -211,16 +262,7 @@
     }else {
         menuTable = [[UITableView alloc]initWithFrame:CGRectMake(xAxis, yAxis, width, height) style:UITableViewStyleGrouped];
     }
-    /*
-    screenShotImage = [sender.view screenshot];
-    blurredImage = [screenShotImage blurredImageWithRadius:50.0f iterations:5  tintColor:nil];
-    backGroundImage = [[UIImageView alloc]initWithImage:blurredImage];
-    backGroundImage.frame = CGRectMake(width,0, width, height);
-    backGroundImage.alpha = 0;
-    [self addSubview:backGroundImage];
-    
-    [menuTable setBackgroundColor:[UIColor clearColor]];
-     */
+ 
     // Blur effect
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     UIVisualEffectView *backgroundView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
@@ -239,7 +281,7 @@
     
     menuTable.delegate = self;
     menuTable.dataSource = self;
-    //menuTable.alpha = 0;
+
     isOpen = NO;
     
     [backgroundView addSubview:menuTable];
@@ -253,13 +295,11 @@
     rightSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(show)];
     rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
     
-    //[sender.view addSubview:self];
     UIWindow *currentWindow = [UIApplication sharedApplication].keyWindow;
     [currentWindow addSubview:self];
     [sender.view addGestureRecognizer:gesture];
     [sender.view addGestureRecognizer:rightSwipe];
     [sender.view addGestureRecognizer:leftSwipe];
-    
 }
 
 -(UIImage *)reducedImage:(UIImage *)srcImage{
