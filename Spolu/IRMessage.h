@@ -39,6 +39,8 @@ typedef enum {
 
 @property (nonatomic, assign) BOOL showDateLabel;
 
+@property (nonatomic, assign) BOOL readFlag;
+
 - (void)minuteOffSetStart:(NSString *)start end:(NSString *)end;
 
 @end

@@ -34,6 +34,18 @@
 
 @implementation InteractionsViewController {
     IRInputFunctionView *IFView;
+    BOOL _statusBarHidden;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return _statusBarHidden;
+}
+
+- (void)showStatusBar:(BOOL)show {
+    [UIView animateWithDuration:0.3 animations:^{
+        _statusBarHidden = !show;
+        [self setNeedsStatusBarAppearanceUpdate];
+    }];
 }
 
 - (void)viewDidLoad {
@@ -52,11 +64,12 @@
     [self addRefreshViews];
     [self loadBaseViewsAndData];
      
-    _sideMenu = [[InteractionsConversationsMenu alloc] initWithItem:[self arrayOfMenuConversations:_chatDataSourceManager.conversationsDataSource]
-                                 addToViewController:self];
+    _sideMenu = [[InteractionsConversationsMenu alloc] initFromViewController:self];
     _sideMenu.delegate = self;
+    _sideMenu.parent = self;
 }
 
+/*
 - (NSArray *)arrayOfMenuConversations:(NSArray *)conversations
 {
     NSMutableArray *sideMenuItems;
@@ -67,7 +80,7 @@
     }
     return sideMenuItems;
 }
-
+*/
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -76,6 +89,29 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(tableViewScrollToBottom) name:UIKeyboardDidShowNotification object:nil];
+    
+    
+    [self setTitleImageFromConversation:_chatDataSourceManager.currentConversationDataSource];
+}
+
+- (void)setTitleImageFromConversation:(IRGroupConversation *)conversation
+{
+    _circleView = [[UIView alloc]initWithFrame:CGRectMake(0,0,40,40)];
+    _circleView.backgroundColor = [UIColor clearColor];
+    _circleView.layer.borderWidth = 1;
+    _circleView.layer.borderColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
+    _circleView.layer.cornerRadius = _circleView.bounds.size.height/2;
+    _circleView.clipsToBounds = YES;
+    
+    
+    UIImageView *titleImageView = [[UIImageView alloc] initWithImage:_chatDataSourceManager.currentConversationDataSource.group.downloadedImage];
+    titleImageView.contentMode = UIViewContentModeScaleAspectFill;
+    titleImageView.frame = CGRectMake(0, 0, 40, 40);
+    
+    [_circleView addSubview:titleImageView];
+    
+    
+    self.navigationItem.titleView = _circleView;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -255,6 +291,12 @@
         cell.delegate = self;
     }
     [cell setMessageFrame:self.chatDataSourceManager.currentConversationDataSource.messages[indexPath.row]];
+    
+    // Mark the message (cell) as read.
+    if (!cell.messageFrame.message.readFlag) {
+        cell.messageFrame.message.readFlag = YES;
+    }
+    
     return cell;
 }
 
@@ -287,19 +329,20 @@
 
 
 - (IBAction)showSidebar:(id)sender {
-    [_sideMenu updateDataSourceWithArray:_chatDataSourceManager.conversationsDataSource];
+    _sideMenu.itemsArray = _chatDataSourceManager.conversationsDataSource;
     [_sideMenu toggleMenu];
 }
 
 #pragma mark InteractionsConversationsMenuDelegate methods
 -(void)InteractionsConversationsMenu:(InteractionsConversationsMenu *)menu didSelectGroupConversation:(IRGroupConversation *)conversation {
+    // Set the currentconversation to the one clicked on in InteractionsConversationsMenu
     _chatDataSourceManager.currentConversationDataSource = conversation;
-    [self.chatTableView reloadData];
     
+    // Reload tableview and scroll down to latest message
+    [self.chatTableView reloadData];
     [self tableViewScrollToBottom];
+    
+    [self setTitleImageFromConversation:conversation];
 }
 
--(void)InteractionsConversationsMenu:(InteractionsConversationsMenu *)menu selectedItemTitle:(NSString *)title {
-    
-}
 @end

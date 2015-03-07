@@ -18,5 +18,9 @@
 @property (nonatomic, retain) NSMutableArray *messages;
 @property (nonatomic, retain) IRGroup *group;
 @property (nonatomic, retain) NSDate *startedAt;
+@property (nonatomic, retain) NSDate *latestReceivedMessage;
+
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) UIImageView *imageView;
 
 @end

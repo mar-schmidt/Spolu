@@ -15,8 +15,10 @@
 }
 
 @property (nonatomic) NSInteger currentGroupConversationId;
+@property (nonatomic, strong) UIView *circleView;
 
 
 - (IBAction)showSidebar:(id)sender;
+- (void)showStatusBar:(BOOL)show;
 
 @end

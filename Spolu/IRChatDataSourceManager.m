@@ -108,6 +108,7 @@
         for (IRGroupConversation *existingGroupConversation in _conversationsDataSource) {
             if ((existingGroupConversation.group.groupId == fromGroup.groupId)) {
                 [existingGroupConversation.messages addObject:[self embedMessageInMessageFrame:receivedMessage]];
+                existingGroupConversation.latestReceivedMessage = [NSDate date];
                 
                 // Notifying delegate responder which is InteractionsViewController
                 if ([self.delegate respondsToSelector:@selector(chatDataSourceManager:didReceiveMessages:inGroupChat:)]) {
@@ -125,6 +126,7 @@
             [self.delegate chatDataSourceManager:self didReceiveMessages:newGroupConversation.messages inGroupChat:newGroupConversation];
         }
     } else {
+        // Its the first conversation. Create a new one.
         IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:receivedMessage fromGroup:fromGroup];
         [_conversationsDataSource addObject:newGroupConversation];
         
@@ -149,6 +151,7 @@ static NSString *previousTime = nil;
     IRGroupConversation *newGroupConversation = [[IRGroupConversation alloc] init];
     newGroupConversation.group = group;
     newGroupConversation.startedAt = [NSDate date];
+    newGroupConversation.latestReceivedMessage = [NSDate date];
     
     // Instead of adding the IRMessage to the messages array we add the IRMessageFrame object
     IRMessageFrame *messageFrame = [self embedMessageInMessageFrame:message];

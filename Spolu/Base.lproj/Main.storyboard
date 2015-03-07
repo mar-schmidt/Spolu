@@ -361,7 +361,7 @@ But first, enter your prefered criterias</string>
             </objects>
             <point key="canvasLocation" x="-5" y="1484"/>
         </scene>
-        <!--Interactions-->
+        <!--Interactions View Controller-->
         <scene sceneID="3Oj-lC-HEs">
             <objects>
                 <viewController id="N79-5y-xx2" customClass="InteractionsViewController" sceneMemberID="viewController">
@@ -391,7 +391,7 @@ But first, enter your prefered criterias</string>
                             <constraint firstItem="0OA-vq-aau" firstAttribute="top" secondItem="1L8-wa-kCb" secondAttribute="top" id="xCk-aj-vMf"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Interactions" id="2Ie-XA-bms">
+                    <navigationItem key="navigationItem" id="2Ie-XA-bms">
                         <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="Iih-05-2v1">
                             <connections>
                                 <action selector="showSidebar:" destination="N79-5y-xx2" id="YIa-Ch-Crp"/>

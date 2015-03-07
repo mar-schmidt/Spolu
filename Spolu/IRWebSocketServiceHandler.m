@@ -28,7 +28,7 @@
         // Test
         NSDate *d = [NSDate dateWithTimeIntervalSinceNow:5.0];
         NSTimer *t = [[NSTimer alloc] initWithFireDate:d
-                                              interval:5
+                                              interval:15
                                                 target:self
                                               selector:@selector(sendRandomMessage)
                                               userInfo:nil repeats:YES];
@@ -122,6 +122,7 @@ static NSString *previousTime = nil;
     message.type = randomNum;
     message.strTime = [date description];
     message.strIcon = group.imageUrl;
+    message.readFlag = NO;
     
     [message minuteOffSetStart:previousTime end:[self currentTime]];
     

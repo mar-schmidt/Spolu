@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "InteractionsConversationsMenuItem.h"
 #import "IRChatDataSourceManager.h"
 #import "IRGroupConversation.h"
+#import "InteractionsViewController.h"
 
 @class InteractionsConversationsMenu;
 
@@ -17,7 +17,6 @@
 
 @optional
 -(void)InteractionsConversationsMenu:(InteractionsConversationsMenu *)menu didSelectGroupConversation:(IRGroupConversation *)conversation;
--(void)InteractionsConversationsMenu:(InteractionsConversationsMenu *)menu selectedItemTitle:(NSString *)title;
 
 @end
 
@@ -34,14 +33,17 @@
     UIImageView *screenShotView;
 }
 
-@property (nonatomic, retain) InteractionsConversationsMenuItem *selectedItem;
 @property(nonatomic, weak) id <InteractionsConversationsMenuDelegate> delegate;
 @property (nonatomic, retain) NSArray *titleArray;
 @property (nonatomic, retain) NSArray *imageArray;
 @property (nonatomic, retain) NSArray *itemsArray;
 
+// To use for hiding and showing status bar in viewcontroller
+@property (nonatomic, strong) InteractionsViewController *parent;
+
 @property (strong, nonatomic) IRChatDataSourceManager *chatDataSourceManager;
 
+- (instancetype)initFromViewController:(id)sender;
 -(instancetype) initWithItem:(NSArray *)items addToViewController:(id)sender;
 -(instancetype) initWithItemTitles:(NSArray *)itemsTitle addToViewController:(id)sender;
 -(instancetype) initWithItemTitles:(NSArray *)itemsTitle andItemImages:(NSArray *)itemsImage addToViewController:(UIViewController *)sender;

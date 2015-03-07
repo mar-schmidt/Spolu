@@ -43,23 +43,6 @@
     return _dataSource;
 }
 
-/*
-- (void)populateRandomDataSource {
-    self.dataSource = [NSMutableArray array];
-    NSArray *messageArray = @[[self randomMessage], [self randomMessage], [self randomMessage]];
-    [self.dataSource addObjectsFromArray:[self receivedMessages:messageArray fromMatchedGroup:matchedGroups.groups[1]]];
-}
-
-- (void)addRandomItemsToDataSource:(NSInteger)number {
-    
-    for (int i=0; i<number; i++) {
-        
-        NSArray *messageArray = @[[self randomMessage]];
-        
-        [self.dataSource insertObject:[[self receivedMessages:messageArray fromMatchedGroup:matchedGroups.groups[1]] firstObject] atIndex:0];
-    }
-}
-*/
 
 // This referes to message from me
 - (void)sendMessage:(IRMessage *)message
