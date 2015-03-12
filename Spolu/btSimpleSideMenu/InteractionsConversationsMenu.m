@@ -7,7 +7,7 @@
 //
 
 #define GENERIC_IMAGE_FRAME CGRectMake(0, 0, 40, 40)
-#define MENU_WIDTH 240
+#define MENU_WIDTH 230
 
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>

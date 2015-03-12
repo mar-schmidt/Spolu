@@ -15,6 +15,8 @@
 		2C0B24DB1AABB0C200BA81EE /* IRJsonToGroupParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B24DA1AABB0C200BA81EE /* IRJsonToGroupParser.m */; };
 		2C7138E21AA3C11D001D2582 /* InteractionsConversationsMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */; };
 		2C7138F41AA65269001D2582 /* UIView+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138F31AA65269001D2582 /* UIView+Animation.m */; };
+		2C971E061AB21314005F2F42 /* MRInstallation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C971E051AB21314005F2F42 /* MRInstallation.m */; };
+		2C971E091AB21C6D005F2F42 /* MRPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C971E081AB21C6D005F2F42 /* MRPush.m */; };
 		2CD275851A9BB13600F7D5CF /* IRImageViewDisplayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275841A9BB13600F7D5CF /* IRImageViewDisplayer.m */; };
 		2CD275881A9BB1F400F7D5CF /* IRAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275871A9BB1F400F7D5CF /* IRAVAudioPlayer.m */; };
 		2CD2759A1A9BB32200F7D5CF /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2758D1A9BB32200F7D5CF /* MJRefreshBaseView.m */; };
@@ -121,6 +123,10 @@
 		2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InteractionsConversationsMenu.m; path = btSimpleSideMenu/InteractionsConversationsMenu.m; sourceTree = "<group>"; };
 		2C7138F21AA65269001D2582 /* UIView+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Animation.h"; sourceTree = "<group>"; };
 		2C7138F31AA65269001D2582 /* UIView+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Animation.m"; sourceTree = "<group>"; };
+		2C971E041AB21314005F2F42 /* MRInstallation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRInstallation.h; sourceTree = "<group>"; };
+		2C971E051AB21314005F2F42 /* MRInstallation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRInstallation.m; sourceTree = "<group>"; };
+		2C971E071AB21C6D005F2F42 /* MRPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPush.h; sourceTree = "<group>"; };
+		2C971E081AB21C6D005F2F42 /* MRPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPush.m; sourceTree = "<group>"; };
 		2CD275831A9BB13600F7D5CF /* IRImageViewDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRImageViewDisplayer.h; sourceTree = "<group>"; };
 		2CD275841A9BB13600F7D5CF /* IRImageViewDisplayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRImageViewDisplayer.m; sourceTree = "<group>"; };
 		2CD275861A9BB1F400F7D5CF /* IRAVAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRAVAudioPlayer.h; sourceTree = "<group>"; };
@@ -571,6 +577,10 @@
 				2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */,
 				2CF21F521A97BF6100D2FFBA /* AppDelegate.h */,
 				2CF21F531A97BF6100D2FFBA /* AppDelegate.m */,
+				2C971E041AB21314005F2F42 /* MRInstallation.h */,
+				2C971E051AB21314005F2F42 /* MRInstallation.m */,
+				2C971E071AB21C6D005F2F42 /* MRPush.h */,
+				2C971E081AB21C6D005F2F42 /* MRPush.m */,
 				2C0B24CC1AAB976A00BA81EE /* Views */,
 				2CFE37FD1A98DE4500A5CDE0 /* ViewControllers */,
 				2CD688B91A9E05C5008D446A /* IRServiceHandler */,
@@ -723,10 +733,16 @@
 				TargetAttributes = {
 					2CF21F4A1A97BF6100D2FFBA = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 5ZCL6EK7R3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					2CF21F631A97BF6100D2FFBA = {
 						CreatedOnToolsVersion = 6.1.1;
-						TestTargetID = 2CF21F4A1A97BF6100D2FFBA;
+						DevelopmentTeam = 5ZCL6EK7R3;
 					};
 				};
 			};
@@ -837,6 +853,7 @@
 				2CD275EC1A9BC6C200F7D5CF /* UIImageView+AFNetworking.m in Sources */,
 				2CD275EF1A9BC6C200F7D5CF /* UIWebView+AFNetworking.m in Sources */,
 				2CD2759D1A9BB32200F7D5CF /* MJRefreshHeaderView.m in Sources */,
+				2C971E061AB21314005F2F42 /* MRInstallation.m in Sources */,
 				2CD275A91A9BB5A100F7D5CF /* NSDate+Utils.m in Sources */,
 				2CF21F821A981B1400D2FFBA /* InteractionsViewController.m in Sources */,
 				2CD2759C1A9BB32200F7D5CF /* MJRefreshFooterView.m in Sources */,
@@ -880,6 +897,7 @@
 				2CD275A21A9BB38100F7D5CF /* IRInputFunctionView.m in Sources */,
 				2CD688B51A9CB83B008D446A /* IRMatchedGroups.m in Sources */,
 				2CD688C21AA0E3D9008D446A /* IRGroupConversation.m in Sources */,
+				2C971E091AB21C6D005F2F42 /* MRPush.m in Sources */,
 				2CD275A51A9BB4B100F7D5CF /* IRProgressHUD.m in Sources */,
 				2CE20A6E1AAEDC0C00CB4204 /* CERoundProgressView.m in Sources */,
 				2CD275881A9BB1F400F7D5CF /* IRAVAudioPlayer.m in Sources */,
@@ -954,7 +972,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iOS Development: Marcus Ronélius (7R555G4CTM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iOS Development: Marcus Ronélius (7R555G4CTM)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -971,9 +990,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "cfc74a08-2669-4706-acd2-4078c537559f";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -995,7 +1015,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iOS Development: Marcus Ronélius (7R555G4CTM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iOS Development: Marcus Ronélius (7R555G4CTM)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1006,8 +1027,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "cfc74a08-2669-4706-acd2-4078c537559f";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1018,6 +1040,8 @@
 			baseConfigurationReference = 8325EEBE9147F4D813C35749 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1029,6 +1053,7 @@
 					"$(PROJECT_DIR)/Spolu/VoiceLib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1037,6 +1062,8 @@
 			baseConfigurationReference = B1454EDB01537F723536A33C /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1048,13 +1075,15 @@
 					"$(PROJECT_DIR)/Spolu/VoiceLib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
 		2CF21F721A97BF6100D2FFBA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1066,14 +1095,15 @@
 				INFOPLIST_FILE = SpoluTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Spolu.app/Spolu";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
 		2CF21F731A97BF6100D2FFBA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1081,7 +1111,7 @@
 				INFOPLIST_FILE = SpoluTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Spolu.app/Spolu";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

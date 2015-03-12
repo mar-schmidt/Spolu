@@ -46,6 +46,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    // Init the matchServiceHandler singelton
     matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
     
     titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 200, self.navigationController.navigationBar.frame.size.height)];
@@ -148,7 +149,7 @@
         * Notify the backend about passing on this card (group)
         *
         ******/
-        NSLog(@"You noped %ld.", (long)_currentGroup.groupId);
+        NSLog(@"You passed on group %ld.", (long)_currentGroup.groupId);
 
         [matchServiceHandler postPassForGroup:_currentGroup withCompletionBlockSuccess:^(BOOL succeeded) {
             if (succeeded) {
@@ -171,9 +172,9 @@
         [matchServiceHandler postLikeForGroup:_currentGroup withCompletionBlockMatch:^(BOOL matching) {
             if (matching) {
                 // We got a match!
-                NSLog(@"Match received!!!!!!!!!!!!");
+                NSLog(@"!!!!!!!!!Matched with group %ld!!!!!!!!!!!!", (long)_currentGroup.groupId);
             } else {
-                NSLog(@"No matching this time");
+                NSLog(@"No matching for group %ld", (long)_currentGroup.groupId);
             }
         } failure:^(NSError *error) {
             NSLog(@"Error while requesting for match");
@@ -211,7 +212,7 @@
     if (_currentGroup) {
         distanceLabel.textColor = [UIColor colorWithRed:124/255.0f green:179/255.0f blue:66/255.0f alpha:1];
         distanceLabel.text = [NSString stringWithFormat:@"%ld km to group", (long)_currentGroup.distance];
-        ageLabel.text = [NSString stringWithFormat:@"%ld years old", (long)_currentGroup.age];
+        ageLabel.text = [NSString stringWithFormat:@"Around %ld years old", (long)_currentGroup.age];
         //NSLog(@"%@ - %@", titleView.distanceLabel.text, titleView.ageLabel.text);
         
         // Disable ability to go back (until 24hourse has gone by). Instead we show the user a menu with posivility to change settings
@@ -254,8 +255,14 @@
 }
 
 - (ChooseGroupView *)popGroupViewWithFrame:(CGRect)frame {
+    // If our dataSource has less than 5, we want to start downloading new results
+    if ([matchServiceDataSource.dataSource count] == 1) {
+        [matchServiceHandler getEligibleGroupsResultForGroup:nil];
+    }
+    
     if ([matchServiceDataSource.dataSource count] == 0) {
         return nil;
+        
     }
     
     // UIView+MDCSwipeToChoose and MDCSwipeToChooseView are heavily customizable.

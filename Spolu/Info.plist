@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.ronelius.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>com.ronelius.Spolu</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -40,6 +40,10 @@
 	<string>Always use</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow so that we can determine your location</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -20,6 +20,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    // PickerView
+    pickerView.delegate = self;
+    [pickerView selectRow:2 inComponent:0 animated:YES];
+    
     // Check if we have an existing ownGroup. If not, check backend for it
     ownGroup = [IROwnGroup sharedGroup];
     
@@ -189,7 +193,6 @@
                         
                      }];
 }
-
 
 
 - (IBAction)startCamera:(id)sender {
@@ -374,6 +377,69 @@
     destViewController.groupImage = takenGroupImage;
 }
 
+#pragma mark UIPickerView Delegates and Datasource
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return 5;
+}
+/*
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSString *activity;
+    switch (row) {
+        case 0:
+            activity = @"Partying";
+            break;
+        case 1:
+            activity = @"Sports activities";
+            break;
+        case 2:
+            activity = @"Exploring";
+            break;
+        case 3:
+            activity = @"Relaxing";
+            break;
+        case 4:
+            activity = @"Other";
+            break;
+    }
+    return activity;
+}
+*/
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    
+}
+
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSString *activity = [[NSString alloc] init];
+    
+    switch (row) {
+        case 0:
+            activity = @"Partying";
+            break;
+        case 1:
+            activity = @"Sports activities";
+            break;
+        case 2:
+            activity = @"Exploring";
+            break;
+        case 3:
+            activity = @"Relaxing";
+            break;
+        case 4:
+            activity = @"Other";
+            break;
+    }
+    NSAttributedString *attString = [[NSAttributedString alloc] initWithString:activity attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:85/255.0f green:139/255.0f blue:47/255.0f alpha:1]}];
+    return attString;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

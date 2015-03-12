@@ -11,6 +11,8 @@
 #import <Crashlytics/Crashlytics.h>
 #import "IRWebSocketServiceHandler.h"
 #import "IRChatDataSourceManager.h"
+#import "MRInstallation.h"
+#import "MRPush.h"
 
 @interface AppDelegate ()
 
@@ -29,9 +31,45 @@
     IRWebSocketServiceHandler *websocket = [IRWebSocketServiceHandler sharedWebSocketHandler];
     websocket.delegate = chatDataSource;
     
+    if([[[UIDevice currentDevice] systemVersion] integerValue] >= 8)
+    {
+        UIUserNotificationSettings* notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+        
+        //register to receive notifications
+        [application registerForRemoteNotifications];
+    }
+    else {
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound|UIRemoteNotificationTypeBadge)];
+    }
     
+    // Check for options
+    if (launchOptions != nil) {
+        // Handle data from the push.
+        if ([launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey] != nil) {
+            // Do whatever you need
+            [MRPush handlePush:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
+            application.applicationIconBadgeNumber = 0;
+        }
+    }
     
     return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Store the deviceToken in the current installation and save it to Parse.
+    MRInstallation *currentInstallation = [MRInstallation currentInstallation];
+    currentInstallation.deviceTokenFromData = deviceToken;
+    [currentInstallation saveInBackground];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    if (application.applicationState == UIApplicationStateInactive) {
+        [MRPush handlePush:userInfo];
+        application.applicationIconBadgeNumber = 0;
+    }
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -50,6 +88,17 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    /*
+    if (_receivedUserInfo != nil) {
+        //Do whatever you need
+     NSDictionary *aps = _receivedUserInfo[@"aps"];
+     NSInteger groupId = [_receivedUserInfo[@"id"] integerValue];
+     NSString *alertMessage = aps[@"alert"];
+     NSLog(@"Push Notification: %@ from group %ld", alertMessage, groupId);
+     application.applicationIconBadgeNumber = 0;
+     _receivedUserInfo = nil;
+    }
+     */
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

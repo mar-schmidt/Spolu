@@ -13,7 +13,7 @@
 #import "IRMatchServiceHandler.h"
 #import "IROwnGroup.h"
 
-@interface FilterViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationServiceHandlerDelegate>
+@interface FilterViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationServiceHandlerDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 {
     __weak IBOutlet UIBarButtonItem *startCameraButton;
     UIImage *takenGroupImage;
@@ -32,6 +32,8 @@
     __weak IBOutlet UISegmentedControl *lookingForSegmentedControl;
     
     __weak IBOutlet JFADoubleSlider *lookingForAgeSlider;
+    
+    __weak IBOutlet UIPickerView *pickerView;
     
     IROwnGroup *ownGroup;
 }
