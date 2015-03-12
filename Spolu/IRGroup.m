@@ -7,65 +7,73 @@
 //
 
 #import "IRGroup.h"
+#import "SDWebImageManager.h"
 
 @implementation IRGroup
 
-@synthesize groupId;
-@synthesize imageUrl;
-@synthesize downloadedImage;
-@synthesize genderInt;
-@synthesize gender;
-@synthesize lookingForGenderInt;
-@synthesize lookingForGender;
-@synthesize age;
-@synthesize lookingForAgeLower;
-@synthesize lookingForAgeUpper;
-@synthesize locationLat;
-@synthesize locationLong;
-@synthesize lookingForInAreaWithDistanceInKm;
-@synthesize token;
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        // Set gender depending on genderInt received from backend
-        switch (genderInt) {
-            case 0: // Males
-                gender = IRGenderTypeMales;
-                break;
-            case 1: // Both
-                gender = IRGenderTypeBoth;
-                break;
-            case 2: // Females
-                gender = IRGenderTypeFemales;
-                break;
-                
-            default: // Default both if backend's not sending correct value
-                gender = IRGenderTypeBoth;
-                break;
-        }
-        
-        // Set lookingForGender depending on lookingForGenderInt received from backend
-        switch (lookingForGenderInt) {
-            case 0: // Males
-                lookingForGender = IRGenderTypeMales;
-                break;
-            case 1: // Both
-                lookingForGender = IRGenderTypeBoth;
-                break;
-            case 2: // Females
-                lookingForGender = IRGenderTypeFemales;
-                break;
-                
-            default: // Default both if backend's not sending correct value
-                lookingForGender = IRGenderTypeBoth;
-                break;
-        }
+
     }
     return self;
 }
 
+- (id)initWithGroupId:(NSInteger)groupId imageUrl:(NSString *)imageUrl gender:(NSInteger)genderInt age:(NSInteger)age distance:(NSInteger)distanceInKm
+{
+    self = [super init];
+    if (self) {
+        _groupId = groupId;
+        _imageUrl = imageUrl;
+        _genderInt = genderInt;
+        _age = age;
+        _distance = distanceInKm;
+        
+        // Download image
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        NSLog(@"Starting downloading image for group %ld", (long)_groupId);
+        [manager downloadImageWithURL:[NSURL URLWithString:imageUrl]
+                              options:0
+                             progress:^(NSInteger receivedSize, NSInteger expectedSize)
+         {
+             // progression tracking code
+         }
+                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
+         {
+             if (image) {
+                 // do something with image
+                 _downloadedImage = image;
+                 NSLog(@"Downloaded image completed for group %ld", (long)_groupId);
+             }
+         }];
+    }
+    return self;
+}
+
+- (id)initWithOwnGroupOfGender:(NSInteger)genderInt
+              lookingForGender:(NSInteger)lookingGenderInt
+                           age:(NSInteger)years
+            lookingForAgeLower:(NSInteger)lower
+            lookingForAgeUpper:(NSInteger)upper
+              locationLatitude:(double)latitude
+             locationLongitude:(double)longitude
+lookingForInAreaWithDistanceInKm:(NSInteger)km
+{
+    self = [super init];
+    if (self) {
+        _genderInt = genderInt;
+        _lookingForGenderInt = lookingGenderInt;
+        _age = years;
+        _lookingForAgeLower = lower;
+        _lookingForAgeUpper = upper;
+        _locationLat = latitude;
+        _locationLong = longitude;
+        _lookingForInAreaWithDistanceInKm = km;
+    }
+    return self;
+}
 
 - (IRGroup *)randomGroupWithId:(NSInteger)gId
 {
@@ -73,14 +81,27 @@
     
     group.groupId = gId;
     group.imageUrl = [self imageUrlStringFromNumber:group.groupId];
-    group.downloadingImageView = [[UIImageView alloc] init];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:group.imageUrl]];
-    [group.downloadingImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-        group.downloadedImage = image;
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        
-    }];
+    
 
+    // Download image
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    NSLog(@"Starting downloading image for group %ld", (long)group.groupId);
+    [manager downloadImageWithURL:[NSURL URLWithString:group.imageUrl]
+                          options:0
+                         progress:^(NSInteger receivedSize, NSInteger expectedSize)
+     {
+         // progression tracking code
+     }
+                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
+     {
+         if (image) {
+             // do something with image
+             NSLog(@"Downloaded image completed for group %ld", (long)group.groupId);
+             group.downloadedImage = image;
+         }
+     }];
+
+    
     // Randomize gender
     GenderType randomGender = (GenderType) (arc4random() % (int) 2);
     GenderType randomGenderLookingFor = (GenderType) (arc4random() % (int) 2);

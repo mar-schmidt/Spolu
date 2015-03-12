@@ -28,7 +28,7 @@
         // Test
         NSDate *d = [NSDate dateWithTimeIntervalSinceNow:5.0];
         NSTimer *t = [[NSTimer alloc] initWithFireDate:d
-                                              interval:15
+                                              interval:10
                                                 target:self
                                               selector:@selector(sendRandomMessage)
                                               userInfo:nil repeats:YES];
@@ -60,8 +60,8 @@
 ****/
 - (void)receivedMessageFromWebSocket:(NSData *)data
 {
-    IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
-    IRGroup *group = matchedGroups.groups[arc4random()%3];
+    IRMatchServiceDataSource *groupsDataSource = [IRMatchServiceDataSource sharedMatchServiceDataSource];
+    IRGroup *group = groupsDataSource.dataSource[arc4random()%5];
     IRMessage *message = [self randomMessageFromGroup:group];
     
     if ([self.delegate respondsToSelector:@selector(webSocketServiceHandler:didReceiveNewMessage:fromGroup:)]) {
@@ -78,16 +78,18 @@
 // Test
 - (void)sendRandomMessage
 {
-    IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
-    IRGroup *group = matchedGroups.groups[arc4random()%7];
-    IRMessage *message = [self randomMessageFromGroup:group];
-    
-    NSLog(@"Received new message..");
-    
-    NSDictionary *userInfo = @{@"message" : message, @"group" : group};
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName:@"newMessageReceived" object:self userInfo:userInfo];
-    
+    IRMatchServiceDataSource *groupsDataSource = [IRMatchServiceDataSource sharedMatchServiceDataSource];
+    if (groupsDataSource.dataSource.count > 0) {
+        IRGroup *group = groupsDataSource.dataSource[arc4random()%groupsDataSource.dataSource.count];
+        IRMessage *message = [self randomMessageFromGroup:group];
+        message.fromGroup = group;
+        
+        NSLog(@"Received new message from group %ld...", (long)group.groupId);
+        
+        NSDictionary *userInfo = @{@"message" : message, @"group" : group};
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:@"newMessageReceived" object:self userInfo:userInfo];
+    }
     /*
     if ([self.delegate respondsToSelector:@selector(webSocketServiceHandler:didReceiveNewMessage:fromGroup:)]) {
         [self.delegate webSocketServiceHandler:self didReceiveNewMessage:message fromGroup:group];

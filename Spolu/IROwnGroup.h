@@ -7,11 +7,12 @@
 //
 
 #import "IRGroup.h"
+#import "IRMatchServiceHandler.h"
 
 @interface IROwnGroup : IRGroup
 
-+ (id)sharedGroup;
+@property (nonatomic, strong) IRGroup *group;
 
-@property (nonatomic) NSInteger *groupId;
++ (id)sharedGroup;
 
 @end

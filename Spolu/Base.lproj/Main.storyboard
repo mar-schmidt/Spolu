@@ -103,9 +103,23 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="1j2-pK-Ppd">
+                                            <rect key="frame" x="202" y="297" width="197" height="29"/>
+                                            <segments>
+                                                <segment title="Males"/>
+                                                <segment title="Both"/>
+                                                <segment title="Females"/>
+                                            </segments>
+                                            <color key="tintColor" red="0.48627450979999998" green="0.70196078429999997" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <connections>
+                                                <action selector="lookingForSegmentedControl:" destination="hSl-Gu-vSq" eventType="valueChanged" id="MnI-Er-vie"/>
+                                            </connections>
+                                        </segmentedControl>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="centerY" secondItem="PJk-AP-boJ" secondAttribute="centerY" constant="-165.5" id="3oO-71-BWJ"/>
+                                        <constraint firstItem="1j2-pK-Ppd" firstAttribute="centerX" secondItem="PJk-AP-boJ" secondAttribute="centerX" id="Go4-Iv-qAb"/>
+                                        <constraint firstItem="1j2-pK-Ppd" firstAttribute="top" secondItem="kvA-Ta-4HG" secondAttribute="top" constant="297" id="Lr2-jU-xci"/>
                                         <constraint firstItem="PJk-AP-boJ" firstAttribute="centerX" secondItem="kvA-Ta-4HG" secondAttribute="centerX" id="h4r-zk-wLX"/>
                                     </constraints>
                                 </view>
@@ -142,18 +156,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="1j2-pK-Ppd">
-                                <rect key="frame" x="201" y="297" width="197" height="29"/>
-                                <segments>
-                                    <segment title="Males"/>
-                                    <segment title="Both"/>
-                                    <segment title="Females"/>
-                                </segments>
-                                <color key="tintColor" red="0.48627450979999998" green="0.70196078429999997" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="lookingForSegmentedControl:" destination="hSl-Gu-vSq" eventType="valueChanged" id="MnI-Er-vie"/>
-                                </connections>
-                            </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="and looking for" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="itb-W6-2BS">
                                 <rect key="frame" x="234" y="272" width="132" height="23"/>
                                 <constraints>
@@ -221,7 +223,7 @@
                                 <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XuY-f4-Q25">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XuY-f4-Q25">
                                 <rect key="frame" x="150" y="72" width="301" height="147"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="301" id="1pe-uH-uif"/>
@@ -236,7 +238,7 @@ But first, enter your prefered criterias</string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Our age" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dLC-P2-Yce">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Our age" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dLC-P2-Yce">
                                 <rect key="frame" x="264" y="353" width="72" height="23"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="14"/>
                                 <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -260,7 +262,6 @@ But first, enter your prefered criterias</string>
                             <constraint firstItem="ila-R0-Uye" firstAttribute="leading" secondItem="wOM-Hd-8f9" secondAttribute="leadingMargin" constant="16" id="I3Z-gv-TDg"/>
                             <constraint firstItem="itb-W6-2BS" firstAttribute="top" secondItem="PYN-zh-U10" secondAttribute="bottom" constant="9" id="J2m-YS-Skh"/>
                             <constraint firstItem="ffh-Qw-n03" firstAttribute="bottom" secondItem="56u-wQ-SeQ" secondAttribute="top" id="JPw-DS-Jy0"/>
-                            <constraint firstItem="1j2-pK-Ppd" firstAttribute="top" secondItem="itb-W6-2BS" secondAttribute="bottom" constant="2" id="MGT-Qa-z5I"/>
                             <constraint firstItem="r0j-iU-TLN" firstAttribute="leading" secondItem="r2o-K9-h11" secondAttribute="leading" constant="100" id="P7e-yt-2Zx"/>
                             <constraint firstItem="ffh-Qw-n03" firstAttribute="top" secondItem="PYN-zh-U10" secondAttribute="bottom" constant="-263" id="PON-Og-diB"/>
                             <constraint firstItem="r0j-iU-TLN" firstAttribute="top" secondItem="c6s-7l-w0p" secondAttribute="bottom" constant="11" id="QJg-7P-F7B"/>
@@ -271,13 +272,10 @@ But first, enter your prefered criterias</string>
                             <constraint firstItem="PJk-AP-boJ" firstAttribute="top" secondItem="r2o-K9-h11" secondAttribute="bottom" constant="-5" id="WYf-R2-Ueb"/>
                             <constraint firstItem="Wfq-4z-udw" firstAttribute="trailing" secondItem="r2o-K9-h11" secondAttribute="trailing" constant="-100" id="XQq-QV-BM4"/>
                             <constraint firstAttribute="bottom" secondItem="Hw3-NN-bIL" secondAttribute="bottom" constant="20" symbolic="YES" id="Z0Q-Hr-l2b"/>
-                            <constraint firstItem="Wfq-4z-udw" firstAttribute="top" secondItem="1j2-pK-Ppd" secondAttribute="bottom" constant="45" id="cIk-tB-LGi"/>
                             <constraint firstItem="ffh-Qw-n03" firstAttribute="leading" secondItem="wOM-Hd-8f9" secondAttribute="leading" id="dQw-3Y-Q2F"/>
                             <constraint firstItem="dLC-P2-Yce" firstAttribute="leading" secondItem="SQK-S4-qEN" secondAttribute="leading" id="eaV-b4-qVy"/>
-                            <constraint firstItem="dLC-P2-Yce" firstAttribute="top" secondItem="1j2-pK-Ppd" secondAttribute="bottom" constant="28" id="gLC-uP-NZC"/>
                             <constraint firstItem="Hw3-NN-bIL" firstAttribute="top" secondItem="c6s-7l-w0p" secondAttribute="bottom" constant="15" id="gbf-xj-wOD"/>
                             <constraint firstItem="c6s-7l-w0p" firstAttribute="top" secondItem="r2o-K9-h11" secondAttribute="bottom" constant="14" id="ghh-Ya-iu7"/>
-                            <constraint firstItem="PYN-zh-U10" firstAttribute="leading" secondItem="1j2-pK-Ppd" secondAttribute="leading" id="k9b-V9-ck3"/>
                             <constraint firstItem="JMh-eA-waA" firstAttribute="top" secondItem="ffh-Qw-n03" secondAttribute="top" id="mxO-9h-loT"/>
                             <constraint firstItem="56u-wQ-SeQ" firstAttribute="top" secondItem="r0j-iU-TLN" secondAttribute="bottom" constant="63" id="ntC-OD-MJV"/>
                             <constraint firstItem="itb-W6-2BS" firstAttribute="centerX" secondItem="SQK-S4-qEN" secondAttribute="centerX" id="oVc-ir-70T"/>
@@ -308,10 +306,11 @@ But first, enter your prefered criterias</string>
                         <outlet property="areaLabel" destination="r2o-K9-h11" id="05e-Ex-niS"/>
                         <outlet property="distanceLabel" destination="PJk-AP-boJ" id="zK6-E7-wYn"/>
                         <outlet property="distanceSlideControl" destination="c6s-7l-w0p" id="bFh-Ic-dPr"/>
+                        <outlet property="lookingForAgeSlider" destination="Hw3-NN-bIL" id="M1Q-Jp-8ed"/>
                         <outlet property="lookingForSegmentedControl" destination="1j2-pK-Ppd" id="BLF-fr-EqV"/>
                         <outlet property="startCameraButton" destination="j6A-GB-9aP" id="fFr-uW-Kv7"/>
                         <outlet property="weAreSegmentedControl" destination="PYN-zh-U10" id="vox-Dc-p86"/>
-                        <segue destination="P5w-H7-omK" kind="show" identifier="showResultViewController" id="LPd-gz-3qx"/>
+                        <segue destination="dT5-S9-SGt" kind="show" identifier="showPreparingViewController" id="LdM-Zx-xva"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lWY-at-8yp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -356,10 +355,76 @@ But first, enter your prefered criterias</string>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="pBa-SG-ECK" kind="presentation" identifier="changeSettings" id="gcO-ns-6Lh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D6n-py-mSB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-5" y="1484"/>
+        </scene>
+        <!--Preparing View Controller-->
+        <scene sceneID="1BK-ss-nYK">
+            <objects>
+                <viewController id="dT5-S9-SGt" customClass="PreparingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MQy-Yi-1Gq"/>
+                        <viewControllerLayoutGuide type="bottom" id="UP0-GI-lNQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ox2-Ze-2LG">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rFh-IL-ofe">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Ea-f3-EI5">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="kBB-cq-WBK">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oS9-wM-2PR">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Fmy-Up-wRz">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            </view>
+                                            <vibrancyEffect>
+                                                <blurEffect style="light"/>
+                                            </vibrancyEffect>
+                                        </visualEffectView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="oS9-wM-2PR" firstAttribute="leading" secondItem="kBB-cq-WBK" secondAttribute="leading" id="5Tf-kR-GbN"/>
+                                        <constraint firstAttribute="trailing" secondItem="oS9-wM-2PR" secondAttribute="trailing" id="64E-Ku-pni"/>
+                                        <constraint firstAttribute="bottom" secondItem="oS9-wM-2PR" secondAttribute="bottom" id="6Ib-EA-tyV"/>
+                                        <constraint firstItem="oS9-wM-2PR" firstAttribute="top" secondItem="kBB-cq-WBK" secondAttribute="top" id="qws-Uq-3UP"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8Ea-f3-EI5" firstAttribute="top" secondItem="rFh-IL-ofe" secondAttribute="top" id="Apk-JH-V0u"/>
+                            <constraint firstAttribute="trailing" secondItem="rFh-IL-ofe" secondAttribute="trailing" id="Dk0-ww-C0Z"/>
+                            <constraint firstItem="8Ea-f3-EI5" firstAttribute="leading" secondItem="ox2-Ze-2LG" secondAttribute="leading" id="GSX-lr-WYu"/>
+                            <constraint firstItem="rFh-IL-ofe" firstAttribute="leading" secondItem="8Ea-f3-EI5" secondAttribute="leading" id="HvK-OV-Clc"/>
+                            <constraint firstItem="8Ea-f3-EI5" firstAttribute="bottom" secondItem="UP0-GI-lNQ" secondAttribute="top" id="Tza-SV-xqV"/>
+                            <constraint firstItem="8Ea-f3-EI5" firstAttribute="trailing" secondItem="rFh-IL-ofe" secondAttribute="trailing" id="Yb4-yb-s46"/>
+                            <constraint firstItem="rFh-IL-ofe" firstAttribute="bottom" secondItem="UP0-GI-lNQ" secondAttribute="top" id="hTT-D9-qFU"/>
+                            <constraint firstItem="8Ea-f3-EI5" firstAttribute="top" secondItem="ox2-Ze-2LG" secondAttribute="top" id="n0R-eh-27p"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="groupImageView" destination="rFh-IL-ofe" id="Osp-1r-2EL"/>
+                        <segue destination="P5w-H7-omK" kind="show" identifier="showResultViewController" id="bHn-RF-FQw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tlo-lL-Syf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="691" y="636"/>
         </scene>
         <!--Interactions View Controller-->
         <scene sceneID="3Oj-lC-HEs">
@@ -439,5 +504,8 @@ But first, enter your prefered criterias</string>
     <resources>
         <image name="home2" width="1430" height="2008"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="gcO-ns-6Lh"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.48627450979999998" green="0.70196078429999997" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

@@ -19,8 +19,6 @@
         
         _conversationsDataSource = [[NSMutableArray alloc] init];
         _ownGroup = [IROwnGroup sharedGroup];
-        _webSocketHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
-        _webSocketHandler.delegate = self;
     }
     return self;
 }
@@ -85,6 +83,15 @@
     }
 }
 
+- (NSMutableArray *)sortArrayByDate:(NSMutableArray *)array
+{
+    NSSortDescriptor *valueDescriptorGroup = [[NSSortDescriptor alloc] initWithKey:@"latestReceivedMessage" ascending:NO];
+    
+    NSArray *descriptors = @[valueDescriptorGroup];
+    NSArray *sortedArray = [array sortedArrayUsingDescriptors:descriptors];
+    
+    return [sortedArray mutableCopy];
+}
 
 #pragma mark IRWebSocketServiceHanderDelegate
 - (void)didReceiveNewMessageNotification:(NSNotification *)notification
@@ -119,7 +126,7 @@
         }
         // Otherwise, add new conversation
         IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:receivedMessage fromGroup:fromGroup];
-        [_conversationsDataSource addObject:newGroupConversation];
+        [_conversationsDataSource addObject:newGroupConversation ];
         
         // Notifying delegate responder which is InteractionsChatModel
         if ([self.delegate respondsToSelector:@selector(chatDataSourceManager:didReceiveMessages:inGroupChat:)]) {

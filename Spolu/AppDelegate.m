@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import "IRWebSocketServiceHandler.h"
+#import "IRChatDataSourceManager.h"
 
 @interface AppDelegate ()
 
@@ -22,6 +24,12 @@
     
     // Fabric with crashlyrics
     [Fabric with:@[CrashlyticsKit]];
+    
+    IRChatDataSourceManager *chatDataSource = [IRChatDataSourceManager sharedChatDataSourceManager];
+    IRWebSocketServiceHandler *websocket = [IRWebSocketServiceHandler sharedWebSocketHandler];
+    websocket.delegate = chatDataSource;
+    
+    
     
     return YES;
 }

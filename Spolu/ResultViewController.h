@@ -8,11 +8,25 @@
 
 #import <UIKit/UIKit.h>
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
+#import "ChooseGroupView.h"
+#import "IRMatchServiceDataSource.h"
+#import "IRMatchServiceHandler.h"
 
-@interface ResultViewController : UIViewController <MDCSwipeToChooseDelegate>
+@interface ResultViewController : UIViewController <MDCSwipeToChooseDelegate, IRMatchServiceDataSourceDelegate>
 {
     __weak IBOutlet UIImageView *groupImageView;
+    IRMatchServiceDataSource *matchServiceDataSource;
+    UIView *titleView;
+    UILabel *distanceLabel;
+    UILabel *ageLabel;
+    IRMatchServiceHandler *matchServiceHandler;
 }
 @property (weak, nonatomic) UIImage *groupImage;
+
+@property (nonatomic, strong) IRGroup *currentGroup;
+@property (nonatomic, strong) ChooseGroupView *frontCardView;
+@property (nonatomic, strong) ChooseGroupView *backCardView;
+
+- (void)showStatusBar:(BOOL)show;
 
 @end

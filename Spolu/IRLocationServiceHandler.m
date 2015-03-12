@@ -96,7 +96,7 @@
         // Announce on delegate if no error
         if (!error) {
             if ([self.delegate respondsToSelector:@selector(locationServiceHandler:didFailGettingLocation:)]) {
-                [self.delegate locationServiceHandler:self didUpdateCurrentLocation:_currenctLocationCity];
+                [self.delegate locationServiceHandler:self didUpdateCurrentLocation:_currenctLocationCity latitude:currentLocation.coordinate.latitude longitude:currentLocation.coordinate.longitude];
             }
         }
     }];

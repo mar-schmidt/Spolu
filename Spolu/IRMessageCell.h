@@ -15,7 +15,7 @@
 
 @protocol IRMessageCellDelegate <NSObject>
 @optional
-- (void)headImageDidClick:(IRMessageCell *)cell imageUrl:(NSString *)url;
+- (void)headImageDidClick:(IRMessageCell *)cell image:(UIImage *)image;
 - (void)cellContentDidClick:(IRMessageCell *)cell image:(UIImage *)contentImage;
 @end
 

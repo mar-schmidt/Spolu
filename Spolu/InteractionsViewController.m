@@ -1,4 +1,4 @@
-//
+    //
 //  InteractionsViewController.m
 //  Spolu
 //
@@ -61,12 +61,21 @@
     self.navigationController.navigationBar.barTintColor = barColour;
     [self.navigationController.navigationBar.layer insertSublayer:colourView.layer atIndex:1];
     
+    // Removing title from previous viewcontroller from the backbutton
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+                                                         forBarMetrics:UIBarMetricsDefault];
+    
     [self addRefreshViews];
     [self loadBaseViewsAndData];
      
     _sideMenu = [[InteractionsConversationsMenu alloc] initFromViewController:self];
     _sideMenu.delegate = self;
     _sideMenu.parent = self;
+    
+    // Have an conversation up initially
+    if (!_chatDataSourceManager.currentConversationDataSource) {
+        _chatDataSourceManager.currentConversationDataSource = _chatDataSourceManager.conversationsDataSource[0];
+    }
 }
 
 /*
@@ -81,9 +90,9 @@
     return sideMenuItems;
 }
 */
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
     //add notification
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillShowNotification object:nil];
@@ -106,7 +115,7 @@
     
     UIImageView *titleImageView = [[UIImageView alloc] initWithImage:_chatDataSourceManager.currentConversationDataSource.group.downloadedImage];
     titleImageView.contentMode = UIViewContentModeScaleAspectFill;
-    titleImageView.frame = CGRectMake(0, 0, 40, 40);
+    titleImageView.frame = CGRectMake(2, 2, 39, 39);
     
     [_circleView addSubview:titleImageView];
     
@@ -309,12 +318,12 @@
 }
 
 #pragma mark - cellDelegate
-- (void)headImageDidClick:(IRMessageCell *)cell imageUrl:(NSString *)url {
+- (void)headImageDidClick:(IRMessageCell *)cell image:(UIImage *)image {
     // headIamgeIcon is clicked
     [self.view endEditing:YES];
     
-    UIImageView *imageView = [[UIImageView alloc] init];
-    [imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"chatfrom_doctor_icon"]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    //[imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"chatfrom_doctor_icon"]];
     
     [IRImageViewDisplayer showImage:imageView];
     //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tip" message:@"HeadImageClick !!!" delegate:nil cancelButtonTitle:@"sure" otherButtonTitles:nil];
@@ -329,7 +338,6 @@
 
 
 - (IBAction)showSidebar:(id)sender {
-    _sideMenu.itemsArray = _chatDataSourceManager.conversationsDataSource;
     [_sideMenu toggleMenu];
 }
 

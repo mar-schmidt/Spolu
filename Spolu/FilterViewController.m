@@ -7,7 +7,7 @@
 //
 
 #import "FilterViewController.h"
-#import "ResultViewController.h"
+#import "PreparingViewController.h"
 #import "IRLocationServiceHandler.h"
 
 @interface FilterViewController ()
@@ -19,6 +19,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // Check if we have an existing ownGroup. If not, check backend for it
+    ownGroup = [IROwnGroup sharedGroup];
+    
+    if (!ownGroup.group) {
+        ownGroup.group = [self checkBackendForOwnGroup];
+        // Did we get the group from backend?
+        if (ownGroup.group) {
+            // We have got our group from backend. Update all filter options accordingly
+            distanceSlideControl.value = ownGroup.group.lookingForInAreaWithDistanceInKm;
+            ageSlideControl.value = ownGroup.group.age;
+            weAreSegmentedControl.selectedSegmentIndex = ownGroup.group.genderInt;
+            lookingForSegmentedControl.selectedSegmentIndex = ownGroup.group.lookingForGenderInt;
+            [lookingForAgeSlider setCurMinVal:ownGroup.group.lookingForAgeLower animated:NO];
+            [lookingForAgeSlider setCurMaxVal:ownGroup.group.lookingForAgeUpper animated:NO];
+        }
+    }
+    
+    // Nav bar more blur
+    UIColor *barColour = self.navigationController.navigationBar.backgroundColor;
+    UIView *colourView = [[UIView alloc] initWithFrame:CGRectMake(0.f, -20.f, 320.f, 64.f)];
+    colourView.opaque = NO;
+    colourView.alpha = .4f;
+    colourView.backgroundColor = barColour;
+    self.navigationController.navigationBar.barTintColor = barColour;
+    [self.navigationController.navigationBar.layer insertSublayer:colourView.layer atIndex:1];
     
     // Setup of initial design
     [self designSetup];
@@ -43,8 +69,6 @@
 
 - (void)designSetup
 {
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    
     // Slider for distance and age
     [distanceSlideControl setThumbImage:[UIImage imageNamed:@"knob_trans"] forState:UIControlStateNormal];
     [distanceSlideControl setMaximumTrackTintColor:[UIColor colorWithRed:220/255.0f green:237/255.0f blue:200/255.0f alpha:1]];
@@ -67,7 +91,7 @@
 }
 
 #pragma mark LocationServiceHandler Delegates
-- (void)locationServiceHandler:(IRLocationServiceHandler *)service didUpdateCurrentLocation:(NSString *)city
+- (void)locationServiceHandler:(IRLocationServiceHandler *)service didUpdateCurrentLocation:(NSString *)city latitude:(float)latitude longitude:(float)longitude
 {
     areaLabel.text = [NSString stringWithFormat:@"Area (around %@)", city];
 }
@@ -170,27 +194,30 @@
 
 - (IBAction)startCamera:(id)sender {
     NSError *error = nil;
-    /*
+    
     error = [self deviceHasCamera];
     
     if (!error && !_locationServiceHandler.locationError) {
-     */
+     
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.delegate = self;
-        //imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        //imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
      
         [self presentViewController:imagePicker animated:YES completion:nil];
-    /*
+    
     }
     else if (error) {
-        [self showAlertForCameraError:error];
+        //[self showAlertForCameraError:error]; THIS SHOULD BE UNCOMMENTED BEFORE GOING LIVE: ONLY USING TO ENABLE SIMULATOR
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.delegate = self;
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        [self presentViewController:imagePicker animated:YES completion:nil];
     }
     else if (_locationServiceHandler.locationError) {
         [_locationServiceHandler sendCurrentErrorToDelegate];
     }
-     */
 }
 
 - (NSError *)deviceHasCamera
@@ -214,10 +241,10 @@
     takenGroupImage = [self normalizedImage:initialImage];
     
     // Upload the image and make searchable (active)
-    [self uploadImageAndMakeActive:takenGroupImage];
+    [self uploadImageAndCreateGroup:takenGroupImage];
     
     // Go to ResultViewController
-    [self performSegueWithIdentifier:@"showResultViewController" sender:self];
+    [self performSegueWithIdentifier:@"showPreparingViewController" sender:self];
 }
 
 - (UIImage *)normalizedImage:(UIImage *)image {
@@ -276,13 +303,74 @@
     }
 }
 
-- (void)uploadImageAndMakeActive:(UIImage *)image
+- (IRGroup *)checkBackendForOwnGroup
 {
+    IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
     
+    __block IRGroup *backendGroup;
+    
+    [matchServiceHandler getMyGroupWithCompletionBlockSuccess:^(IRGroup *group) {
+        // Got our group from backend. Return it
+        backendGroup = group;
+    } failure:^(NSError *error) {
+        return;
+    }];
+    
+    // Return backendGroup since we have got it
+    return backendGroup;
+}
+
+- (void)uploadImageAndCreateGroup:(UIImage *)image
+{
+    IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
+    
+    // If our own group object doesnt exist, it means that we do not exist on backend since we checked that when loading this viewcontroller. We should then create a new group and send it to backend
+    if (!ownGroup.group) {
+        IRGroup *groupWithCurrentFilter = [[IRGroup alloc] initWithOwnGroupOfGender:weAreSegmentedControl.selectedSegmentIndex //0 = Males, 1 = Both, 2 = Females
+                                                                   lookingForGender:lookingForSegmentedControl.selectedSegmentIndex //0 = Males, 1 = Both, 2 = Females
+                                                                                age:roundl(ageSlideControl.value)
+                                                                 lookingForAgeLower:lookingForAgeSlider.curMinVal
+                                                                 lookingForAgeUpper:lookingForAgeSlider.curMaxVal
+                                                                   locationLatitude:_locationServiceHandler.currentLocationCoordinateX
+                                                                  locationLongitude:_locationServiceHandler.currentLocationCoordinateY
+                                                   lookingForInAreaWithDistanceInKm:roundl(distanceSlideControl.value)];
+
+        [matchServiceHandler postMyGroup:groupWithCurrentFilter withCompletionBlockSuccess:^(BOOL succeeded) {
+            if (succeeded) {
+                // Successfully posted group to backend. Now its ok to assign ownGroup this new group. And then returning
+                ownGroup.group = groupWithCurrentFilter;
+                return;
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"Issues posting group. BAD");
+        }];
+    }
+    
+    else {
+        // This means that we have a present group. But are about to update its filters (or cridentials if you will).
+        IRGroup *groupWithCurrentFilter = [[IRGroup alloc] initWithOwnGroupOfGender:weAreSegmentedControl.selectedSegmentIndex //0 = Males, 1 = Both, 2 = Females
+                                                                   lookingForGender:lookingForSegmentedControl.selectedSegmentIndex //0 = Males, 1 = Both, 2 = Females
+                                                                                age:roundl(ageSlideControl.value)
+                                                                 lookingForAgeLower:lookingForAgeSlider.curMinVal
+                                                                 lookingForAgeUpper:lookingForAgeSlider.curMaxVal
+                                                                   locationLatitude:_locationServiceHandler.currentLocationCoordinateX
+                                                                  locationLongitude:_locationServiceHandler.currentLocationCoordinateY
+                                                   lookingForInAreaWithDistanceInKm:roundl(distanceSlideControl.value)];
+
+        [matchServiceHandler postUpdateForMyGroup:groupWithCurrentFilter withCompletionBlockSuccess:^(BOOL succeeded) {
+            if (succeeded) {
+                // Successfully posted group to backend. Now its ok to assign ownGroup this new group. And then returning
+                ownGroup.group = groupWithCurrentFilter;
+                return;
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"Issues posting group. BAD");
+        }];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    ResultViewController *destViewController = [segue destinationViewController];
+    PreparingViewController *destViewController = [segue destinationViewController];
     destViewController.groupImage = takenGroupImage;
 }
 

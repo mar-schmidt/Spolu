@@ -44,7 +44,10 @@
 @protocol LocationServiceHandlerDelegate <NSObject>
 @optional
 
-- (void)locationServiceHandler:(IRLocationServiceHandler *)service didUpdateCurrentLocation:(NSString *)city;
+- (void)locationServiceHandler:(IRLocationServiceHandler *)service didUpdateCurrentLocation:(NSString *)city
+                      latitude:(float)latitude
+                     longitude:(float)longitude;
+
 - (void)locationServiceHandler:(IRLocationServiceHandler *)service didFailGettingLocation:(NSError *)error;
 
 @end

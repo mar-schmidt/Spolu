@@ -47,12 +47,13 @@
         headImageBackView = [[UIView alloc]init];
         headImageBackView.layer.cornerRadius = 22;
         headImageBackView.layer.masksToBounds = YES;
-        headImageBackView.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.4];
+        headImageBackView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.4];
         [self.contentView addSubview:headImageBackView];
         self.btnHeadImage = [UIButton buttonWithType:UIButtonTypeCustom];
         self.btnHeadImage.layer.cornerRadius = 20;
         self.btnHeadImage.layer.masksToBounds = YES;
         [self.btnHeadImage addTarget:self action:@selector(btnHeadImageClick:)  forControlEvents:UIControlEventTouchUpInside];
+        //self.btnHeadImage.imageView.image = self.messageFrame.message.fromGroup.downloadedImage;
         [headImageBackView addSubview:self.btnHeadImage];
         
         self.labelNum = [[UILabel alloc] init];
@@ -75,8 +76,8 @@
 }
 
 - (void)btnHeadImageClick:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(headImageDidClick:imageUrl:)])  {
-        [self.delegate headImageDidClick:self imageUrl:self.messageFrame.message.strIcon];
+    if ([self.delegate respondsToSelector:@selector(headImageDidClick:image:)])  {
+        [self.delegate headImageDidClick:self image:self.messageFrame.message.fromGroup.downloadedImage];
     }
 }
 
@@ -134,11 +135,11 @@
     self.labelTime.frame = messageFrame.timeF;
     
     headImageBackView.frame = messageFrame.iconF;
-    self.btnHeadImage.frame = CGRectMake(2, 2, ChatIconWH-4, ChatIconWH-4);
+    self.btnHeadImage.frame = CGRectMake(1, 1, ChatIconWH-2, ChatIconWH-2);
     if (message.from == IRMessageFromMe) {
         [self.btnHeadImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:message.strIcon]];
-    }else{
-        [self.btnHeadImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:message.strIcon]];
+    } else {
+        [self.btnHeadImage setBackgroundImage:message.fromGroup.downloadedImage forState:UIControlStateNormal];
     }
     
     self.labelNum.text = message.strName;

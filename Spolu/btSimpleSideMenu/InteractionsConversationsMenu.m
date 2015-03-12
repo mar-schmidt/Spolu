@@ -13,8 +13,7 @@
 #import <Accelerate/Accelerate.h>
 #import "InteractionsConversationsMenu.h"
 #import "UIView+Animation.h"
-
-
+#import "InteractionsConversationsMenuCell.h"
 
 
 @implementation InteractionsConversationsMenu
@@ -22,14 +21,10 @@
 - (instancetype)initFromViewController:(id)sender
 {
     if ((self = [super init])) {
-        // This is needed for the blurry background on menuTable
-        
         _chatDataSourceManager = [IRChatDataSourceManager sharedChatDataSourceManager];
         [self commonInit:sender];
         
-        _itemsArray = _chatDataSourceManager.conversationsDataSource;
-        
-        _itemsArray = [self sortArrayByDate:_itemsArray];
+        //_chatDataSourceManager.conversationsDataSource = [self sortArrayByDate:_chatDataSourceManager.conversationsDataSource];
         
         [menuTable reloadData];
         
@@ -39,14 +34,14 @@
     return self;
 }
 
-- (NSArray *)sortArrayByDate:(NSArray *)array
+- (NSMutableArray *)sortArrayByDate:(NSMutableArray *)array
 {
     NSSortDescriptor *valueDescriptorGroup = [[NSSortDescriptor alloc] initWithKey:@"latestReceivedMessage" ascending:NO];
     
     NSArray *descriptors = @[valueDescriptorGroup];
     NSArray *sortedArray = [array sortedArrayUsingDescriptors:descriptors];
     
-    return sortedArray;
+    return [sortedArray mutableCopy];
 }
 
 
@@ -54,40 +49,49 @@
 - (void)didReceiveNewMessageNotification:(NSNotification *)notification
 {
     if (self) {
-        _itemsArray = _chatDataSourceManager.conversationsDataSource;
-        [menuTable reloadData];
-        
-        // We need an unsorted copy of the array for the animation
-        NSArray *unsortedConversationsArray = [_itemsArray copy];
-        
-        // Sort the elements and replace the array used by the data source with the sorted ones
-        _itemsArray = [self sortArrayByDate:unsortedConversationsArray];
-        
-        // Prepare table for the animations batch
-        [menuTable beginUpdates];
-        
-        // Move the cells around
-        NSInteger sourceRow = 0;
-        for (IRGroupConversation *groupConversation in unsortedConversationsArray) {
-            NSInteger destRow = [_itemsArray indexOfObject:groupConversation];
-            
-            if (destRow != sourceRow) {
-                // Move the rows within the table view
-                NSIndexPath *sourceIndexPath = [NSIndexPath indexPathForItem:sourceRow inSection:0];
-                NSIndexPath *destIndexPath = [NSIndexPath indexPathForItem:destRow inSection:0];
-                [menuTable moveRowAtIndexPath:sourceIndexPath toIndexPath:destIndexPath];
-                
-            }
-            sourceRow++;
-        }
-        
-        // Commit animations
-        [menuTable endUpdates];
+        [self sortAndReloadTableView];
     }
 }
 
+- (void)sortAndReloadTableView
+{
+    // We need an unsorted copy of the array for the animation
+    NSMutableArray *unsortedArray = [_chatDataSourceManager.conversationsDataSource copy];
+    
+    [menuTable reloadData];
+    
+    // Sort the elements and replace the array used by the data source with the sorted ones
+    _chatDataSourceManager.conversationsDataSource = [self sortArrayByDate:unsortedArray];
+    
+    // Prepare table for the animations batch
+    [menuTable beginUpdates];
+    
+    // Move the cells around
+    NSInteger sourceRow = 0;
+    for (IRGroupConversation *groupConversation in unsortedArray) {
+        NSInteger destRow = [_chatDataSourceManager.conversationsDataSource indexOfObject:groupConversation];
+        
+        if (destRow != sourceRow) {
+            // Move the rows within the table view
+            NSIndexPath *sourceIndexPath = [NSIndexPath indexPathForItem:sourceRow inSection:0];
+            NSIndexPath *destIndexPath = [NSIndexPath indexPathForItem:destRow inSection:0];
+            [menuTable moveRowAtIndexPath:sourceIndexPath toIndexPath:destIndexPath];
+        }
+        sourceRow++;
+    }
+    
+    // Commit animations
+    [menuTable endUpdates];
+}
 
-- (void)toggleMenu{
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
+      toIndexPath:(NSIndexPath *)toIndexPath
+{
+
+}
+
+
+- (void)toggleMenu {
     if(!isOpen){
         [self show];
     } else {
@@ -98,8 +102,9 @@
 - (void)show {
     if(!isOpen){
         [self.parent showStatusBar:NO];
-        [menuTable reloadData];
         [UIView animateWithDuration:0.2 animations:^{
+            [self sortAndReloadTableView];
+            
             self.frame = CGRectMake(xAxis, yAxis, width, height);
             menuTable.frame = CGRectMake(menuTable.frame.origin.x, menuTable.frame.origin.y+15, width, height);
             menuTable.alpha = 1;
@@ -129,7 +134,7 @@
 #pragma -mark tableView Delegates
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_itemsArray count];
+    return [_chatDataSourceManager.conversationsDataSource count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -138,7 +143,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    IRGroupConversation *selectedGroupConversation = [_itemsArray objectAtIndex:indexPath.row];
+    IRGroupConversation *selectedGroupConversation = [_chatDataSourceManager.conversationsDataSource objectAtIndex:indexPath.row];
+    
+    NSLog(@"Selected row #%ld and groupId %ld", (long)[indexPath row], (long)selectedGroupConversation.group.groupId);
+    
     [self.delegate InteractionsConversationsMenu:self didSelectGroupConversation:selectedGroupConversation];
     
     UITableViewCell *cell = [menuTable cellForRowAtIndexPath:indexPath];
@@ -163,76 +171,39 @@
         [cell removeFromSuperview];
     }];
     
-    
     [self hide];
     
     [menuTable deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-
-#define MAIN_VIEW_TAG 1
-#define TITLE_LABLE_TAG 2
-#define IMAGE_VIEW_TAG 3
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"CellIdentifier";
+    InteractionsConversationsMenuCell *cell = (InteractionsConversationsMenuCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    NSString *identifier = @"cell";
-    UIView *circleView;
-    UILabel *titleLabel;
-    UIImageView *imageView;
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (!cell) {
+        cell = [[InteractionsConversationsMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
     
-    IRGroupConversation *conversation = [_itemsArray objectAtIndex:indexPath.row];
+    // Set cells placeholder image
+    cell.groupImageView.image = [UIImage imageNamed:@"chatfrom_doctor_icon"];
     
-    if(cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.backgroundColor = [UIColor clearColor];
-        
-        circleView = [[UIView alloc]initWithFrame:CGRectMake(self.bounds.size.width/2-65, 10, 130, 130)];
-        circleView.tag = MAIN_VIEW_TAG;
-        circleView.backgroundColor = [UIColor clearColor];
-        circleView.layer.borderWidth = 1.5;
-        circleView.layer.borderColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
-        circleView.layer.cornerRadius = circleView.bounds.size.height/2;
-        circleView.clipsToBounds = YES;
-
-        /*
-        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(85, 10.0, 120, 60)];
-        titleLabel.tag = TITLE_LABLE_TAG;
-        titleLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1];
-        titleLabel.font = [UIFont fontWithName:@"Avenir Next" size:16];
-        
-        [cell.contentView addSubview:titleLabel];
-        */
-        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 130, 130)];
-        imageView.tag = IMAGE_VIEW_TAG;
-        
-        [circleView addSubview:imageView];
-        
-        [cell.contentView addSubviewWithBounce:circleView];
-        
-        
-    } else {
-        
-        circleView = (UIView *)[cell.contentView viewWithTag:MAIN_VIEW_TAG];
-        titleLabel = (UILabel *)[cell.contentView viewWithTag:TITLE_LABLE_TAG];
-        imageView = (UIImageView *)[cell.contentView viewWithTag:IMAGE_VIEW_TAG];
+    IRGroupConversation *groupConversation = ((IRGroupConversation * )self.chatDataSourceManager.conversationsDataSource[indexPath.row]);
+    if (groupConversation.group.downloadedImage) {
+        // set the image
+        cell.groupImageView.image = groupConversation.group.downloadedImage;
     }
     
     // If message is not read, set the border to red to notify the user that messages are not read
-    for (IRMessageFrame *messageFrame in conversation.messages) {
+    for (IRMessageFrame *messageFrame in groupConversation.messages) {
         if (!messageFrame.message.readFlag) {
-            circleView.layer.borderColor = [UIColor colorWithRed:255/255.0f green:0/255.0f blue:0/255.0f alpha:1.0f].CGColor;
-            circleView.layer.borderWidth = 2.5;
+            cell.circleView.layer.borderColor = [UIColor colorWithRed:124/255.0f green:179/255.0f blue:66/255.0f alpha:1].CGColor;
+            cell.circleView.layer.borderWidth = 2.0;
         } else {
-            circleView.layer.borderColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
-            circleView.layer.borderWidth = 1.5;
+            cell.circleView.layer.borderColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
+            cell.circleView.layer.borderWidth = 1.5;
         }
     }
     
-    //titleLabel.text = item.title;
-    imageView.image = conversation.group.downloadedImage;
     return cell;
 }
 
@@ -246,6 +217,8 @@
     width = MENU_WIDTH;
     
     self.frame = CGRectMake(-width, yAxis, width, height);
+    
+    // This is needed for the blurry background on menuTable
     self.backgroundColor = [UIColor clearColor];
     
     menuTable = [[UITableView alloc]initWithFrame:CGRectMake(xAxis, yAxis, width, height) style:UITableViewStyleGrouped];

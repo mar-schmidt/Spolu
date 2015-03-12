@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "JFADoubleSlider.h"
 #import "IRLocationServiceHandler.h"
+#import "IRMatchServiceHandler.h"
+#import "IROwnGroup.h"
 
 @interface FilterViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationServiceHandlerDelegate>
 {
@@ -27,6 +30,10 @@
     // Segmented control properties
     __weak IBOutlet UISegmentedControl *weAreSegmentedControl;
     __weak IBOutlet UISegmentedControl *lookingForSegmentedControl;
+    
+    __weak IBOutlet JFADoubleSlider *lookingForAgeSlider;
+    
+    IROwnGroup *ownGroup;
 }
 
 @property (nonatomic, strong) IRLocationServiceHandler *locationServiceHandler;

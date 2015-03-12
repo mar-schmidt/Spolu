@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import "IRGroup.h"
 
 typedef enum {
     IRMessageTypeText     = 0,
@@ -28,6 +29,7 @@ typedef enum {
 @property (nonatomic, copy) NSString *strId;
 @property (nonatomic, copy) NSString *strTime;
 @property (nonatomic, copy) NSString *strName;
+@property (nonatomic, strong) IRGroup *fromGroup;
 
 @property (nonatomic, copy) NSString *strContent;
 @property (nonatomic, copy) UIImage  *picture;

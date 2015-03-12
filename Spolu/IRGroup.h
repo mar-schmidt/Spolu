@@ -36,6 +36,23 @@ typedef enum {
 @property (nonatomic) NSInteger lookingForInAreaWithDistanceInKm;
 @property (nonatomic, retain) NSString *token;
 @property (nonatomic, strong) IRGroup *localGroup;
+@property (nonatomic) NSInteger distance;
+@property (nonatomic) BOOL match;
+
+- (id)initWithGroupId:(NSInteger)groupId
+             imageUrl:(NSString *)imageUrl
+               gender:(NSInteger)genderInt
+                  age:(NSInteger)age
+             distance:(NSInteger)distanceInKm;
+
+- (id)initWithOwnGroupOfGender:(NSInteger)genderInt
+      lookingForGender:(NSInteger)lookingGenderInt
+                   age:(NSInteger)years
+    lookingForAgeLower:(NSInteger)lower
+    lookingForAgeUpper:(NSInteger)upper
+      locationLatitude:(double)latitude
+     locationLongitude:(double)longitude
+lookingForInAreaWithDistanceInKm:(NSInteger)km;
 
 - (IRGroup *)randomGroupWithId:(NSInteger)gId;
 
