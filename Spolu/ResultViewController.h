@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 #import "ChooseGroupView.h"
-#import "IRMatchServiceDataSource.h"
+#import "EligibleGroupsDataSource.h"
 #import "IRMatchServiceHandler.h"
 
-@interface ResultViewController : UIViewController <MDCSwipeToChooseDelegate, IRMatchServiceDataSourceDelegate>
+@interface ResultViewController : UIViewController <MDCSwipeToChooseDelegate, EligibleGroupsDataSourceDelegate>
 {
     __weak IBOutlet UIImageView *groupImageView;
-    IRMatchServiceDataSource *matchServiceDataSource;
+    EligibleGroupsDataSource *eligibleGroupsDataSource;
     UIView *titleView;
     UILabel *distanceLabel;
     UILabel *ageLabel;

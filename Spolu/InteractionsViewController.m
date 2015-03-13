@@ -10,7 +10,6 @@
 #import "IRInputFunctionView.h"
 #import "MJRefresh.h"
 #import "IRMessageCell.h"
-#import "InteractionsChatModel.h"
 #import "IRMessageFrame.h"
 #import "IRMessage.h"
 #import "IRImageViewDisplayer.h"
@@ -136,7 +135,7 @@
     _circleView.clipsToBounds = YES;
     
     
-    UIImageView *titleImageView = [[UIImageView alloc] initWithImage:_chatDataSourceManager.currentConversationDataSource.matchedGroup.group.downloadedImage];
+    UIImageView *titleImageView = [[UIImageView alloc] initWithImage:_chatDataSourceManager.currentConversationDataSource.group.downloadedImage];
     titleImageView.contentMode = UIViewContentModeScaleAspectFill;
     titleImageView.frame = CGRectMake(2, 2, 39, 39);
     

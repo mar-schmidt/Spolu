@@ -7,7 +7,7 @@
 //
 
 #import "IRMatchServiceHandler.h"
-#import "IRMatchServiceDataSource.h"
+#import "EligibleGroupsDataSource.h"
 
 // Api key and address
 static NSString * const ApiKey = @"ASDJOO12893891JAHDS";
@@ -43,8 +43,8 @@ static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
         //[self.requestSerializer setValue:FathomelessApiKey forHTTPHeaderField:@"Authorization"];
         //[self.requestSerializer setValue:[NSString stringWithFormat:@"Token token=%@", ApiKey] forHTTPHeaderField:@"Authorization"];
         
-        // Set IRMatchServiceDataSource as delegate. That class will hold on to all the groups currenctly available
-        IRMatchServiceDataSource *dataSource = [IRMatchServiceDataSource sharedMatchServiceDataSource];
+        // Set EligibleGroupsDataSource as delegate. That class will hold on to all the groups currenctly available
+        EligibleGroupsDataSource *dataSource = [EligibleGroupsDataSource sharedEligibleGroupsDataSource];
         _delegate = dataSource;
     }
     

@@ -62,7 +62,7 @@
     _sideMenu.parent = self;
     
     // Datasource should be populated with latest groups
-    matchServiceDataSource = [IRMatchServiceDataSource sharedMatchServiceDataSource];
+    eligibleGroupsDataSource = [EligibleGroupsDataSource sharedEligibleGroupsDataSource];
     
     // Display the first ChooseGroupView in front. Users can swipe to indicate
     // whether they like or dislike the group displayed.
@@ -251,11 +251,11 @@
 
 - (ChooseGroupView *)popGroupViewWithFrame:(CGRect)frame {
     // If our dataSource has less than 5, we want to start downloading new results
-    if ([matchServiceDataSource.dataSource count] == 1) {
+    if ([eligibleGroupsDataSource.dataSource count] == 1) {
         [matchServiceHandler getEligibleGroupsResultForGroup:nil];
     }
     
-    if ([matchServiceDataSource.dataSource count] == 0) {
+    if ([eligibleGroupsDataSource.dataSource count] == 0) {
         return nil;
         
     }
@@ -278,9 +278,9 @@
     // Create a groupView with the top group in the groups array, then pop
     // that group off the stack.
     ChooseGroupView *groupView = [[ChooseGroupView alloc] initWithFrame:frame
-                                                                    group:matchServiceDataSource.dataSource[0]
+                                                                    group:eligibleGroupsDataSource.dataSource[0]
                                                                    options:options];
-    [matchServiceDataSource.dataSource removeObjectAtIndex:0];
+    [eligibleGroupsDataSource.dataSource removeObjectAtIndex:0];
     
     return groupView;
 }

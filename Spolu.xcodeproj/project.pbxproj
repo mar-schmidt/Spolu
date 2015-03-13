@@ -49,7 +49,6 @@
 		2CD275ED1A9BC6C200F7D5CF /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275E31A9BC6C200F7D5CF /* UIProgressView+AFNetworking.m */; };
 		2CD275EE1A9BC6C200F7D5CF /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275E51A9BC6C200F7D5CF /* UIRefreshControl+AFNetworking.m */; };
 		2CD275EF1A9BC6C200F7D5CF /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275E71A9BC6C200F7D5CF /* UIWebView+AFNetworking.m */; };
-		2CD276121A9BCA3200F7D5CF /* InteractionsChatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD276111A9BCA3200F7D5CF /* InteractionsChatModel.m */; };
 		2CD688AC1A9CA373008D446A /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CD688AB1A9CA373008D446A /* arrow@2x.png */; };
 		2CD688AF1A9CB074008D446A /* IRGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD688AE1A9CB074008D446A /* IRGroup.m */; };
 		2CD688B51A9CB83B008D446A /* IRMatchedGroups.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD688B41A9CB83B008D446A /* IRMatchedGroups.m */; };
@@ -78,7 +77,7 @@
 		2CE20A6D1AAEDC0C00CB4204 /* CERoundProgressLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE20A6A1AAEDC0C00CB4204 /* CERoundProgressLayer.m */; };
 		2CE20A6E1AAEDC0C00CB4204 /* CERoundProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE20A6C1AAEDC0C00CB4204 /* CERoundProgressView.m */; };
 		2CE20A731AAEDC5500CB4204 /* MRPreparingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE20A721AAEDC5500CB4204 /* MRPreparingView.m */; };
-		2CE20A761AAEDE6400CB4204 /* IRMatchServiceDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE20A751AAEDE6400CB4204 /* IRMatchServiceDataSource.m */; };
+		2CE20A761AAEDE6400CB4204 /* EligibleGroupsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE20A751AAEDE6400CB4204 /* EligibleGroupsDataSource.m */; };
 		2CE20A7C1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE20A7B1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.m */; };
 		2CE20A7F1AB073A300CB4204 /* ResultGroupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE20A7E1AB073A300CB4204 /* ResultGroupMenu.m */; };
 		2CF21F511A97BF6100D2FFBA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF21F501A97BF6100D2FFBA /* main.m */; };
@@ -195,8 +194,6 @@
 		2CD275E51A9BC6C200F7D5CF /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		2CD275E61A9BC6C200F7D5CF /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		2CD275E71A9BC6C200F7D5CF /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
-		2CD276101A9BCA3200F7D5CF /* InteractionsChatModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractionsChatModel.h; sourceTree = "<group>"; };
-		2CD276111A9BCA3200F7D5CF /* InteractionsChatModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractionsChatModel.m; sourceTree = "<group>"; };
 		2CD688AB1A9CA373008D446A /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		2CD688AD1A9CB074008D446A /* IRGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRGroup.h; sourceTree = "<group>"; };
 		2CD688AE1A9CB074008D446A /* IRGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRGroup.m; sourceTree = "<group>"; };
@@ -252,8 +249,8 @@
 		2CE20A6C1AAEDC0C00CB4204 /* CERoundProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CERoundProgressView.m; sourceTree = "<group>"; };
 		2CE20A711AAEDC5500CB4204 /* MRPreparingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPreparingView.h; sourceTree = "<group>"; };
 		2CE20A721AAEDC5500CB4204 /* MRPreparingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPreparingView.m; sourceTree = "<group>"; };
-		2CE20A741AAEDE6400CB4204 /* IRMatchServiceDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRMatchServiceDataSource.h; sourceTree = "<group>"; };
-		2CE20A751AAEDE6400CB4204 /* IRMatchServiceDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMatchServiceDataSource.m; sourceTree = "<group>"; };
+		2CE20A741AAEDE6400CB4204 /* EligibleGroupsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EligibleGroupsDataSource.h; sourceTree = "<group>"; };
+		2CE20A751AAEDE6400CB4204 /* EligibleGroupsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EligibleGroupsDataSource.m; sourceTree = "<group>"; };
 		2CE20A7A1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractionsConversationsMenuCell.h; sourceTree = "<group>"; };
 		2CE20A7B1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractionsConversationsMenuCell.m; sourceTree = "<group>"; };
 		2CE20A7D1AB073A300CB4204 /* ResultGroupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultGroupMenu.h; sourceTree = "<group>"; };
@@ -494,8 +491,8 @@
 				2CD688BB1A9E05F0008D446A /* IRWebSocketServiceHandler.m */,
 				2C0B24D61AABA84E00BA81EE /* IRMatchServiceHandler.h */,
 				2C0B24D71AABA84E00BA81EE /* IRMatchServiceHandler.m */,
-				2CE20A741AAEDE6400CB4204 /* IRMatchServiceDataSource.h */,
-				2CE20A751AAEDE6400CB4204 /* IRMatchServiceDataSource.m */,
+				2CE20A741AAEDE6400CB4204 /* EligibleGroupsDataSource.h */,
+				2CE20A751AAEDE6400CB4204 /* EligibleGroupsDataSource.m */,
 				2C0B24D91AABB0C200BA81EE /* IRJsonToGroupParser.h */,
 				2C0B24DA1AABB0C200BA81EE /* IRJsonToGroupParser.m */,
 			);
@@ -668,8 +665,6 @@
 				2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */,
 				2CF21F801A981B1400D2FFBA /* InteractionsViewController.h */,
 				2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */,
-				2CD276101A9BCA3200F7D5CF /* InteractionsChatModel.h */,
-				2CD276111A9BCA3200F7D5CF /* InteractionsChatModel.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -895,7 +890,7 @@
 				2CD275B21A9BC36300F7D5CF /* IRMessageContentButton.m in Sources */,
 				2CE20A731AAEDC5500CB4204 /* MRPreparingView.m in Sources */,
 				2CE20A1E1AADC7C400CB4204 /* SDWebImageDecoder.m in Sources */,
-				2CE20A761AAEDE6400CB4204 /* IRMatchServiceDataSource.m in Sources */,
+				2CE20A761AAEDE6400CB4204 /* EligibleGroupsDataSource.m in Sources */,
 				2CD688B81A9DE6F9008D446A /* IROwnGroup.m in Sources */,
 				2CD275E81A9BC6C200F7D5CF /* AFNetworkActivityIndicatorManager.m in Sources */,
 				2CE20A1D1AADC7C400CB4204 /* SDWebImageCompat.m in Sources */,
@@ -924,7 +919,6 @@
 				2C0B24DB1AABB0C200BA81EE /* IRJsonToGroupParser.m in Sources */,
 				2CF21F511A97BF6100D2FFBA /* main.m in Sources */,
 				2CD275AC1A9BC1F200F7D5CF /* IRMessage.m in Sources */,
-				2CD276121A9BCA3200F7D5CF /* InteractionsChatModel.m in Sources */,
 				2CE20A7F1AB073A300CB4204 /* ResultGroupMenu.m in Sources */,
 				2CE20A211AADC7C400CB4204 /* SDWebImageManager.m in Sources */,
 				2C0B24D21AAB97EE00BA81EE /* ChooseGroupView.m in Sources */,

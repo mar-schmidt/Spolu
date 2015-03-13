@@ -1,25 +1,25 @@
 //
-//  IRMatchServiceDataSource.m
+//  EligibleGroupsDataSource.m
 //  Spolu
 //
 //  Created by Marcus Ronélius on 2015-03-10.
 //  Copyright (c) 2015 Spolu Apps. All rights reserved.
 //
 
-#import "IRMatchServiceDataSource.h"
+#import "EligibleGroupsDataSource.h"
 
-@implementation IRMatchServiceDataSource
+@implementation EligibleGroupsDataSource
 
-+ (IRMatchServiceDataSource *)sharedMatchServiceDataSource
++ (EligibleGroupsDataSource *)sharedEligibleGroupsDataSource
 {
-    static IRMatchServiceDataSource *_sharedMatchServiceDataSource = nil;
+    static EligibleGroupsDataSource *_sharedEligibleGroupsDataSource = nil;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedMatchServiceDataSource = [[self alloc] init];
+        _sharedEligibleGroupsDataSource = [[self alloc] init];
     });
     
-    return _sharedMatchServiceDataSource;
+    return _sharedEligibleGroupsDataSource;
 }
 
 - (id)init

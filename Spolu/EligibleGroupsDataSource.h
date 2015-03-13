@@ -10,30 +10,30 @@
 #import "IRMatchServiceHandler.h"
 #import "IRGroup.h"
 
-@protocol IRMatchServiceDataSourceDelegate;
+@protocol EligibleGroupsDataSourceDelegate;
 
-@interface IRMatchServiceDataSource : NSObject <IRMatchServiceHandlerDelegate>
+@interface EligibleGroupsDataSource : NSObject <IRMatchServiceHandlerDelegate>
 
 
-@property (nonatomic, strong) id<IRMatchServiceDataSourceDelegate>delegate;
+@property (nonatomic, strong) id<EligibleGroupsDataSourceDelegate>delegate;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
-+ (IRMatchServiceDataSource *)sharedMatchServiceDataSource;
++ (EligibleGroupsDataSource *)sharedEligibleGroupsDataSource;
 
 @end
 
-@protocol IRMatchServiceDataSourceDelegate <NSObject>
+@protocol EligibleGroupsDataSourceDelegate <NSObject>
 @optional
 
-- (void)matchServiceDataSource:(IRMatchServiceDataSource *)dataSource didReceiveEligibleGroups:(NSMutableArray *)groups;
-- (void)matchServiceDataSource:(IRMatchServiceDataSource *)dataSource didReceiveMatchWithGroup:(IRGroup *)group;
+- (void)eligibleGroupsDataSource:(EligibleGroupsDataSource *)dataSource didReceiveEligibleGroups:(NSMutableArray *)groups;
+- (void)eligibleGroupsDataSource:(EligibleGroupsDataSource *)dataSource didReceiveMatchWithGroup:(IRGroup *)group;
 
-- (void)matchServiceDataSource:(IRMatchServiceDataSource *)dataSource
+- (void)eligibleGroupsDataSource:(EligibleGroupsDataSource *)dataSource
       downloadingImageForGroup:(IRGroup *)group
                        success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
                        failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure
          downloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))downloadProgressBlock;;
 
 // Error
-- (void)matchServiceDataSource:(IRMatchServiceDataSource *)dataSource didFailWithError:(NSError *)error;
+- (void)eligibleGroupsDataSource:(EligibleGroupsDataSource *)dataSource didFailWithError:(NSError *)error;
 @end
