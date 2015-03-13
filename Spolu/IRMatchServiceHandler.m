@@ -106,6 +106,23 @@ static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
       }];
 }
 
+- (void)getMatchesWithCompletionBlock:(void (^)(NSArray *))matchedGroups failure:(void (^)(NSError *))failure
+{
+    // API request
+    [self GET:[NSString stringWithFormat:@"%@/matches", ApiAddress]
+   parameters:nil
+      success:^(NSURLSessionDataTask *task, id responseObject) {
+          // Parse dictionary responseObject to group object
+          NSMutableArray *groups = [jsonParser parseGroupsFromResponseObject:responseObject];
+          matchedGroups(groups);
+      }
+      failure:^(NSURLSessionDataTask *task, NSError *error) {
+          if ([self.delegate respondsToSelector:@selector(matchServiceHandler:didFailWithError:)]) {
+              [self.delegate matchServiceHandler:self didFailWithError:error];
+          }
+      }];
+}
+
 
 /******
  *

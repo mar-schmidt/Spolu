@@ -7,9 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IRMatchedGroups.h"
+#import "IRGroup.h"
+#import "IRMatchServiceHandler.h"
 
 @interface MRPush : NSObject
 
 + (void)handlePush:(NSDictionary *)userInfo;
+
+- (IRGroup *)groupFromMatchPush:(NSDictionary *)userInfo;
 
 @end
