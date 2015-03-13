@@ -72,9 +72,32 @@
     _sideMenu.delegate = self;
     _sideMenu.parent = self;
     
-    // Have an conversation up initially
+    // Have an conversation up initially from currentConversationDataSource if it exist
     if (!_chatDataSourceManager.currentConversationDataSource) {
-        _chatDataSourceManager.currentConversationDataSource = _chatDataSourceManager.conversationsDataSource[0];
+        // Check if there actually are any conversations in conversationsDataSource. If not. We'll fetch existing conversations from backend
+        NSLog(@"No current conversation exists in currentConversationsDataSource. Checking for existing converastions...");
+        if (_chatDataSourceManager.conversationsDataSource.count > 0) {
+            NSLog(@"Existing conversations do exist, adding the first one to currentConversationsDataSource");
+            _chatDataSourceManager.currentConversationDataSource = _chatDataSourceManager.conversationsDataSource[0];
+        } else {
+            // So no conversations exists locally. Lets fetch matches and see if there are any conversations to those matches
+            NSLog(@"No existing conversations found locally. Checking backend for current matches which could have active conversations...");
+            IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
+            [matchServiceHandler getMatchesWithCompletionBlock:^(NSArray *groups) {
+                if (groups.count > 0) {
+                    // There are matches. Adding them to matchedGroupsDataSource
+                    NSLog(@"Matches found in backend! Adding these to matchedGroupsDataSource...");
+                    IRMatchedGroups *matchedGroupsDataSource = [IRMatchedGroups sharedMatchedGroups];
+                    
+                    // Create a mutable copy of received matching groups
+                    NSMutableArray *fetchedGroups = [groups mutableCopy];
+                    matchedGroupsDataSource.groups = fetchedGroups;
+                }
+                
+            } failure:^(NSError *error) {
+                NSLog(@"Could not query backend for current matches. Exiting...");
+            }];
+        }
     }
 }
 
@@ -113,7 +136,7 @@
     _circleView.clipsToBounds = YES;
     
     
-    UIImageView *titleImageView = [[UIImageView alloc] initWithImage:_chatDataSourceManager.currentConversationDataSource.group.downloadedImage];
+    UIImageView *titleImageView = [[UIImageView alloc] initWithImage:_chatDataSourceManager.currentConversationDataSource.matchedGroup.group.downloadedImage];
     titleImageView.contentMode = UIViewContentModeScaleAspectFill;
     titleImageView.frame = CGRectMake(2, 2, 39, 39);
     

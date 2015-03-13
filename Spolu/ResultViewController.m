@@ -46,6 +46,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    // Register for new messages notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMatch:) name:@"newMatchReceived" object:nil];
+    
     // Init the matchServiceHandler singelton
     matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
     
@@ -71,6 +74,11 @@
     // back views after each user swipe.
     self.backCardView = [self popGroupViewWithFrame:[self backCardViewFrame]];
     [self.view insertSubview:self.backCardView belowSubview:self.frontCardView];
+}
+
+- (void)didReceiveNewMatch:(NSNotification *)notification
+{
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor redColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -172,7 +180,10 @@
         [matchServiceHandler postLikeForGroup:_currentGroup withCompletionBlockMatch:^(BOOL matching) {
             if (matching) {
                 // We got a match!
-                NSLog(@"!!!!!!!!!Matched with group %ld!!!!!!!!!!!!", (long)_currentGroup.groupId);
+                NSLog(@"!!!!!!!!! Matched with group %ld !!!!!!!!!!!!", (long)_currentGroup.groupId);
+                // Add this match to matchingDataSource
+                IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
+                [matchedGroups.groups addObject:_currentGroup];
             } else {
                 NSLog(@"No matching for group %ld", (long)_currentGroup.groupId);
             }
@@ -236,22 +247,6 @@
 - (void)backToFilterViewController
 {
     [self performSegueWithIdentifier:@"changeSettings" sender:self];
-}
-
-- (NSArray *)defaultGroups {
-    // It would be trivial to download these from a web service
-    // as needed, but for the purposes of this sample app we'll
-    // simply store them in memory.
-    
-    return @[
-             [[IRGroup alloc] randomGroupWithId:1],
-             [[IRGroup alloc] randomGroupWithId:2],
-             [[IRGroup alloc] randomGroupWithId:3],
-             [[IRGroup alloc] randomGroupWithId:4],
-             [[IRGroup alloc] randomGroupWithId:5],
-             [[IRGroup alloc] randomGroupWithId:6],
-             [[IRGroup alloc] randomGroupWithId:7]
-             ];
 }
 
 - (ChooseGroupView *)popGroupViewWithFrame:(CGRect)frame {
@@ -361,6 +356,12 @@
 }
 
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showChat"]) {
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:124/255.0f green:179/255.0f blue:66/255.0f alpha:1];
+    }
+}
 
 
 - (void)didReceiveMemoryWarning {

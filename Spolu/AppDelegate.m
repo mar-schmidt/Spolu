@@ -65,10 +65,14 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+    /*
     if (application.applicationState == UIApplicationStateInactive) {
-        [MRPush handlePush:userInfo];
-        application.applicationIconBadgeNumber = 0;
+        
     }
+     */
+    [MRPush handlePush:userInfo];
+    application.applicationIconBadgeNumber = 0;
+    
     completionHandler(UIBackgroundFetchResultNewData);
 }
 

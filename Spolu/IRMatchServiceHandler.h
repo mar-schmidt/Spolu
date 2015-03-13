@@ -34,6 +34,7 @@
 - (void)getEligibleGroupsResultForGroup:(IRGroup *)group;
 - (void)getMyGroupWithCompletionBlockSuccess:(void (^)(IRGroup *group))myGroup failure:(void (^)(NSError *error))failure;
 - (void)getMatchesWithCompletionBlock:(void (^)(NSArray *groups))matchedGroups failure:(void (^)(NSError *error))failure;
+- (void)getRecentMatchWithGroupId:(NSInteger)groupId andCompletionBlock:(void (^)(IRGroup *group))matchedGroup failure:(void (^)(NSError *error))failure;
 
 
 @end

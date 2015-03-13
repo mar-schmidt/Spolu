@@ -126,7 +126,7 @@
         }
         // Otherwise, add new conversation
         IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:receivedMessage fromGroup:fromGroup];
-        [_conversationsDataSource addObject:newGroupConversation ];
+        [_conversationsDataSource addObject:newGroupConversation];
         
         // Notifying delegate responder which is InteractionsChatModel
         if ([self.delegate respondsToSelector:@selector(chatDataSourceManager:didReceiveMessages:inGroupChat:)]) {

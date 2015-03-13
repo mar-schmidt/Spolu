@@ -11,7 +11,6 @@
 #import "IRGroup.h"
 #import "IRMatchedGroups.h"
 #import "IRGroupConversation.h"
-#import "IRMatchServiceDataSource.h"
 
 @protocol WebSocketServiceHandlerDelegate;
 

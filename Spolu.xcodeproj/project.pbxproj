@@ -313,14 +313,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2C0B24CC1AAB976A00BA81EE /* Views */ = {
+		2C0B24CC1AAB976A00BA81EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2CD275821A9BB0F500F7D5CF /* IRChat */,
 				2CE20A711AAEDC5500CB4204 /* MRPreparingView.h */,
 				2CE20A721AAEDC5500CB4204 /* MRPreparingView.m */,
 				2CE20A701AAEDC4300CB4204 /* MDCSwipeView */,
+				2C7138DF1AA3C11D001D2582 /* InteractionsConversationsMenu.h */,
+				2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */,
+				2CE20A7A1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.h */,
+				2CE20A7B1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.m */,
+				2CE20A7D1AB073A300CB4204 /* ResultGroupMenu.h */,
+				2CE20A7E1AB073A300CB4204 /* ResultGroupMenu.m */,
 			);
-			name = Views;
+			name = View;
+			sourceTree = "<group>";
+		};
+		2C0C15371AB362BE000E2446 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C971E041AB21314005F2F42 /* MRInstallation.h */,
+				2C971E051AB21314005F2F42 /* MRInstallation.m */,
+				2C971E071AB21C6D005F2F42 /* MRPush.h */,
+				2C971E081AB21C6D005F2F42 /* MRPush.m */,
+				2CD688B91A9E05C5008D446A /* IRServiceHandler */,
+				2CD688C31AA0E8AC008D446A /* IRGroup */,
+				2CD688BD1AA0DDCF008D446A /* IRChatDataSourceManager.h */,
+				2CD688BE1AA0DDCF008D446A /* IRChatDataSourceManager.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2C0C15381AB3663C000E2446 /* Model View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2C0C15371AB362BE000E2446 /* Model */,
+				2C0B24CC1AAB976A00BA81EE /* View */,
+				2CFE37FD1A98DE4500A5CDE0 /* Controller */,
+			);
+			name = "Model View Controller";
 			sourceTree = "<group>";
 		};
 		2C7138F11AA65238001D2582 /* Category */ = {
@@ -351,8 +383,6 @@
 				2CD275B41A9BC53E00F7D5CF /* IRMessageFrame.m */,
 				2CD275A31A9BB4B100F7D5CF /* IRProgressHUD.h */,
 				2CD275A41A9BB4B100F7D5CF /* IRProgressHUD.m */,
-				2CD688BD1AA0DDCF008D446A /* IRChatDataSourceManager.h */,
-				2CD688BE1AA0DDCF008D446A /* IRChatDataSourceManager.m */,
 				2C7138F11AA65238001D2582 /* Category */,
 			);
 			name = IRChat;
@@ -577,15 +607,7 @@
 				2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */,
 				2CF21F521A97BF6100D2FFBA /* AppDelegate.h */,
 				2CF21F531A97BF6100D2FFBA /* AppDelegate.m */,
-				2C971E041AB21314005F2F42 /* MRInstallation.h */,
-				2C971E051AB21314005F2F42 /* MRInstallation.m */,
-				2C971E071AB21C6D005F2F42 /* MRPush.h */,
-				2C971E081AB21C6D005F2F42 /* MRPush.m */,
-				2C0B24CC1AAB976A00BA81EE /* Views */,
-				2CFE37FD1A98DE4500A5CDE0 /* ViewControllers */,
-				2CD688B91A9E05C5008D446A /* IRServiceHandler */,
-				2CD688C31AA0E8AC008D446A /* IRGroup */,
-				2CD275821A9BB0F500F7D5CF /* IRChat */,
+				2C0C15381AB3663C000E2446 /* Model View Controller */,
 				2CF21F791A97CACC00D2FFBA /* 3rd part */,
 				2CF21F4E1A97BF6100D2FFBA /* Supporting Files */,
 			);
@@ -633,7 +655,7 @@
 			name = "3rd part";
 			sourceTree = "<group>";
 		};
-		2CFE37FD1A98DE4500A5CDE0 /* ViewControllers */ = {
+		2CFE37FD1A98DE4500A5CDE0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				2CF21F551A97BF6100D2FFBA /* ViewController.h */,
@@ -644,18 +666,12 @@
 				2CE20A661AAEDAFA00CB4204 /* PreparingViewController.m */,
 				2CF21F7D1A980B8300D2FFBA /* ResultViewController.h */,
 				2CF21F7E1A980B8300D2FFBA /* ResultViewController.m */,
-				2CE20A7D1AB073A300CB4204 /* ResultGroupMenu.h */,
-				2CE20A7E1AB073A300CB4204 /* ResultGroupMenu.m */,
 				2CF21F801A981B1400D2FFBA /* InteractionsViewController.h */,
 				2CF21F811A981B1400D2FFBA /* InteractionsViewController.m */,
 				2CD276101A9BCA3200F7D5CF /* InteractionsChatModel.h */,
 				2CD276111A9BCA3200F7D5CF /* InteractionsChatModel.m */,
-				2C7138DF1AA3C11D001D2582 /* InteractionsConversationsMenu.h */,
-				2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */,
-				2CE20A7A1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.h */,
-				2CE20A7B1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.m */,
 			);
-			name = ViewControllers;
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		2CFE37FE1A98DF3F00A5CDE0 /* Frameworks */ = {

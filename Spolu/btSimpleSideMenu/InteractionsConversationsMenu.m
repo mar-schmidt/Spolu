@@ -145,7 +145,7 @@
     
     IRGroupConversation *selectedGroupConversation = [_chatDataSourceManager.conversationsDataSource objectAtIndex:indexPath.row];
     
-    NSLog(@"Selected row #%ld and groupId %ld", (long)[indexPath row], (long)selectedGroupConversation.group.groupId);
+    NSLog(@"Selected groupId %ld", (long)selectedGroupConversation.group.groupId);
     
     [self.delegate InteractionsConversationsMenu:self didSelectGroupConversation:selectedGroupConversation];
     

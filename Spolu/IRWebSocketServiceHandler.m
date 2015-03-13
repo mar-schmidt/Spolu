@@ -26,9 +26,9 @@
     self = [super init];
     if (self) {
         // Test
-        NSDate *d = [NSDate dateWithTimeIntervalSinceNow:5.0];
+        NSDate *d = [NSDate dateWithTimeIntervalSinceNow:60.0];
         NSTimer *t = [[NSTimer alloc] initWithFireDate:d
-                                              interval:10
+                                              interval:60
                                                 target:self
                                               selector:@selector(sendRandomMessage)
                                               userInfo:nil repeats:YES];
@@ -53,34 +53,13 @@
 }
 
 
-/****
-*
-* TEMP METHODS: called when receiving a message from backend
-*
-****/
-- (void)receivedMessageFromWebSocket:(NSData *)data
-{
-    IRMatchServiceDataSource *groupsDataSource = [IRMatchServiceDataSource sharedMatchServiceDataSource];
-    IRGroup *group = groupsDataSource.dataSource[arc4random()%5];
-    IRMessage *message = [self randomMessageFromGroup:group];
-    
-    if ([self.delegate respondsToSelector:@selector(webSocketServiceHandler:didReceiveNewMessage:fromGroup:)]) {
-        [self.delegate webSocketServiceHandler:self didReceiveNewMessage:message fromGroup:group];
-    }
-}
-
-
-
-
-
-
 
 // Test
 - (void)sendRandomMessage
 {
-    IRMatchServiceDataSource *groupsDataSource = [IRMatchServiceDataSource sharedMatchServiceDataSource];
-    if (groupsDataSource.dataSource.count > 0) {
-        IRGroup *group = groupsDataSource.dataSource[arc4random()%groupsDataSource.dataSource.count];
+    IRMatchedGroups *matchedGroupsDataSource = [IRMatchedGroups sharedMatchedGroups];
+    if (matchedGroupsDataSource.groups.count > 0) {
+        IRGroup *group = matchedGroupsDataSource.groups[arc4random()%matchedGroupsDataSource.groups.count];
         IRMessage *message = [self randomMessageFromGroup:group];
         message.fromGroup = group;
         

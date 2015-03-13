@@ -7,7 +7,6 @@
 //
 
 #import "PreparingViewController.h"
-#import "IRMatchServiceDataSource.h"
 
 @implementation PreparingViewController
 
