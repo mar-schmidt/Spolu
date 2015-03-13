@@ -13,7 +13,7 @@
 #import "IRMessageFrame.h"
 #import "IRMessage.h"
 #import "IRImageViewDisplayer.h"
-#import "IRMatchedGroups.h"
+#import "IRMatchedGroupsDataSourceManager.h"
 #import "IRWebSocketServiceHandler.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>
@@ -86,11 +86,11 @@
                 if (groups.count > 0) {
                     // There are matches. Adding them to matchedGroupsDataSource
                     NSLog(@"Matches found in backend! Adding these to matchedGroupsDataSource...");
-                    IRMatchedGroups *matchedGroupsDataSource = [IRMatchedGroups sharedMatchedGroups];
+                    IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
                     
                     // Create a mutable copy of received matching groups
                     NSMutableArray *fetchedGroups = [groups mutableCopy];
-                    matchedGroupsDataSource.groups = fetchedGroups;
+                    matchedGroupsDataSourceManager.groups = fetchedGroups;
                 }
                 
             } failure:^(NSError *error) {

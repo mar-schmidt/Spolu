@@ -10,7 +10,7 @@
 #import "AFHTTPSessionManager.h"
 #import "IRGroup.h"
 #import "IRJsonToGroupParser.h"
-#import "IRMatchedGroups.h"
+#import "IRMatchedGroupsDataSourceManager.h"
 #import "IROwnGroup.h"
 
 @protocol IRMatchServiceHandlerDelegate;

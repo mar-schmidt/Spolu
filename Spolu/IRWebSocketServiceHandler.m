@@ -57,7 +57,7 @@
 // Test
 - (void)sendRandomMessage
 {
-    IRMatchedGroups *matchedGroupsDataSource = [IRMatchedGroups sharedMatchedGroups];
+    IRMatchedGroupsDataSourceManager *matchedGroupsDataSource = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
     if (matchedGroupsDataSource.groups.count > 0) {
         IRGroup *group = matchedGroupsDataSource.groups[arc4random()%matchedGroupsDataSource.groups.count];
         IRMessage *message = [self randomMessageFromGroup:group];

@@ -8,7 +8,7 @@
 
 #import "ResultViewController.h"
 #import "IRGroup.h"
-#import "IRMatchedGroups.h"
+#import "IRMatchedGroupsDataSourceManager.h"
 #import "FilterViewController.h"
 #import "ResultGroupMenu.h"
 
@@ -182,8 +182,8 @@
                 // We got a match!
                 NSLog(@"!!!!!!!!! Matched with group %ld !!!!!!!!!!!!", (long)_currentGroup.groupId);
                 // Add this match to matchingDataSource
-                IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
-                [matchedGroups.groups addObject:_currentGroup];
+                IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
+                [matchedGroupsDataSourceManager.groups addObject:_currentGroup];
             } else {
                 NSLog(@"No matching for group %ld", (long)_currentGroup.groupId);
             }

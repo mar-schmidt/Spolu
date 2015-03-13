@@ -51,7 +51,7 @@
 		2CD275EF1A9BC6C200F7D5CF /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275E71A9BC6C200F7D5CF /* UIWebView+AFNetworking.m */; };
 		2CD688AC1A9CA373008D446A /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CD688AB1A9CA373008D446A /* arrow@2x.png */; };
 		2CD688AF1A9CB074008D446A /* IRGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD688AE1A9CB074008D446A /* IRGroup.m */; };
-		2CD688B51A9CB83B008D446A /* IRMatchedGroups.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD688B41A9CB83B008D446A /* IRMatchedGroups.m */; };
+		2CD688B51A9CB83B008D446A /* IRMatchedGroupsDataSourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD688B41A9CB83B008D446A /* IRMatchedGroupsDataSourceManager.m */; };
 		2CD688B81A9DE6F9008D446A /* IROwnGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD688B71A9DE6F9008D446A /* IROwnGroup.m */; };
 		2CD688BC1A9E05F0008D446A /* IRWebSocketServiceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD688BB1A9E05F0008D446A /* IRWebSocketServiceHandler.m */; };
 		2CD688BF1AA0DDCF008D446A /* IRChatDataSourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD688BE1AA0DDCF008D446A /* IRChatDataSourceManager.m */; };
@@ -197,8 +197,8 @@
 		2CD688AB1A9CA373008D446A /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		2CD688AD1A9CB074008D446A /* IRGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRGroup.h; sourceTree = "<group>"; };
 		2CD688AE1A9CB074008D446A /* IRGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRGroup.m; sourceTree = "<group>"; };
-		2CD688B31A9CB83B008D446A /* IRMatchedGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRMatchedGroups.h; sourceTree = "<group>"; };
-		2CD688B41A9CB83B008D446A /* IRMatchedGroups.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMatchedGroups.m; sourceTree = "<group>"; };
+		2CD688B31A9CB83B008D446A /* IRMatchedGroupsDataSourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRMatchedGroupsDataSourceManager.h; sourceTree = "<group>"; };
+		2CD688B41A9CB83B008D446A /* IRMatchedGroupsDataSourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMatchedGroupsDataSourceManager.m; sourceTree = "<group>"; };
 		2CD688B61A9DE6F9008D446A /* IROwnGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IROwnGroup.h; sourceTree = "<group>"; };
 		2CD688B71A9DE6F9008D446A /* IROwnGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IROwnGroup.m; sourceTree = "<group>"; };
 		2CD688BA1A9E05F0008D446A /* IRWebSocketServiceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRWebSocketServiceHandler.h; sourceTree = "<group>"; };
@@ -506,8 +506,8 @@
 				2CD688AE1A9CB074008D446A /* IRGroup.m */,
 				2CD688B61A9DE6F9008D446A /* IROwnGroup.h */,
 				2CD688B71A9DE6F9008D446A /* IROwnGroup.m */,
-				2CD688B31A9CB83B008D446A /* IRMatchedGroups.h */,
-				2CD688B41A9CB83B008D446A /* IRMatchedGroups.m */,
+				2CD688B31A9CB83B008D446A /* IRMatchedGroupsDataSourceManager.h */,
+				2CD688B41A9CB83B008D446A /* IRMatchedGroupsDataSourceManager.m */,
 				2CD688C01AA0E3D9008D446A /* IRGroupConversation.h */,
 				2CD688C11AA0E3D9008D446A /* IRGroupConversation.m */,
 			);
@@ -906,7 +906,7 @@
 				2CE20A6D1AAEDC0C00CB4204 /* CERoundProgressLayer.m in Sources */,
 				2CD275ED1A9BC6C200F7D5CF /* UIProgressView+AFNetworking.m in Sources */,
 				2CD275A21A9BB38100F7D5CF /* IRInputFunctionView.m in Sources */,
-				2CD688B51A9CB83B008D446A /* IRMatchedGroups.m in Sources */,
+				2CD688B51A9CB83B008D446A /* IRMatchedGroupsDataSourceManager.m in Sources */,
 				2CD688C21AA0E3D9008D446A /* IRGroupConversation.m in Sources */,
 				2C971E091AB21C6D005F2F42 /* MRPush.m in Sources */,
 				2CD275A51A9BB4B100F7D5CF /* IRProgressHUD.m in Sources */,

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "IRMessage.h"
 #import "IRGroup.h"
-#import "IRMatchedGroups.h"
+#import "IRMatchedGroupsDataSourceManager.h"
 #import "IRGroupConversation.h"
 
 @protocol WebSocketServiceHandlerDelegate;

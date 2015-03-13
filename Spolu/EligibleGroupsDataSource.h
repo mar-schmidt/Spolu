@@ -1,5 +1,5 @@
 //
-//  IRMatchServiceDataSource.h
+//  EligibleGroupsDataSource.h
 //  Spolu
 //
 //  Created by Marcus Ronélius on 2015-03-10.

@@ -20,7 +20,7 @@
     if (pushCode == 1) { // pushCode 1 = New match
         NSLog(@"Push Notification received: %@ from group %ld", alertMessage, (long)groupId);
         
-        IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
+        IRMatchedGroupsDataSourceManager *matchedGroups = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
         
         // Check if local matchedGroup datasource actually exist and contains groups. If not, fetch from backend
         NSLog(@"Checking if we do have a local datasource of matched groups...");

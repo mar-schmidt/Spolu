@@ -196,7 +196,7 @@ static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
               // We got ourselves a match. Update group object, add it to IRMatchedGroups and notify completionblock with yes
               group.match = YES;
               
-              IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
+              IRMatchedGroupsDataSourceManager *matchedGroups = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
               if (![matchedGroups.groups containsObject:group]) {
                   [matchedGroups.groups addObject:group];
               }

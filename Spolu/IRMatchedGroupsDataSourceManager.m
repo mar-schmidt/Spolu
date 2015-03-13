@@ -1,14 +1,14 @@
 //
-//  IRMatchedGroups.m
+//  IRMatchedGroupsDataSourceManager.m
 //  
 //
 //  Created by Marcus Ronélius on 2015-02-24.
 //
 //
 
-#import "IRMatchedGroups.h"
+#import "IRMatchedGroupsDataSourceManager.h"
 
-@implementation IRMatchedGroups
+@implementation IRMatchedGroupsDataSourceManager
 
 - (id)init
 {
@@ -21,14 +21,14 @@
 }
 
 + (id)sharedMatchedGroups {
-    static IRMatchedGroups *sharedIRMatchedGroups = nil;
+    static IRMatchedGroupsDataSourceManager *_sharedIRMatchedGroupsDataSourceManager = nil;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedIRMatchedGroups = [[self alloc] init];
+        _sharedIRMatchedGroupsDataSourceManager = [[self alloc] init];
     });
     
-    return sharedIRMatchedGroups;
+    return _sharedIRMatchedGroupsDataSourceManager;
 }
 
 @end

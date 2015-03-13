@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IRMatchedGroups.h"
+#import "IRMatchedGroupsDataSourceManager.h"
 #import "IRGroup.h"
 #import "IRMatchServiceHandler.h"
 
