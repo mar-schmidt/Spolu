@@ -20,17 +20,20 @@
     if (pushCode == 1) { // pushCode 1 = New match
         NSLog(@"Push Notification received: %@ from group %ld", alertMessage, (long)groupId);
         
-        IRMatchedGroupsDataSourceManager *matchedGroups = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
+        IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
         
         // Check if local matchedGroup datasource actually exist and contains groups. If not, fetch from backend
         NSLog(@"Checking if we do have a local datasource of matched groups...");
-        if (matchedGroups.groups && matchedGroups.groups.count > 0) {
+        if (matchedGroupsDataSourceManager.groupConversationsDataSource &&
+            matchedGroupsDataSourceManager.groupConversationsDataSource.count > 0) {
             NSLog(@"Local datasource of matched groups was found. Adding the newly matched group to it");
             // Get our newly matched group from backend and send a notification about it.
             [self getRecentMatchFromBackendWithGroupId:groupId
                                 andWithCompletionBlock:^(IRGroup *group) {
                                     NSLog(@"Newly matched group retrieved from backend. Notifying rest of the application...");
-                                    [self sendNotificationAboutMatchWithGroup:group];
+                                    // Create a conversation for this group and notify rest of the app
+                                    IRGroupConversation *newGroupConversation = [matchedGroupsDataSourceManager createNewGroupConversationWithMessage:nil fromGroup:group];
+                                    [self sendNotificationAboutMatchWithGroup:newGroupConversation];
                                 }];
         } else {
             // So locally matchedGroup datasource doesnt exist or does not have any matches in it. Start fetching from backend
@@ -38,12 +41,12 @@
             [self currentMatchesFromBackendWithCompletionBlock:^(NSArray *groups) {
                 // Allright, so we got our new list of matches. Should contain our newly match. Get it and notify about newly match. But first. Set it as our matched datasource
                 NSLog(@"Total list of matched retrieved from backend. Enumerating through it and grab the newly matched group...");
-                NSMutableArray *newlyReceivedMatchingGroups = [groups mutableCopy];
-                matchedGroups.groups = newlyReceivedMatchingGroups;
-                for (IRGroup *group in newlyReceivedMatchingGroups) {
-                    if (group.groupId == groupId) {
+                NSMutableArray *newlyReceivedMatchingGroupConversations = [groups mutableCopy];
+                matchedGroupsDataSourceManager.groupConversationsDataSource = newlyReceivedMatchingGroupConversations;
+                for (IRGroupConversation *groupConversation in newlyReceivedMatchingGroupConversations) {
+                    if (groupConversation.group.groupId == groupId) {
                         NSLog(@"Newly matched group was grabbed. Notifying rest of the application...");
-                        [self sendNotificationAboutMatchWithGroup:group];
+                        [self sendNotificationAboutMatchWithGroup:groupConversation];
                     }
                 }
             }];
@@ -93,9 +96,9 @@
 
 }
 
-+ (void)sendNotificationAboutMatchWithGroup:(IRGroup *)group
++ (void)sendNotificationAboutMatchWithGroup:(IRGroupConversation *)groupConversation
 {
-    NSDictionary *userInfo = @{@"group" : group};
+    NSDictionary *userInfo = @{@"group" : groupConversation};
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc postNotificationName:@"newMatchReceived" object:self userInfo:userInfo];
 }
@@ -115,13 +118,20 @@
     }];
 }
 */
-+ (void)currentMatchesFromBackendWithCompletionBlock:(void (^)(NSArray *groups))matchedGroups
++ (void)currentMatchesFromBackendWithCompletionBlock:(void (^)(NSArray *groupConversations))matchedGroupConversations
 {
     NSLog(@"Fetching current matches from backend...");
     IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
+    IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
     [matchServiceHandler getMatchesWithCompletionBlock:^(NSArray *groups) {
         NSLog(@"Received %ld matches", (long)groups.count);
-        matchedGroups(groups);
+        // Create an mutable array to place all the matched groupsconversations in
+        NSMutableArray *newlyMatchedGroupConversations = [[NSMutableArray alloc] init];
+        for (IRGroup *group in groups) {
+            IRGroupConversation *groupConversation = [matchedGroupsDataSourceManager createNewGroupConversationWithMessage:nil fromGroup:group];
+            [newlyMatchedGroupConversations addObject:groupConversation];
+        }
+        matchedGroupConversations(newlyMatchedGroupConversations);
     } failure:^(NSError *error) {
         NSLog(@"Failed retrieving matches. %@", error.localizedDescription);
     }];

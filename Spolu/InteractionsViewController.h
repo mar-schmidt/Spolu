@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IRChatDataSourceManager.h"
+#import "IRMatchedGroupsDataSourceManager.h"
 
-@interface InteractionsViewController : UIViewController <ChatDataSourceManagerDelegate>
+@interface InteractionsViewController : UIViewController <MatchedGroupsDataSourceManagerDelegate>
 {
 
 }

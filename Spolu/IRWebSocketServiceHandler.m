@@ -26,6 +26,7 @@
     self = [super init];
     if (self) {
         // Test
+        /*
         NSDate *d = [NSDate dateWithTimeIntervalSinceNow:60.0];
         NSTimer *t = [[NSTimer alloc] initWithFireDate:d
                                               interval:60
@@ -35,6 +36,7 @@
         
         NSRunLoop *runner = [NSRunLoop currentRunLoop];
         [runner addTimer:t forMode: NSDefaultRunLoopMode];
+         */
     }
     return self;
 }
@@ -58,14 +60,14 @@
 - (void)sendRandomMessage
 {
     IRMatchedGroupsDataSourceManager *matchedGroupsDataSource = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
-    if (matchedGroupsDataSource.groups.count > 0) {
-        IRGroup *group = matchedGroupsDataSource.groups[arc4random()%matchedGroupsDataSource.groups.count];
-        IRMessage *message = [self randomMessageFromGroup:group];
-        message.fromGroup = group;
+    if (matchedGroupsDataSource.groupConversationsDataSource.count > 0) {
+        IRGroupConversation *groupConversation = matchedGroupsDataSource.groupConversationsDataSource[arc4random()%matchedGroupsDataSource.groupConversationsDataSource.count];
+        IRMessage *message = [self randomMessageFromGroup:groupConversation.group];
+        message.fromGroup = groupConversation.group;
         
-        NSLog(@"Received new message from group %ld...", (long)group.groupId);
+        NSLog(@"Received new message from group %ld...", (long)groupConversation.group.groupId);
         
-        NSDictionary *userInfo = @{@"message" : message, @"group" : group};
+        NSDictionary *userInfo = @{@"message" : message, @"group" : groupConversation.group};
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName:@"newMessageReceived" object:self userInfo:userInfo];
     }

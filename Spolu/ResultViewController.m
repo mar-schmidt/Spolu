@@ -158,10 +158,13 @@
         *
         ******/
         NSLog(@"You passed on group %ld.", (long)_currentGroup.groupId);
+        
+        // Adding this due to a shitty bug i cannot track. Take _currentGroup.groupId (since its correct) and point it to a new IRGroup instance which we will use for the async pass response block. Later we will get ID in the response which we can double check against.
+        IRGroup *passedGroup = _currentGroup;
 
-        [matchServiceHandler postPassForGroup:_currentGroup withCompletionBlockSuccess:^(BOOL succeeded) {
+        [matchServiceHandler postPassForGroup:passedGroup withCompletionBlockSuccess:^(BOOL succeeded) {
             if (succeeded) {
-                NSLog(@"Notified backend about passing this group");
+                NSLog(@"Notified backend about passing group with id %ld", (long)passedGroup.groupId);
             }
         } failure:^(NSError *error) {
             NSLog(@"Error while notifying backend about passing this group");
@@ -176,16 +179,22 @@
         *
         ******/
         NSLog(@"You liked %ld.", (long)_currentGroup.groupId);
+        
+        // Adding this due to a shitty bug i cannot track. Take _currentGroup.groupId (since its correct) and point it to a new IRGroup instance which we will use for the async like response block. Later we will get ID in the response which we can double check against.
+        IRGroup *likedGroup = _currentGroup;
 
-        [matchServiceHandler postLikeForGroup:_currentGroup withCompletionBlockMatch:^(BOOL matching) {
+        [matchServiceHandler postLikeForGroup:likedGroup withCompletionBlockMatch:^(BOOL matching) {
             if (matching) {
                 // We got a match!
-                NSLog(@"!!!!!!!!! Matched with group %ld !!!!!!!!!!!!", (long)_currentGroup.groupId);
+                NSLog(@"!!!!!!!!! Matched with group %ld !!!!!!!!!!!!", (long)likedGroup.groupId);
                 // Add this match to matchingDataSource
                 IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
-                [matchedGroupsDataSourceManager.groups addObject:_currentGroup];
+                IRGroupConversation *newGroupConversation = [matchedGroupsDataSourceManager createNewGroupConversationWithMessage:nil fromGroup:likedGroup];
+
+                [matchedGroupsDataSourceManager.groupConversationsDataSource addObject:newGroupConversation];
+
             } else {
-                NSLog(@"No matching for group %ld", (long)_currentGroup.groupId);
+                NSLog(@"No matching for group %ld", (long)likedGroup.groupId);
             }
         } failure:^(NSError *error) {
             NSLog(@"Error while requesting for match");

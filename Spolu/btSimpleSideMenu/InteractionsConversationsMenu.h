@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IRChatDataSourceManager.h"
+#import "IRMatchedGroupsDataSourceManager.h"
 #import "IRGroupConversation.h"
 #import "InteractionsViewController.h"
 
@@ -41,7 +41,7 @@
 // To use for hiding and showing status bar in viewcontroller
 @property (nonatomic, strong) InteractionsViewController *parent;
 
-@property (strong, nonatomic) IRChatDataSourceManager *chatDataSourceManager;
+@property (strong, nonatomic) IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager;
 
 - (instancetype)initFromViewController:(id)sender;
 

@@ -12,6 +12,7 @@
 // Api key and address
 static NSString * const ApiKey = @"ASDJOO12893891JAHDS";
 static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
+// TEST static NSString * const ApiAddress = @"http://192.168.1.137:3000";
 
 @implementation IRMatchServiceHandler
 
@@ -50,6 +51,8 @@ static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
     
     return self;
 }
+
+
 
 /******
 *
@@ -148,28 +151,57 @@ static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
  *
  ******/
 
-- (void)postMyGroup:(IRGroup *)group withCompletionBlockSuccess:(void (^)(BOOL))success failure:(void (^)(NSError *))failure
+- (void)postMyGroup:(IRGroup *)group withBase64Image:(NSString *)base64Image andCompletionBlockSuccess:(void (^)(BOOL))success failure:(void (^)(NSError *))failure
 {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
-    // Parameters that are sent to API
-    parameters[@"genderInt"] = [NSString stringWithFormat:@"%ld", (long)group.genderInt];
-    parameters[@"lookingForGenderInt"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForGenderInt];
-    parameters[@"age"] = [NSString stringWithFormat:@"%ld", (long)group.age];
-    parameters[@"lookingForAgeLower"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForAgeLower];
-    parameters[@"lookingForAgeUpper"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForAgeUpper];
-    parameters[@"locationLatitude"] = [NSString stringWithFormat:@"%ld", (long)group.locationLat];
-    parameters[@"locationLongitude"] = [NSString stringWithFormat:@"%ld", (long)group.locationLong];
-    parameters[@"lookingForAreaWithDistanceInKm"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForInAreaWithDistanceInKm];
+    NSMutableDictionary *picFileDict = [NSMutableDictionary dictionary];
     
-    [self POST:[NSString stringWithFormat:@"%@/add/group", ApiAddress]
+    picFileDict[@"file"] = base64Image;
+    picFileDict[@"original_filename"] = @"bajs";
+    picFileDict[@"filename"] = @"KNUUULLA CARLOS";
+    
+    /*
+     {
+         "id": 1,
+         "latitude": 12,
+         "longitude": 57.6870556,
+         "gender": 0,
+         "looking_for_gender": 1,
+         "age": 22,
+         "distance": 20,
+         "looking_for_upper_age": 30,
+         "looking_for_lower_age": 20,
+         "picture_path": {
+             "file": "BASE64skit",
+             "original_filename": "my file name",
+             "filename": "my file name"
+         }
+     }
+     */
+    
+    // Parameters that are sent to API
+    parameters[@"gender"] = [NSString stringWithFormat:@"%ld", (long)group.genderInt];
+    parameters[@"looking_for_gender"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForGenderInt];
+    parameters[@"age"] = [NSString stringWithFormat:@"%ld", (long)group.age];
+    parameters[@"looking_for_lower_age"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForAgeLower];
+    parameters[@"looking_for_upper_age"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForAgeUpper];
+    parameters[@"latitude"] = [NSString stringWithFormat:@"%ld", (long)group.locationLat];
+    parameters[@"longitude"] = [NSString stringWithFormat:@"%ld", (long)group.locationLong];
+    parameters[@"distance"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForInAreaWithDistanceInKm];
+    parameters[@"picture_path"] = picFileDict;
+    
+    [self POST:[NSString stringWithFormat:@"%@/users", ApiAddress]
     parameters:parameters
        success:^(NSURLSessionDataTask *task, id responseObject) {
-           BOOL successFullyAdded = [[responseObject objectForKey:@"success"] boolValue];
-           if (successFullyAdded) {
+           NSInteger ourGroupId = [[responseObject objectForKey:@"_id"] integerValue];
+           if (ourGroupId) {
+               NSLog(@"Successfully added our group to backend with id %ld", (long)ourGroupId);
+               /*
                IROwnGroup *ownGroup = [IROwnGroup sharedGroup];
                ownGroup.group = group;
                success(YES);
+                */
            }
        }
        failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -193,14 +225,7 @@ static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
           
           BOOL matched = [[responseObject objectForKey:@"match"] boolValue];
           if (matched == YES) {
-              // We got ourselves a match. Update group object, add it to IRMatchedGroups and notify completionblock with yes
               group.match = YES;
-              
-              IRMatchedGroupsDataSourceManager *matchedGroups = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
-              if (![matchedGroups.groups containsObject:group]) {
-                  [matchedGroups.groups addObject:group];
-              }
-              
               match(YES);
           } else {
               // No match!

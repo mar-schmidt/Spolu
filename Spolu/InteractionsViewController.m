@@ -1,4 +1,4 @@
-    //
+//
 //  InteractionsViewController.m
 //  Spolu
 //
@@ -18,11 +18,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>
 #import "InteractionsConversationsMenu.h"
+#import "IRMatchServiceHandler.h"
 
 @interface InteractionsViewController () <IRInputFunctionViewDelegate, IRMessageCellDelegate, UITableViewDataSource, UITableViewDelegate, WebSocketServiceHandlerDelegate, InteractionsConversationsMenuDelegate>
 
 @property (strong, nonatomic) MJRefreshHeaderView *head;
-@property (strong, nonatomic) IRChatDataSourceManager *chatDataSourceManager;
+@property (strong, nonatomic) IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager;
 
 @property (weak, nonatomic) IBOutlet UITableView *chatTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
@@ -70,34 +71,6 @@
     _sideMenu = [[InteractionsConversationsMenu alloc] initFromViewController:self];
     _sideMenu.delegate = self;
     _sideMenu.parent = self;
-    
-    // Have an conversation up initially from currentConversationDataSource if it exist
-    if (!_chatDataSourceManager.currentConversationDataSource) {
-        // Check if there actually are any conversations in conversationsDataSource. If not. We'll fetch existing conversations from backend
-        NSLog(@"No current conversation exists in currentConversationsDataSource. Checking for existing converastions...");
-        if (_chatDataSourceManager.conversationsDataSource.count > 0) {
-            NSLog(@"Existing conversations do exist, adding the first one to currentConversationsDataSource");
-            _chatDataSourceManager.currentConversationDataSource = _chatDataSourceManager.conversationsDataSource[0];
-        } else {
-            // So no conversations exists locally. Lets fetch matches and see if there are any conversations to those matches
-            NSLog(@"No existing conversations found locally. Checking backend for current matches which could have active conversations...");
-            IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
-            [matchServiceHandler getMatchesWithCompletionBlock:^(NSArray *groups) {
-                if (groups.count > 0) {
-                    // There are matches. Adding them to matchedGroupsDataSource
-                    NSLog(@"Matches found in backend! Adding these to matchedGroupsDataSource...");
-                    IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
-                    
-                    // Create a mutable copy of received matching groups
-                    NSMutableArray *fetchedGroups = [groups mutableCopy];
-                    matchedGroupsDataSourceManager.groups = fetchedGroups;
-                }
-                
-            } failure:^(NSError *error) {
-                NSLog(@"Could not query backend for current matches. Exiting...");
-            }];
-        }
-    }
 }
 
 /*
@@ -116,13 +89,45 @@
 {
     [super viewWillAppear:animated];
     
-    //add notification
+    // Add notification
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(tableViewScrollToBottom) name:UIKeyboardDidShowNotification object:nil];
     
+    // Have an conversation up initially from currentConversationDataSource if it exist
+    if (!_matchedGroupsDataSourceManager.currentConversationDataSource) {
+        // Check if there actually are any conversations in conversationsDataSource. If not. We'll fetch existing conversations from backend
+        NSLog(@"No current conversation exists in currentConversationsDataSource. Checking for existing converastions...");
+        if (_matchedGroupsDataSourceManager.groupConversationsDataSource.count > 0) {
+            NSLog(@"Existing conversations do exist, adding the first one to currentConversationsDataSource");
+            _matchedGroupsDataSourceManager.currentConversationDataSource = _matchedGroupsDataSourceManager.groupConversationsDataSource[0];
+        } else {
+            // So no conversations exists locally. Lets fetch matches and see if there are any conversations to those matches
+            NSLog(@"No existing conversations found locally. Checking backend for current matches which could have active conversations...");
+            IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
+            [matchServiceHandler getMatchesWithCompletionBlock:^(NSArray *groups) {
+                if (groups.count > 0) {
+                    
+                    // There are matches. Adding them to matchedGroupsDataSource
+                    NSLog(@"Matches found in backend! Adding these to matchedGroupsDataSource...");
+                    IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
+                    
+                    NSMutableArray *fetchedGroupConversations = [[NSMutableArray alloc] init];
+                    
+                    for (IRGroup *group in groups) {
+                        IRGroupConversation *groupConversation = [matchedGroupsDataSourceManager createNewGroupConversationWithMessage:nil fromGroup:group];
+                        [fetchedGroupConversations addObject:groupConversation];
+                    }
+                    matchedGroupsDataSourceManager.groupConversationsDataSource = fetchedGroupConversations;
+                }
+                
+            } failure:^(NSError *error) {
+                NSLog(@"Could not query backend for current matches. Exiting...");
+            }];
+        }
+    }
     
-    [self setTitleImageFromConversation:_chatDataSourceManager.currentConversationDataSource];
+    [self setTitleImageFromConversation:_matchedGroupsDataSourceManager.currentConversationDataSource];
 }
 
 - (void)setTitleImageFromConversation:(IRGroupConversation *)conversation
@@ -135,7 +140,7 @@
     _circleView.clipsToBounds = YES;
     
     
-    UIImageView *titleImageView = [[UIImageView alloc] initWithImage:_chatDataSourceManager.currentConversationDataSource.group.downloadedImage];
+    UIImageView *titleImageView = [[UIImageView alloc] initWithImage:_matchedGroupsDataSourceManager.currentConversationDataSource.group.downloadedImage];
     titleImageView.contentMode = UIViewContentModeScaleAspectFill;
     titleImageView.frame = CGRectMake(2, 2, 39, 39);
     
@@ -164,7 +169,7 @@
         
         //[weakSelf.chatDataSourceManager addRandomItemsToDataSource:pageNum];
         
-        if (weakSelf.chatDataSourceManager.currentConversationDataSource.messages.count>pageNum) {
+        if (weakSelf.matchedGroupsDataSourceManager.currentConversationDataSource.messages.count>pageNum) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:pageNum inSection:0];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -180,8 +185,8 @@
 {
     self.chatTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
-    _chatDataSourceManager = [IRChatDataSourceManager sharedChatDataSourceManager];
-    _chatDataSourceManager.delegate = self;
+    _matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
+    _matchedGroupsDataSourceManager.delegate = self;
     
     //[self.chatModel populateRandomDataSource];
     
@@ -228,10 +233,10 @@
 //tableView Scroll to bottom
 - (void)tableViewScrollToBottom
 {
-    if (self.chatDataSourceManager.currentConversationDataSource.messages.count==0)
+    if (_matchedGroupsDataSourceManager.currentConversationDataSource.messages.count==0)
         return;
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.chatDataSourceManager.currentConversationDataSource.messages.count-1 inSection:0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_matchedGroupsDataSourceManager.currentConversationDataSource.messages.count-1 inSection:0];
     [self.chatTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
@@ -246,7 +251,7 @@
     IRMessage *message = [[IRMessage alloc] init];
     message.strContent = msg;
     message.from = IRMessageFromMe;
-    message.strIcon = _chatDataSourceManager.ownGroup.imageUrl;
+    message.strIcon = _matchedGroupsDataSourceManager.ownGroup.imageUrl;
     message.type = IRMessageTypeText;
     
     [self addMessageAndUpdateTable:message];
@@ -258,7 +263,7 @@
     IRMessage *message = [[IRMessage alloc] init];
     message.picture = image;
     message.from = IRMessageFromMe;
-    message.strIcon = _chatDataSourceManager.ownGroup.imageUrl;
+    message.strIcon = _matchedGroupsDataSourceManager.ownGroup.imageUrl;
     message.type = IRMessageTypePicture;
     
     [self addMessageAndUpdateTable:message];
@@ -270,7 +275,7 @@
     IRMessage *message = [[IRMessage alloc] init];
     message.voice = voice;
     message.from = IRMessageFromMe;
-    message.strIcon = _chatDataSourceManager.ownGroup.imageUrl;
+    message.strIcon = _matchedGroupsDataSourceManager.ownGroup.imageUrl;
     message.strVoiceTime = [NSString stringWithFormat:@"%d",(int)second];
     message.type = IRMessageTypeVoice;
     
@@ -279,7 +284,7 @@
 
 
 #pragma IRChatDataSourceManager delegate methods
-- (void)chatDataSourceManager:(IRChatDataSourceManager *)manager didReceiveMessages:(NSArray *)messages inGroupChat:(IRGroupConversation *)groupChat
+- (void)matchedGroupsDataSourceManager:(IRMatchedGroupsDataSourceManager *)manager didReceiveMessages:(NSArray *)messages inGroupChat:(IRGroupConversation *)groupChat
 {
     NSArray *messageArray = @[messages];
     //[self.chatDataSourceManager receivedMessages:messageArray fromMatchedGroup:group];
@@ -288,16 +293,16 @@
      * Only for test, set currentGroupConversation of chatDataSourceManagers conversationDataSource array to 1
      * in reality, this will be set by the controller that manages which conversation the user is clicking on
      ****/
-    if (!_chatDataSourceManager.currentConversationDataSource) {
-        _chatDataSourceManager.currentConversationDataSource = _chatDataSourceManager.conversationsDataSource[0];
+    if (!_matchedGroupsDataSourceManager.currentConversationDataSource) {
+        _matchedGroupsDataSourceManager.currentConversationDataSource = _matchedGroupsDataSourceManager.groupConversationsDataSource[0];
     }
     
-    if (self.chatDataSourceManager.currentConversationDataSource.messages.count>=messageArray.count) {
+    if (_matchedGroupsDataSourceManager.currentConversationDataSource.messages.count>=messageArray.count) {
         //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[messageArray count]-1 inSection:0];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.chatTableView reloadData];
-            NSIndexPath *totalRowsIndexPath = [NSIndexPath indexPathForRow:self.chatDataSourceManager.currentConversationDataSource.messages.count-1 inSection:0];
+            NSIndexPath *totalRowsIndexPath = [NSIndexPath indexPathForRow:_matchedGroupsDataSourceManager.currentConversationDataSource.messages.count-1 inSection:0];
             [self.chatTableView scrollToRowAtIndexPath:totalRowsIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
         });
     }
@@ -305,14 +310,14 @@
 
 - (void)addMessageAndUpdateTable:(IRMessage *)message
 {
-    [self.chatDataSourceManager sendMessage:message forGroupConversation:_chatDataSourceManager.currentConversationDataSource];
+    [_matchedGroupsDataSourceManager sendMessage:message forGroupConversation:_matchedGroupsDataSourceManager.currentConversationDataSource];
     [self.chatTableView reloadData];
     [self tableViewScrollToBottom];
 }
 
 #pragma mark - tableView delegate & datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _chatDataSourceManager.currentConversationDataSource.messages.count;
+    return _matchedGroupsDataSourceManager.currentConversationDataSource.messages.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -321,7 +326,7 @@
         cell = [[IRMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CellID"];
         cell.delegate = self;
     }
-    [cell setMessageFrame:self.chatDataSourceManager.currentConversationDataSource.messages[indexPath.row]];
+    [cell setMessageFrame:_matchedGroupsDataSourceManager.currentConversationDataSource.messages[indexPath.row]];
     
     // Mark the message (cell) as read.
     if (!cell.messageFrame.message.readFlag) {
@@ -332,7 +337,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [self.chatDataSourceManager.currentConversationDataSource.messages[indexPath.row] cellHeight];
+    return [_matchedGroupsDataSourceManager.currentConversationDataSource.messages[indexPath.row] cellHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -366,7 +371,7 @@
 #pragma mark InteractionsConversationsMenuDelegate methods
 -(void)InteractionsConversationsMenu:(InteractionsConversationsMenu *)menu didSelectGroupConversation:(IRGroupConversation *)conversation {
     // Set the currentconversation to the one clicked on in InteractionsConversationsMenu
-    _chatDataSourceManager.currentConversationDataSource = conversation;
+    _matchedGroupsDataSourceManager.currentConversationDataSource = conversation;
     
     // Reload tableview and scroll down to latest message
     [self.chatTableView reloadData];

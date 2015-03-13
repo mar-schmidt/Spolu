@@ -10,7 +10,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "IRWebSocketServiceHandler.h"
-#import "IRChatDataSourceManager.h"
+#import "IRMatchedGroupsDataSourceManager.h"
 #import "MRInstallation.h"
 #import "MRPush.h"
 
@@ -27,9 +27,9 @@
     // Fabric with crashlyrics
     [Fabric with:@[CrashlyticsKit]];
     
-    IRChatDataSourceManager *chatDataSource = [IRChatDataSourceManager sharedChatDataSourceManager];
+    IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
     IRWebSocketServiceHandler *websocket = [IRWebSocketServiceHandler sharedWebSocketHandler];
-    websocket.delegate = chatDataSource;
+    websocket.delegate = matchedGroupsDataSourceManager;
     
     if([[[UIDevice currentDevice] systemVersion] integerValue] >= 8)
     {

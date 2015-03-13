@@ -9,6 +9,7 @@
 #import "FilterViewController.h"
 #import "PreparingViewController.h"
 #import "IRLocationServiceHandler.h"
+#import "NSData+Base64.h"
 
 @interface FilterViewController ()
 
@@ -323,6 +324,10 @@
     return backendGroup;
 }
 
+- (NSString *)encodeToBase64String:(UIImage *)image {
+    return [UIImagePNGRepresentation(image) base64EncodedStringWithSeparateLines:YES];
+}
+
 - (void)uploadImageAndCreateGroup:(UIImage *)image
 {
     IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
@@ -338,7 +343,9 @@
                                                                   locationLongitude:_locationServiceHandler.currentLocationCoordinateY
                                                    lookingForInAreaWithDistanceInKm:roundl(distanceSlideControl.value)];
 
-        [matchServiceHandler postMyGroup:groupWithCurrentFilter withCompletionBlockSuccess:^(BOOL succeeded) {
+        NSString *base64Image = [self encodeToBase64String:image];
+        
+        [matchServiceHandler postMyGroup:groupWithCurrentFilter withBase64Image:base64Image andCompletionBlockSuccess:^(BOOL succeeded) {
             if (succeeded) {
                 // Successfully posted group to backend. Now its ok to assign ownGroup this new group. And then returning
                 ownGroup.group = groupWithCurrentFilter;

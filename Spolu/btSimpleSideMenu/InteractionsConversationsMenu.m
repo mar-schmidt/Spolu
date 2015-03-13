@@ -21,7 +21,7 @@
 - (instancetype)initFromViewController:(id)sender
 {
     if ((self = [super init])) {
-        _chatDataSourceManager = [IRChatDataSourceManager sharedChatDataSourceManager];
+        _matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
         [self commonInit:sender];
         
         //_chatDataSourceManager.conversationsDataSource = [self sortArrayByDate:_chatDataSourceManager.conversationsDataSource];
@@ -30,6 +30,8 @@
         
         // Register for new messages notification
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessageNotification:) name:@"newMessageReceived" object:nil];
+        // Register for new matches notification
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMatch:) name:@"newMatchReceived" object:nil];
     }
     return self;
 }
@@ -53,15 +55,22 @@
     }
 }
 
+- (void)didReceiveNewMatch:(NSNotification *)notification
+{
+    if (self) {
+        [self sortAndReloadTableView];
+    }
+}
+
 - (void)sortAndReloadTableView
 {
     // We need an unsorted copy of the array for the animation
-    NSMutableArray *unsortedArray = [_chatDataSourceManager.conversationsDataSource copy];
+    NSMutableArray *unsortedArray = [_matchedGroupsDataSourceManager.groupConversationsDataSource copy];
     
     [menuTable reloadData];
     
     // Sort the elements and replace the array used by the data source with the sorted ones
-    _chatDataSourceManager.conversationsDataSource = [self sortArrayByDate:unsortedArray];
+    _matchedGroupsDataSourceManager.groupConversationsDataSource = [self sortArrayByDate:unsortedArray];
     
     // Prepare table for the animations batch
     [menuTable beginUpdates];
@@ -69,7 +78,7 @@
     // Move the cells around
     NSInteger sourceRow = 0;
     for (IRGroupConversation *groupConversation in unsortedArray) {
-        NSInteger destRow = [_chatDataSourceManager.conversationsDataSource indexOfObject:groupConversation];
+        NSInteger destRow = [_matchedGroupsDataSourceManager.groupConversationsDataSource indexOfObject:groupConversation];
         
         if (destRow != sourceRow) {
             // Move the rows within the table view
@@ -134,7 +143,7 @@
 #pragma -mark tableView Delegates
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_chatDataSourceManager.conversationsDataSource count];
+    return [_matchedGroupsDataSourceManager.groupConversationsDataSource count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -143,7 +152,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    IRGroupConversation *selectedGroupConversation = [_chatDataSourceManager.conversationsDataSource objectAtIndex:indexPath.row];
+    IRGroupConversation *selectedGroupConversation = [_matchedGroupsDataSourceManager.groupConversationsDataSource objectAtIndex:indexPath.row];
     
     NSLog(@"Selected groupId %ld", (long)selectedGroupConversation.group.groupId);
     
@@ -187,7 +196,7 @@
     // Set cells placeholder image
     cell.groupImageView.image = [UIImage imageNamed:@"chatfrom_doctor_icon"];
     
-    IRGroupConversation *groupConversation = ((IRGroupConversation * )self.chatDataSourceManager.conversationsDataSource[indexPath.row]);
+    IRGroupConversation *groupConversation = ((IRGroupConversation * )_matchedGroupsDataSourceManager.groupConversationsDataSource[indexPath.row]);
     if (groupConversation.group.downloadedImage) {
         // set the image
         cell.groupImageView.image = groupConversation.group.downloadedImage;
