@@ -7,38 +7,42 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MZFayeClient.h>
 #import "IRMessage.h"
 #import "IRGroup.h"
 #import "IRMatchedGroupsDataSourceManager.h"
 #import "IRGroupConversation.h"
 
-@protocol WebSocketServiceHandlerDelegate;
+@interface IRWebSocketServiceHandler : NSObject <MZFayeClientDelegate>
 
-@interface IRWebSocketServiceHandler : NSObject
+@property (nonatomic, strong) MZFayeClient *webSocketClient;
+@property (nonatomic) BOOL isConnected;
+@property (nonatomic, strong) NSString *clientId;
 
-
-@property (nonatomic, strong) id<WebSocketServiceHandlerDelegate>delegate;
-
-
+/**
+ * This will initiate a connection with backend faye server, however, it will not connect until connection method is called
+ */
 + (IRWebSocketServiceHandler *)sharedWebSocketHandler;
 
-- (void)sendMessage:(IRMessage *)message toGroup:(IRGroup *)group withCompletionBlockSuccess:(void (^)(BOOL succeeded))success failure:(void (^)(NSError *error))failure;
+/**
+ * Returns whether we are connected to backend faye server
+ */
+- (BOOL)isConnected;
 
-@end
+/**
+ * Connected to backend faye server
+ */
+- (void)connect;
+
+/**
+ * Subscribes to a channel
+ */
+- (void)subscribeToChannel:(NSString *)channel;
+
+/**
+ * Sends a message to a specific group and channel
+ */
+- (void)sendMessage:(NSDictionary *)message toGroup:(IRGroup *)group toChannel:(NSString *)channel;
 
 
-
-/****
-*
-* Delegates of WebSocketServiceHandler
-*
-****/
-@protocol WebSocketServiceHandlerDelegate <NSObject>
-@optional
-
-// Retrieving
-- (void)webSocketServiceHandler:(IRWebSocketServiceHandler *)service didReceiveNewMessage:(IRMessage *)message fromGroup:(IRGroup *)group;
-
-// Error
-- (void)webSocketServiceHandler:(IRWebSocketServiceHandler *)service didFailWithError:(NSError *)error whileSendingToGroup:(IRGroup *)group;
 @end

@@ -18,20 +18,23 @@
 
 @end
 
-@interface ResultGroupMenu : UIView <UITableViewDelegate, UITableViewDataSource> {
+@interface ResultGroupMenu : UIView {
     @private
     UITableView *menuTable;
     CGFloat xAxis, yAxis,height, width;
     BOOL isOpen;
     UITapGestureRecognizer *gesture;
-    UISwipeGestureRecognizer *leftSwipe, *rightSwipe;
     UIImage *blurredImage;
     UIImageView *backGroundImage;
     UIImage *screenShotImage;
     UIImageView *screenShotView;
+    
 }
+@property (strong, nonatomic) IBOutlet UIView *view;
+@property (weak, nonatomic) IBOutlet UIImageView *ownGroupImageView;
 
-@property(nonatomic, weak) id <ResultGroupMenuDelegate> delegate;
+
+@property (nonatomic, weak) id <ResultGroupMenuDelegate> delegate;
 @property (nonatomic, retain) NSArray *titleArray;
 @property (nonatomic, retain) NSArray *imageArray;
 @property (nonatomic, retain) NSMutableArray *itemsArray;

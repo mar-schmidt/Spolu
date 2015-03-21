@@ -46,15 +46,8 @@
 {
     IRWebSocketServiceHandler *webSocketServiceHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
     
-    [webSocketServiceHandler sendMessage:message toGroup:group withCompletionBlockSuccess:^(BOOL succeeded) {
-        if (succeeded) {
-            NSLog(@"Successfully sent to backend");
-        }
-    } failure:^(NSError *error) {
-        NSLog(@"Error when sending to backend: %@", error.localizedDescription);
-    }];
+    [webSocketServiceHandler sendMessage:message toGroup:group toChannel:group.channel];
 }
-
 
 - (void)sendMessage:(IRMessage *)message forGroupConversation:(IRGroupConversation *)groupConversation
 {
@@ -109,6 +102,7 @@
     
     IRMessage *receivedMessage = notification.userInfo[@"message"];
     IRGroup *fromGroup = notification.userInfo[@"group"];
+    NSString *channel = notification.userInfo[@"channel"];
     
     if (_groupConversationsDataSource.count > 0) {
         // If message comes from existing group, add it to its messages array. Otherwise we'll add a new conversation
@@ -116,6 +110,7 @@
             if ((existingGroupConversation.group.groupId == fromGroup.groupId)) {
                 [existingGroupConversation.messages addObject:[self embedMessageInMessageFrame:receivedMessage]];
                 existingGroupConversation.latestReceivedMessage = [NSDate date];
+                existingGroupConversation.conversationChannel = channel;
                 
                 // Notifying delegate responder which is InteractionsViewController
                 if ([self.delegate respondsToSelector:@selector(matchedGroupsDataSourceManager:didReceiveMessages:inGroupChat:)]) {
@@ -135,6 +130,7 @@
     } else {
         // Its the first conversation. Create a new one.
         IRGroupConversation *newGroupConversation = [self createNewGroupConversationWithMessage:receivedMessage fromGroup:fromGroup];
+        newGroupConversation.conversationChannel = channel;
         [_groupConversationsDataSource addObject:newGroupConversation];
         
         // Notifying delegate responder which is InteractionsChatModel
@@ -148,6 +144,7 @@
 - (void)didReceiveNewMatch:(NSNotification *)notification
 {
     IRGroupConversation *groupConversation = notification.userInfo[@"group"];
+    NSString *channel = notification.userInfo[@"channel"];
     
     // Adding this due to a shitty bug i cannot track. Take _currentGroup.groupId (since its correct) and point it to a new IRGroup instance which we will use for the async like response block. Later we will get ID in the response which we can double check against.
     NSMutableArray *groupIds = [[NSMutableArray alloc] init];
@@ -155,6 +152,7 @@
         [groupIds addObject:[NSNumber numberWithInteger:conversation.group.groupId]];
     }
     if (![groupIds containsObject:[NSNumber numberWithInteger:groupConversation.group.groupId]]) {
+        groupConversation.conversationChannel = channel;
         [_groupConversationsDataSource addObject:groupConversation];
     }
 }

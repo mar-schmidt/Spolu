@@ -38,6 +38,7 @@ typedef enum {
 @property (nonatomic, strong) IRGroup *localGroup;
 @property (nonatomic) NSInteger distance;
 @property (nonatomic) BOOL match;
+@property (nonatomic, strong) NSString *channel;
 
 - (id)initWithGroupId:(NSInteger)groupId
              imageUrl:(NSString *)imageUrl

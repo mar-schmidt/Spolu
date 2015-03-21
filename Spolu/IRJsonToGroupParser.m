@@ -47,6 +47,10 @@
                                                        gender:[[diction objectForKey:@"gender"] integerValue]
                                                           age:[[diction objectForKey:@"age"] integerValue]
                                                      distance:[[diction objectForKey:@"distance_km"] integerValue]];
+            
+            if ([diction objectForKey:@"channel"]) {
+                group.channel = [diction objectForKey:@"channel"];
+            }
             // Add the group to groups array
             [groups addObject:group];
         }
@@ -58,6 +62,10 @@
                                                    gender:[[responseObject objectForKey:@"gender"] integerValue]
                                                       age:[[responseObject objectForKey:@"age"] integerValue]
                                                  distance:[[responseObject objectForKey:@"distance_km"] integerValue]];
+        
+        if ([responseObject objectForKey:@"channel"]) {
+            group.channel = [responseObject objectForKey:@"channel"];
+        }
         // Add the group to groups array
         [groups addObject:group];
     }

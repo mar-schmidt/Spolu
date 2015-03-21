@@ -13,9 +13,11 @@
 		2C0B24D51AAB9CC000BA81EE /* ImageLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B24D41AAB9CC000BA81EE /* ImageLabelView.m */; };
 		2C0B24D81AABA84E00BA81EE /* IRMatchServiceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B24D71AABA84E00BA81EE /* IRMatchServiceHandler.m */; };
 		2C0B24DB1AABB0C200BA81EE /* IRJsonToGroupParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B24DA1AABB0C200BA81EE /* IRJsonToGroupParser.m */; };
+		2C33ABC71AB868CD00054BE4 /* UITableView+LongPress.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C33ABC61AB868CD00054BE4 /* UITableView+LongPress.m */; };
 		2C40BBDF1AB3A41C00E0F3E8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C40BBDE1AB3A41C00E0F3E8 /* NSData+Base64.m */; };
 		2C7138E21AA3C11D001D2582 /* InteractionsConversationsMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */; };
 		2C7138F41AA65269001D2582 /* UIView+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7138F31AA65269001D2582 /* UIView+Animation.m */; };
+		2C7F8EBD1ABC991100908A19 /* ResultGroupMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C7F8EBC1ABC991100908A19 /* ResultGroupMenu.xib */; };
 		2C971E061AB21314005F2F42 /* MRInstallation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C971E051AB21314005F2F42 /* MRInstallation.m */; };
 		2C971E091AB21C6D005F2F42 /* MRPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C971E081AB21C6D005F2F42 /* MRPush.m */; };
 		2CD275851A9BB13600F7D5CF /* IRImageViewDisplayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD275841A9BB13600F7D5CF /* IRImageViewDisplayer.m */; };
@@ -118,12 +120,19 @@
 		2C0B24D71AABA84E00BA81EE /* IRMatchServiceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMatchServiceHandler.m; sourceTree = "<group>"; };
 		2C0B24D91AABB0C200BA81EE /* IRJsonToGroupParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRJsonToGroupParser.h; sourceTree = "<group>"; };
 		2C0B24DA1AABB0C200BA81EE /* IRJsonToGroupParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRJsonToGroupParser.m; sourceTree = "<group>"; };
+		2C33ABC51AB868CD00054BE4 /* UITableView+LongPress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+LongPress.h"; sourceTree = "<group>"; };
+		2C33ABC61AB868CD00054BE4 /* UITableView+LongPress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+LongPress.m"; sourceTree = "<group>"; };
+		2C33ABD71AB8BAE600054BE4 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		2C33ABD91AB8BAEF00054BE4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		2C33ABDB1AB8BAF700054BE4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		2C33ABDD1AB8BB0100054BE4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2C40BBDD1AB3A41C00E0F3E8 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		2C40BBDE1AB3A41C00E0F3E8 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		2C7138DF1AA3C11D001D2582 /* InteractionsConversationsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InteractionsConversationsMenu.h; path = btSimpleSideMenu/InteractionsConversationsMenu.h; sourceTree = "<group>"; };
 		2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InteractionsConversationsMenu.m; path = btSimpleSideMenu/InteractionsConversationsMenu.m; sourceTree = "<group>"; };
 		2C7138F21AA65269001D2582 /* UIView+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Animation.h"; sourceTree = "<group>"; };
 		2C7138F31AA65269001D2582 /* UIView+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Animation.m"; sourceTree = "<group>"; };
+		2C7F8EBC1ABC991100908A19 /* ResultGroupMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResultGroupMenu.xib; sourceTree = "<group>"; };
 		2C971E041AB21314005F2F42 /* MRInstallation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRInstallation.h; sourceTree = "<group>"; };
 		2C971E051AB21314005F2F42 /* MRInstallation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRInstallation.m; sourceTree = "<group>"; };
 		2C971E071AB21C6D005F2F42 /* MRPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPush.h; sourceTree = "<group>"; };
@@ -316,13 +325,14 @@
 				2CD275821A9BB0F500F7D5CF /* IRChat */,
 				2CE20A711AAEDC5500CB4204 /* MRPreparingView.h */,
 				2CE20A721AAEDC5500CB4204 /* MRPreparingView.m */,
-				2CE20A701AAEDC4300CB4204 /* MDCSwipeView */,
 				2C7138DF1AA3C11D001D2582 /* InteractionsConversationsMenu.h */,
 				2C7138E01AA3C11D001D2582 /* InteractionsConversationsMenu.m */,
 				2CE20A7A1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.h */,
 				2CE20A7B1AAF18AE00CB4204 /* InteractionsConversationsMenuCell.m */,
 				2CE20A7D1AB073A300CB4204 /* ResultGroupMenu.h */,
 				2CE20A7E1AB073A300CB4204 /* ResultGroupMenu.m */,
+				2C7F8EBC1ABC991100908A19 /* ResultGroupMenu.xib */,
+				2CE20A701AAEDC4300CB4204 /* MDCSwipeView */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -348,6 +358,15 @@
 				2CFE37FD1A98DE4500A5CDE0 /* Controller */,
 			);
 			name = "Model View Controller";
+			sourceTree = "<group>";
+		};
+		2C33ABC41AB868A500054BE4 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				2C33ABC51AB868CD00054BE4 /* UITableView+LongPress.h */,
+				2C33ABC61AB868CD00054BE4 /* UITableView+LongPress.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		2C7138F11AA65238001D2582 /* Category */ = {
@@ -602,6 +621,7 @@
 				2CF21F5D1A97BF6100D2FFBA /* LaunchScreen.xib */,
 				2CF21F521A97BF6100D2FFBA /* AppDelegate.h */,
 				2CF21F531A97BF6100D2FFBA /* AppDelegate.m */,
+				2C33ABC41AB868A500054BE4 /* Categories */,
 				2C0C15381AB3663C000E2446 /* Model View Controller */,
 				2CF21F791A97CACC00D2FFBA /* 3rd part */,
 				2CF21F4E1A97BF6100D2FFBA /* Supporting Files */,
@@ -672,6 +692,10 @@
 		2CFE37FE1A98DF3F00A5CDE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C33ABDD1AB8BB0100054BE4 /* Foundation.framework */,
+				2C33ABDB1AB8BAF700054BE4 /* Security.framework */,
+				2C33ABD91AB8BAEF00054BE4 /* CFNetwork.framework */,
+				2C33ABD71AB8BAE600054BE4 /* libicucore.dylib */,
 				2C0B248C1AA76D1700BA81EE /* Crashlytics.framework */,
 				2C0B248D1AA76D1700BA81EE /* Fabric.framework */,
 				2CDD98051A99096700B3C591 /* AVFoundation.framework */,
@@ -785,6 +809,7 @@
 				2CD688AC1A9CA373008D446A /* arrow@2x.png in Resources */,
 				2CF21F5F1A97BF6100D2FFBA /* LaunchScreen.xib in Resources */,
 				2CF21F5C1A97BF6100D2FFBA /* Images.xcassets in Resources */,
+				2C7F8EBD1ABC991100908A19 /* ResultGroupMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -905,6 +930,7 @@
 				2CE20A6D1AAEDC0C00CB4204 /* CERoundProgressLayer.m in Sources */,
 				2CD275ED1A9BC6C200F7D5CF /* UIProgressView+AFNetworking.m in Sources */,
 				2CD275A21A9BB38100F7D5CF /* IRInputFunctionView.m in Sources */,
+				2C33ABC71AB868CD00054BE4 /* UITableView+LongPress.m in Sources */,
 				2C40BBDF1AB3A41C00E0F3E8 /* NSData+Base64.m in Sources */,
 				2CD688B51A9CB83B008D446A /* IRMatchedGroupsDataSourceManager.m in Sources */,
 				2CD688C21AA0E3D9008D446A /* IRGroupConversation.m in Sources */,

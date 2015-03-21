@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Spolu Apps. All rights reserved.
 //
 
-#define GENERIC_IMAGE_FRAME CGRectMake(0, 0, 40, 40)
 #define MENU_WIDTH 230
 
 #import <QuartzCore/QuartzCore.h>
@@ -14,6 +13,7 @@
 #import "InteractionsConversationsMenu.h"
 #import "UIView+Animation.h"
 #import "InteractionsConversationsMenuCell.h"
+#import "IRImageViewDisplayer.h"
 
 
 @implementation InteractionsConversationsMenu
@@ -30,8 +30,12 @@
         
         // Register for new messages notification
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMessageNotification:) name:@"newMessageReceived" object:nil];
+        
         // Register for new matches notification
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewMatch:) name:@"newMatchReceived" object:nil];
+        
+        // Add long press recognizer
+        [menuTable addLongPressRecognizer];
     }
     return self;
 }
@@ -91,6 +95,8 @@
     
     // Commit animations
     [menuTable endUpdates];
+    
+    [menuTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
@@ -147,7 +153,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 160;
+    return 120;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -158,19 +164,21 @@
     
     [self.delegate InteractionsConversationsMenu:self didSelectGroupConversation:selectedGroupConversation];
     
-    UITableViewCell *cell = [menuTable cellForRowAtIndexPath:indexPath];
+    InteractionsConversationsMenuCell *cell = (InteractionsConversationsMenuCell *)[menuTable cellForRowAtIndexPath:indexPath];
  
     /******
     *
-    * TODO MORE ON
+    * Animation
     *
     ******/
-    CGRect cellFrame = cell.frame;
-    cellFrame.origin.x = (self.parent.view.frame.size.width - cell.frame.size.width)/2;
-    cellFrame.origin.y = self.parent.circleView.frame.origin.y-35;
     UIWindow *currentWindow = [UIApplication sharedApplication].keyWindow;
+    CGRect screenSize = [UIScreen mainScreen].bounds;
+    CGRect cellFrame = cell.bounds;
+    cellFrame.origin.x = screenSize.size.width/2 - 100;
+    cellFrame.origin.y = self.parent.circleView.bounds.origin.y-20;
     
-    [UIView animateWithDuration:0.3 animations:^{
+    
+    [UIView animateWithDuration:0.2 animations:^{
         [currentWindow addSubview:cell];
         cell.frame = cellFrame;
         cell.alpha = 0.3;
@@ -213,7 +221,48 @@
         }
     }
     
+    // Set the latestRecievedMessage label
+    NSString *dateString = [NSDateFormatter localizedStringFromDate:groupConversation.latestReceivedMessage
+                                                          dateStyle:NSDateFormatterNoStyle
+                                                          timeStyle:NSDateFormatterShortStyle];
+    // There are messages. Set the latest
+    cell.latestMessageReceived.text = dateString;
+    
+    
+    // Set the text of messageLabel depending on if there are messages or just a match
+    if (groupConversation.messages.count > 0) {
+        // There are messages. Set the latest
+        IRMessageFrame *messageFrame = groupConversation.messages.lastObject;
+        if (messageFrame.message.strContent) {
+            cell.messageMatchLabel.text = messageFrame.message.strContent;
+        } else if (messageFrame.message.picture) {
+            cell.messageMatchLabel.text = @"Sent an image";
+        } else if (messageFrame.message.voice) {
+            cell.messageMatchLabel.text = @"Sent a voice message";
+        }
+        
+        // Is it unread? Then make its color green, otherwise gray
+        if (!messageFrame.message.readFlag) {
+            cell.messageMatchLabel.textColor = [UIColor colorWithRed:51/255.0f green:105/255.0f blue:30/255.0f alpha:1];
+        } else {
+            cell.messageMatchLabel.textColor = [UIColor lightGrayColor];
+        }
+    } else {
+        // So there are no messages. Set messageMatchLabel.text to match
+        cell.messageMatchLabel.text = @"New match!";
+        cell.messageMatchLabel.textColor = [UIColor colorWithRed:124/255.0f green:179/255.0f blue:66/255.0f alpha:1];
+    }
+    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didRecognizeLongPressOnRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    IRGroupConversation *groupConversation = ((IRGroupConversation * )_matchedGroupsDataSourceManager.groupConversationsDataSource[indexPath.row]);
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:groupConversation.group.downloadedImage];
+    
+    [IRImageViewDisplayer showImage:imageView];
 }
 
 #pragma -mark Private helpers

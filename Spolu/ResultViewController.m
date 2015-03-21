@@ -191,6 +191,8 @@
                 IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
                 IRGroupConversation *newGroupConversation = [matchedGroupsDataSourceManager createNewGroupConversationWithMessage:nil fromGroup:likedGroup];
 
+                // NEED TO ADD CHANNEL HERE
+                
                 [matchedGroupsDataSourceManager.groupConversationsDataSource addObject:newGroupConversation];
 
             } else {

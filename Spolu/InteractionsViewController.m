@@ -20,7 +20,7 @@
 #import "InteractionsConversationsMenu.h"
 #import "IRMatchServiceHandler.h"
 
-@interface InteractionsViewController () <IRInputFunctionViewDelegate, IRMessageCellDelegate, UITableViewDataSource, UITableViewDelegate, WebSocketServiceHandlerDelegate, InteractionsConversationsMenuDelegate>
+@interface InteractionsViewController () <IRInputFunctionViewDelegate, IRMessageCellDelegate, UITableViewDataSource, UITableViewDelegate, InteractionsConversationsMenuDelegate>
 
 @property (strong, nonatomic) MJRefreshHeaderView *head;
 @property (strong, nonatomic) IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager;
@@ -105,25 +105,27 @@
             // So no conversations exists locally. Lets fetch matches and see if there are any conversations to those matches
             NSLog(@"No existing conversations found locally. Checking backend for current matches which could have active conversations...");
             IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
-            [matchServiceHandler getMatchesWithCompletionBlock:^(NSArray *groups) {
-                if (groups.count > 0) {
+            
+            [matchServiceHandler getMatchesConversationsWithCompletionBlock:^(NSArray *groupConversations) {
+                if (groupConversations.count > 0) {
                     
                     // There are matches. Adding them to matchedGroupsDataSource
                     NSLog(@"Matches found in backend! Adding these to matchedGroupsDataSource...");
                     IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
                     
-                    NSMutableArray *fetchedGroupConversations = [[NSMutableArray alloc] init];
-                    
-                    for (IRGroup *group in groups) {
-                        IRGroupConversation *groupConversation = [matchedGroupsDataSourceManager createNewGroupConversationWithMessage:nil fromGroup:group];
-                        [fetchedGroupConversations addObject:groupConversation];
-                    }
-                    matchedGroupsDataSourceManager.groupConversationsDataSource = fetchedGroupConversations;
+                    matchedGroupsDataSourceManager.groupConversationsDataSource = [groupConversations mutableCopy];
                 }
-                
+
             } failure:^(NSError *error) {
                 NSLog(@"Could not query backend for current matches. Exiting...");
             }];
+            /*
+            [matchServiceHandler getMatchesWithCompletionBlock:^(NSArray *groups) {
+             
+            } failure:^(NSError *error) {
+             
+            }];
+             */
         }
     }
     

@@ -27,9 +27,8 @@
     // Fabric with crashlyrics
     [Fabric with:@[CrashlyticsKit]];
     
-    IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
     IRWebSocketServiceHandler *websocket = [IRWebSocketServiceHandler sharedWebSocketHandler];
-    websocket.delegate = matchedGroupsDataSourceManager;
+    [websocket connect];
     
     if([[[UIDevice currentDevice] systemVersion] integerValue] >= 8)
     {

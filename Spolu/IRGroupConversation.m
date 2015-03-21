@@ -15,6 +15,7 @@
     self = [super self];
     if (self) {
         _messages = [[NSMutableArray alloc] init];
+        
     }
     return self;
 }

@@ -25,52 +25,204 @@
 {
     self = [super init];
     if (self) {
-        // Test
-        /*
-        NSDate *d = [NSDate dateWithTimeIntervalSinceNow:60.0];
-        NSTimer *t = [[NSTimer alloc] initWithFireDate:d
-                                              interval:60
-                                                target:self
-                                              selector:@selector(sendRandomMessage)
-                                              userInfo:nil repeats:YES];
-        
-        NSRunLoop *runner = [NSRunLoop currentRunLoop];
-        [runner addTimer:t forMode: NSDefaultRunLoopMode];
-         */
+        _webSocketClient = [[MZFayeClient alloc] initWithURL:[NSURL URLWithString:@"ws://192.168.1.137:3000/faye"]];
+        _webSocketClient.delegate = self;
     }
     return self;
 }
 
-
-/****
-*
-* Message that was sent from local user to group. Forward this to backend
-*
-****/
-- (void)sendMessage:(IRMessage *)message toGroup:(IRGroup *)group withCompletionBlockSuccess:(void (^)(BOOL))success failure:(void (^)(NSError *))failure
+- (BOOL)isConnected
 {
-    NSLog(@"\nMessage Sent!\nMessage: %@\nGroup: %ld", message.strContent, (long)group.groupId);
+    BOOL connected;
     
-    success(YES);
+    if ([_webSocketClient isConnected]) {
+        connected = YES;
+    } else {
+        connected = NO;
+    }
+        
+    return connected;
 }
+
+- (void)connect
+{
+    [_webSocketClient connect];
+}
+
+
+- (void)subscribeToChannel:(NSString *)channel
+{
+    NSLog(@"Subscribing to channel: %@", channel);
+    [_webSocketClient subscribeToChannel:channel];
+}
+
+- (void)sendMessage:(NSDictionary *)message toGroup:(IRGroup *)group toChannel:(NSString *)channel
+{
+    //NSLog(@"Sending message: %@, to group: %ld, to channel: %@...", message.strContent, (long)group.groupId, channel);
+    
+    [_webSocketClient sendMessage:message toChannel:channel];
+}
+
+
+
+
+#pragma mark MZFayeClientDelegates
+- (void)fayeClient:(MZFayeClient *)client didConnectToURL:(NSURL *)url
+{
+    NSLog(@"Connected to faye server on %@", url);
+}
+
+- (void)fayeClient:(MZFayeClient *)client didDisconnectWithError:(NSError *)error
+{
+    NSLog(@"Disconnected to faye server with error: %@", error.localizedDescription);
+}
+
+- (void)fayeClient:(MZFayeClient *)client didSubscribeToChannel:(NSString *)channel
+{
+    NSLog(@"Subscribed to channel: %@", channel);
+}
+
+- (void)fayeClient:(MZFayeClient *)client didUnsubscribeFromChannel:(NSString *)channel
+{
+    NSLog(@"Unsubscribed from channel: %@", channel);
+}
+
+- (void)fayeClient:(MZFayeClient *)client didFailWithError:(NSError *)error
+{
+    NSLog(@"Faye error: %@", error.localizedDescription);
+}
+
+- (void)fayeClient:(MZFayeClient *)client didReceiveMessage:(NSDictionary *)messageData fromChannel:(NSString *)channel
+{
+    NSLog(@"Received message from faye: %@, From channel: %@", messageData[@"text"], channel);
+
+    [self getGroupConversationFromChannel:channel withCompletionBlock:^(IRGroupConversation *groupConversation) {
+        if (groupConversation) {
+            IRMessage *message = [self createNewMessageFromGroupConversation:groupConversation withMessage:messageData[@"text"]];
+            
+            NSDictionary *userInfo = @{@"message" : message,
+                                       @"group" : groupConversation.group,
+                                       @"channel" : channel};
+            NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+            [nc postNotificationName:@"newMessageReceived" object:self userInfo:userInfo];
+        }
+        // Error handling goes here
+    }];
+}
+
+
+
+
+- (void)getGroupConversationFromChannel:(NSString *)channel withCompletionBlock:(void (^)(IRGroupConversation *blockGroupConversation))groupFromChannel
+{
+    IRMatchedGroupsDataSourceManager *matchedGroupsDataSource = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
+    if (matchedGroupsDataSource.groupConversationsDataSource.count > 0) {
+        // If there are a group in matchedGroupDataSource.groupConversationsDataSource which corresponds to the input channel, return it
+        for (IRGroupConversation *groupConversation in matchedGroupsDataSource.groupConversationsDataSource) {
+            if ([groupConversation.conversationChannel isEqualToString:channel]) {
+                groupFromChannel(groupConversation);
+                return;
+            }
+        }
+
+    } else {
+        // We doesnt seems to have any matchedGroups.. This wouldnt happen if we do have a received message, but could occur if user has shut down the app completely. Therefor, get the current matches first
+        NSLog(@"No local groupsConversations that corresponds to the received message-channel was found. Looking in backend...");
+        IRMatchServiceHandler *matchedServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
+    
+        [matchedServiceHandler getMatchesConversationsWithCompletionBlock:^(NSArray *groupConversations) {
+            for (IRGroupConversation *groupConversation in groupConversations) {
+                if ([groupConversation.conversationChannel isEqualToString:channel]) {
+                    // Return the new group to the block
+                    NSLog(@"Found corresponding group conversations in backend");
+                    groupFromChannel(groupConversation);
+                    return;
+                }
+            }
+
+        } failure:^(NSError *error) {
+            NSLog(@"Failed receiving group conversations from backend. Exiting...");
+        }];
+    }
+    
+    if (!groupFromChannel) {
+        // No local groupConversation or backendGroupConversation was found, exiting...
+        NSLog(@"Received message from unknown (local and backend) group conversation... Ignoring message");
+    }
+}
+
+static int dateNum = 10;
+static NSString *previousTime = nil;
+
+- (IRMessage *)createNewMessageFromGroupConversation:(IRGroupConversation *)groupConversation withMessage:(NSString *)receivedMessage
+{
+    IRMessage *message = [[IRMessage alloc] init];
+    /*
+    int randomNum = arc4random()%2;
+    switch (randomNum) {
+        case 0:// text
+            message.strContent = [self randomString];
+            break;
+        case 1:// picture
+            message.picture = [UIImage imageNamed:@"haha.jpeg"];
+            break;
+            //            case 2:// audio
+            //                [dictionary setObject:@"" forKey:@"voice"];
+            //                [dictionary setObject:@"" forKey:@"strVoiceTime"];
+            //                break;
+        default:
+            break;
+    }
+     */
+    NSDate *date = [[NSDate date]dateByAddingTimeInterval:arc4random()%1000*(dateNum++) ];
+    message.from = IRMessageFromOther;
+    message.type = 0; // Todo, change depending on image, voice or text. Going for text atm
+    message.strTime = [date description];
+    message.strIcon = groupConversation.group.imageUrl;
+    message.readFlag = NO;
+    message.fromGroup = groupConversation.group;
+    message.strContent = receivedMessage;
+    
+    [message minuteOffSetStart:previousTime end:[self currentTime]];
+    
+    if (message.showDateLabel) {
+        previousTime = [[NSDate date] description];
+    }
+    
+    return message;
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 // Test
 - (void)sendRandomMessage
 {
-    IRMatchedGroupsDataSourceManager *matchedGroupsDataSource = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
-    if (matchedGroupsDataSource.groupConversationsDataSource.count > 0) {
-        IRGroupConversation *groupConversation = matchedGroupsDataSource.groupConversationsDataSource[arc4random()%matchedGroupsDataSource.groupConversationsDataSource.count];
-        IRMessage *message = [self randomMessageFromGroup:groupConversation.group];
-        message.fromGroup = groupConversation.group;
-        
-        NSLog(@"Received new message from group %ld...", (long)groupConversation.group.groupId);
-        
-        NSDictionary *userInfo = @{@"message" : message, @"group" : groupConversation.group};
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName:@"newMessageReceived" object:self userInfo:userInfo];
-    }
+
     /*
     if ([self.delegate respondsToSelector:@selector(webSocketServiceHandler:didReceiveNewMessage:fromGroup:)]) {
         [self.delegate webSocketServiceHandler:self didReceiveNewMessage:message fromGroup:group];
@@ -79,8 +231,6 @@
 
 }
 
-static int dateNum = 10;
-static NSString *previousTime = nil;
 
 - (IRMessage *)randomMessageFromGroup:(IRGroup *)group
 {

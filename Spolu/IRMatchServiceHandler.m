@@ -11,8 +11,8 @@
 
 // Api key and address
 static NSString * const ApiKey = @"ASDJOO12893891JAHDS";
-static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
-// TEST static NSString * const ApiAddress = @"http://192.168.1.137:3000";
+//static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
+static NSString * const ApiAddress = @"http://192.168.1.137:3000";
 
 @implementation IRMatchServiceHandler
 
@@ -109,7 +109,7 @@ static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
       }];
 }
 
-- (void)getMatchesWithCompletionBlock:(void (^)(NSArray *))matchedGroups failure:(void (^)(NSError *))failure
+- (void)getMatchesConversationsWithCompletionBlock:(void (^)(NSArray *groupConversations))matchedGroupConversations failure:(void (^)(NSError *error))failure
 {
     // API request
     [self GET:[NSString stringWithFormat:@"%@/matches", ApiAddress]
@@ -117,7 +117,15 @@ static NSString * const ApiAddress = @"https://spolu.herokuapp.com";
       success:^(NSURLSessionDataTask *task, id responseObject) {
           // Parse dictionary responseObject to group object
           NSMutableArray *groups = [jsonParser parseGroupsFromResponseObject:responseObject];
-          matchedGroups(groups);
+          NSMutableArray *groupConversations = [[NSMutableArray alloc] init];
+          for (IRGroup *group in groups) {
+              IRGroupConversation *newGroupConversation = [[IRGroupConversation alloc] init];
+              newGroupConversation.group = group;
+              newGroupConversation.conversationChannel = group.channel;
+              
+              [groupConversations addObject:newGroupConversation];
+          }
+          matchedGroupConversations(groupConversations);
       }
       failure:^(NSURLSessionDataTask *task, NSError *error) {
           if ([self.delegate respondsToSelector:@selector(matchServiceHandler:didFailWithError:)]) {

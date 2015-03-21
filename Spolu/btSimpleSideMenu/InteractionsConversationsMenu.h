@@ -10,6 +10,7 @@
 #import "IRMatchedGroupsDataSourceManager.h"
 #import "IRGroupConversation.h"
 #import "InteractionsViewController.h"
+#import "UITableView+LongPress.h"
 
 @class InteractionsConversationsMenu;
 
@@ -20,7 +21,7 @@
 
 @end
 
-@interface InteractionsConversationsMenu : UIView <UITableViewDelegate, UITableViewDataSource> {
+@interface InteractionsConversationsMenu : UIView <UITableViewDelegate, UITableViewDataSource, UITableViewDelegateLongPress> {
     @private
     UITableView *menuTable;
     CGFloat xAxis, yAxis,height, width;

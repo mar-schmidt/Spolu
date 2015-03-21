@@ -23,4 +23,6 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UIImageView *imageView;
 
+@property (nonatomic, strong) NSString *conversationChannel;
+
 @end

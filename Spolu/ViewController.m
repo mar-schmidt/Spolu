@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 
+
 @interface ViewController ()
 
 @end
@@ -24,6 +25,8 @@
     
     // Set status bar to light for this viewcontroller
     [self setNeedsStatusBarAppearanceUpdate];
+    
+    webSocketHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -37,4 +40,20 @@
 
 - (IBAction)beginButton:(id)sender {
 }
+- (IBAction)test:(id)sender {
+
+    [webSocketHandler sendMessage:@{@"message": @"KNUUULLA till kanal chat2",
+                                    @"user_id": @"2",
+                                    @"other_user_id": @"9",
+                                    @"text": @"carlos"} toGroup:nil toChannel:@"/chat2"];
+}
+
+- (IBAction)connect:(id)sender {
+    [webSocketHandler connect];
+}
+
+- (IBAction)channel1:(id)sender {
+    [webSocketHandler subscribeToChannel:@"/chat2"];
+}
+
 @end

@@ -98,7 +98,8 @@
 
 + (void)sendNotificationAboutMatchWithGroup:(IRGroupConversation *)groupConversation
 {
-    NSDictionary *userInfo = @{@"group" : groupConversation};
+    NSDictionary *userInfo = @{@"group" : groupConversation,
+                               @"channel" : groupConversation.conversationChannel};
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc postNotificationName:@"newMatchReceived" object:self userInfo:userInfo];
 }
@@ -123,18 +124,22 @@
     NSLog(@"Fetching current matches from backend...");
     IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
     IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
-    [matchServiceHandler getMatchesWithCompletionBlock:^(NSArray *groups) {
-        NSLog(@"Received %ld matches", (long)groups.count);
-        // Create an mutable array to place all the matched groupsconversations in
-        NSMutableArray *newlyMatchedGroupConversations = [[NSMutableArray alloc] init];
-        for (IRGroup *group in groups) {
-            IRGroupConversation *groupConversation = [matchedGroupsDataSourceManager createNewGroupConversationWithMessage:nil fromGroup:group];
-            [newlyMatchedGroupConversations addObject:groupConversation];
-        }
-        matchedGroupConversations(newlyMatchedGroupConversations);
+    
+    [matchServiceHandler getMatchesConversationsWithCompletionBlock:^(NSArray *groupConversations) {
+        NSLog(@"Received %ld matches", (long)groupConversations.count);
+
+        matchedGroupConversations(groupConversations);
+
     } failure:^(NSError *error) {
         NSLog(@"Failed retrieving matches. %@", error.localizedDescription);
     }];
+    
+    /*
+    [matchServiceHandler getMatchesWithCompletionBlock:^(NSArray *groups) {
+            } failure:^(NSError *error) {
+     
+    }];
+     */
 }
 
 + (void)getRecentMatchFromBackendWithGroupId:(NSInteger)groupId andWithCompletionBlock:(void (^)(IRGroup *group))matchedGroup

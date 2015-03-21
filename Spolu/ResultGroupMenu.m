@@ -21,23 +21,15 @@
 - (instancetype)initFromViewController:(id)sender
 {
     if ((self = [super init])) {
+        [[NSBundle mainBundle] loadNibNamed:@"ResultGroupMenu" owner:self options:nil];
+        
         [self commonInit:sender];
         
-        [menuTable reloadData];
+
+        //[menuTable reloadData];
     }
     return self;
 }
-
-- (NSMutableArray *)sortArrayByDate:(NSMutableArray *)array
-{
-    NSSortDescriptor *valueDescriptorGroup = [[NSSortDescriptor alloc] initWithKey:@"latestReceivedMessage" ascending:NO];
-    
-    NSArray *descriptors = @[valueDescriptorGroup];
-    NSArray *sortedArray = [array sortedArrayUsingDescriptors:descriptors];
-    
-    return [sortedArray mutableCopy];
-}
-
 
 - (void)toggleMenu {
     if(!isOpen){
@@ -78,54 +70,6 @@
     }
 }
 
-#pragma -mark tableView Delegates
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 160;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [self hide];
-    
-    [menuTable deselectRowAtIndexPath:indexPath animated:NO];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"CellIdentifier";
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    /*
-    if (!cell) {
-        cell = [[InteractionsConversationsMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    // Set cells placeholder image
-    cell.groupImageView.image = [UIImage imageNamed:@"chatfrom_doctor_icon"];
-    
-    IRGroupConversation *groupConversation = ((IRGroupConversation * )self.chatDataSourceManager.conversationsDataSource[indexPath.row]);
-    if (groupConversation.group.downloadedImage) {
-        // set the image
-        cell.groupImageView.image = groupConversation.group.downloadedImage;
-    }
-    
-    // If message is not read, set the border to red to notify the user that messages are not read
-    for (IRMessageFrame *messageFrame in groupConversation.messages) {
-        if (!messageFrame.message.readFlag) {
-            cell.circleView.layer.borderColor = [UIColor colorWithRed:124/255.0f green:179/255.0f blue:66/255.0f alpha:1].CGColor;
-            cell.circleView.layer.borderWidth = 2.0;
-        } else {
-            cell.circleView.layer.borderColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
-            cell.circleView.layer.borderWidth = 1.5;
-        }
-    }
-    */
-    return cell;
-}
-
 #pragma -mark Private helpers
 - (void)commonInit:(UIViewController *)sender {
     
@@ -140,7 +84,7 @@
     // This is needed for the blurry background on menuTable
     self.backgroundColor = [UIColor clearColor];
     
-    menuTable = [[UITableView alloc]initWithFrame:CGRectMake(xAxis, yAxis, width, height) style:UITableViewStyleGrouped];
+    //menuTable = [[UITableView alloc]initWithFrame:CGRectMake(xAxis, yAxis, width, height) style:UITableViewStyleGrouped];
  
     // Blur effect
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
@@ -155,17 +99,23 @@
     // Add the vibrancy view to the blur view
     [self addSubview:backgroundView];
 
-    [menuTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [menuTable setShowsVerticalScrollIndicator:NO];
+    //[menuTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    //[menuTable setShowsVerticalScrollIndicator:NO];
     
-    menuTable.backgroundColor = [UIColor clearColor];
-    menuTable.delegate = self;
-    menuTable.dataSource = self;
+    //menuTable.backgroundColor = [UIColor clearColor];
+    //menuTable.delegate = self;
+    //menuTable.dataSource = self;
+    
+    [self addSubview:_view];
+    
+    _ownGroupImageView.layer.borderWidth = 1;
+    _ownGroupImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _ownGroupImageView.layer.cornerRadius = _ownGroupImageView.bounds.size.height/2;
+    _ownGroupImageView.clipsToBounds = YES;
 
     isOpen = NO;
     
-    [backgroundView addSubview:menuTable];
-    
+    //[backgroundView addSubview:menuTable];
     
     UIWindow *currentWindow = [UIApplication sharedApplication].keyWindow;
     [currentWindow addSubview:self];

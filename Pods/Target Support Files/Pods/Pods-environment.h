@@ -6,9 +6,27 @@
 // project.
 
 
+// Base64
+#define COCOAPODS_POD_AVAILABLE_Base64
+#define COCOAPODS_VERSION_MAJOR_Base64 1
+#define COCOAPODS_VERSION_MINOR_Base64 0
+#define COCOAPODS_VERSION_PATCH_Base64 1
+
 // MDCSwipeToChoose
 #define COCOAPODS_POD_AVAILABLE_MDCSwipeToChoose
 #define COCOAPODS_VERSION_MAJOR_MDCSwipeToChoose 0
 #define COCOAPODS_VERSION_MINOR_MDCSwipeToChoose 2
 #define COCOAPODS_VERSION_PATCH_MDCSwipeToChoose 2
+
+// MZFayeClient
+#define COCOAPODS_POD_AVAILABLE_MZFayeClient
+#define COCOAPODS_VERSION_MAJOR_MZFayeClient 1
+#define COCOAPODS_VERSION_MINOR_MZFayeClient 0
+#define COCOAPODS_VERSION_PATCH_MZFayeClient 0
+
+// SocketRocket
+#define COCOAPODS_POD_AVAILABLE_SocketRocket
+#define COCOAPODS_VERSION_MAJOR_SocketRocket 0
+#define COCOAPODS_VERSION_MINOR_SocketRocket 3
+#define COCOAPODS_VERSION_PATCH_SocketRocket 1
 

@@ -4,7 +4,22 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-Base64.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-MDCSwipeToChoose.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-MZFayeClient.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-SocketRocket.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>43E8F5D2D39245956BB83FCC</key>
+		<key>39F22BF2DB836DE9FAC1430A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EB669D0AB068F8A9D6DC6971</key>
+		<key>67EF81ADDFD16625D3C8A034</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6A62AA114B1959623488DAAE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>79DD5250DDE1B182DEA05503</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7AC51E9E5D05811D41DF5E4E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
