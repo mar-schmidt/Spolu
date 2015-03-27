@@ -96,7 +96,10 @@
     // Commit animations
     [menuTable endUpdates];
     
-    [menuTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    // Otherwise crash...
+    if (_matchedGroupsDataSourceManager.groupConversationsDataSource.count > 0) {
+        [menuTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
@@ -229,6 +232,9 @@
     cell.latestMessageReceived.text = dateString;
     
     
+    // Set the name of the group
+    cell.groupNameLabel.text = groupConversation.group.name;
+    
     // Set the text of messageLabel depending on if there are messages or just a match
     if (groupConversation.messages.count > 0) {
         // There are messages. Set the latest
@@ -305,20 +311,8 @@
     
     [backgroundView addSubview:menuTable];
     
-    gesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(toggleMenu)];
-    gesture.numberOfTapsRequired = 2;
-    
-    leftSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(hide)];
-    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    
-    rightSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(show)];
-    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-    
     UIWindow *currentWindow = [UIApplication sharedApplication].keyWindow;
     [currentWindow addSubview:self];
-    [sender.view addGestureRecognizer:gesture];
-    [sender.view addGestureRecognizer:rightSwipe];
-    [sender.view addGestureRecognizer:leftSwipe];
 }
 
 @end

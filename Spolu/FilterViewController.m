@@ -10,6 +10,8 @@
 #import "PreparingViewController.h"
 #import "IRLocationServiceHandler.h"
 #import "NSData+Base64.h"
+#import "MRInstallation.h"
+#import "ResultViewController.h"
 
 @interface FilterViewController ()
 
@@ -21,26 +23,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _ownGroup = [IROwnGroup sharedGroup];
+    if (!_ownGroup.group) {
+        _ownGroup.group = [[IRGroup alloc] init];
+    }
+    /*
+    if (_ownGroup.group) {
+        ResultViewController *resultViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ResultViewController"];
+        [self.navigationController pushViewController:resultViewController animated:YES];
+    }
+    */
+    
     // PickerView
     pickerView.delegate = self;
     [pickerView selectRow:2 inComponent:0 animated:YES];
-    
-    // Check if we have an existing ownGroup. If not, check backend for it
-    ownGroup = [IROwnGroup sharedGroup];
-    
-    if (!ownGroup.group) {
-        ownGroup.group = [self checkBackendForOwnGroup];
-        // Did we get the group from backend?
-        if (ownGroup.group) {
-            // We have got our group from backend. Update all filter options accordingly
-            distanceSlideControl.value = ownGroup.group.lookingForInAreaWithDistanceInKm;
-            ageSlideControl.value = ownGroup.group.age;
-            weAreSegmentedControl.selectedSegmentIndex = ownGroup.group.genderInt;
-            lookingForSegmentedControl.selectedSegmentIndex = ownGroup.group.lookingForGenderInt;
-            [lookingForAgeSlider setCurMinVal:ownGroup.group.lookingForAgeLower animated:NO];
-            [lookingForAgeSlider setCurMaxVal:ownGroup.group.lookingForAgeUpper animated:NO];
-        }
-    }
     
     // Nav bar more blur
     UIColor *barColour = self.navigationController.navigationBar.backgroundColor;
@@ -66,6 +62,8 @@
     _locationServiceHandler.delegate = self;
     
     [_locationServiceHandler startUpdatingLocation];
+    
+    
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -197,19 +195,45 @@
 
 
 - (IBAction)startCamera:(id)sender {
+    
+    if (!_ownGroup.group.name) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Enter group name"
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            textField.placeholder = @"The Jambalayas...";
+        }];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+            UITextField *nameField = alertController.textFields.firstObject;
+            _ownGroup.group.name = nameField.text;
+            
+            [self presentImagePickerView];
+        }];
+        [alertController addAction:okAction];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        [self presentImagePickerView];
+    }
+}
+
+- (void)presentImagePickerView
+{
     NSError *error = nil;
     
     error = [self deviceHasCamera];
     
     if (!error && !_locationServiceHandler.locationError) {
-     
+        
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.delegate = self;
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-     
+        
         [self presentViewController:imagePicker animated:YES completion:nil];
-    
+        
     }
     else if (error) {
         //[self showAlertForCameraError:error]; THIS SHOULD BE UNCOMMENTED BEFORE GOING LIVE: ONLY USING TO ENABLE SIMULATOR
@@ -307,23 +331,6 @@
     }
 }
 
-- (IRGroup *)checkBackendForOwnGroup
-{
-    IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
-    
-    __block IRGroup *backendGroup;
-    
-    [matchServiceHandler getMyGroupWithCompletionBlockSuccess:^(IRGroup *group) {
-        // Got our group from backend. Return it
-        backendGroup = group;
-    } failure:^(NSError *error) {
-        return;
-    }];
-    
-    // Return backendGroup since we have got it
-    return backendGroup;
-}
-
 - (NSString *)encodeToBase64String:(UIImage *)image {
     return [UIImagePNGRepresentation(image) base64EncodedStringWithSeparateLines:YES];
 }
@@ -332,6 +339,30 @@
 {
     IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
     
+    _ownGroup.group.genderInt            = weAreSegmentedControl.selectedSegmentIndex;
+    _ownGroup.group.lookingForGenderInt  = lookingForSegmentedControl.selectedSegmentIndex;
+    _ownGroup.group.age                  = roundl(ageSlideControl.value);
+    _ownGroup.group.lookingForAgeLower   = lookingForAgeSlider.curMinVal;
+    _ownGroup.group.lookingForAgeUpper   = lookingForAgeSlider.curMaxVal;
+    _ownGroup.group.locationLat          = _locationServiceHandler.currentLocationCoordinateX;
+    _ownGroup.group.locationLong         = _locationServiceHandler.currentLocationCoordinateY;
+    _ownGroup.group.lookingForInAreaWithDistanceInKm = roundl(distanceSlideControl.value);
+    
+    NSString *base64Image = [self encodeToBase64String:image];
+    
+    MRInstallation *installation = [MRInstallation currentInstallation];
+    
+    [matchServiceHandler postMyGroup:_ownGroup.group withBase64Image:base64Image withDeviceToken:installation.deviceToken andCompletionBlockSuccess:^(BOOL succeeded, NSInteger groupId) {
+        if (succeeded) {
+            // Successfully posted group to backend. Now its ok to assign ownGroup this new group. And then returning
+            _ownGroup.group.groupId = groupId;
+            return;
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"Issues posting group. BAD");
+    }];
+    
+    /*
     // If our own group object doesnt exist, it means that we do not exist on backend since we checked that when loading this viewcontroller. We should then create a new group and send it to backend
     if (!ownGroup.group) {
         IRGroup *groupWithCurrentFilter = [[IRGroup alloc] initWithOwnGroupOfGender:weAreSegmentedControl.selectedSegmentIndex //0 = Males, 1 = Both, 2 = Females
@@ -342,21 +373,10 @@
                                                                    locationLatitude:_locationServiceHandler.currentLocationCoordinateX
                                                                   locationLongitude:_locationServiceHandler.currentLocationCoordinateY
                                                    lookingForInAreaWithDistanceInKm:roundl(distanceSlideControl.value)];
-
-        NSString *base64Image = [self encodeToBase64String:image];
-        
-        [matchServiceHandler postMyGroup:groupWithCurrentFilter withBase64Image:base64Image andCompletionBlockSuccess:^(BOOL succeeded) {
-            if (succeeded) {
-                // Successfully posted group to backend. Now its ok to assign ownGroup this new group. And then returning
-                ownGroup.group = groupWithCurrentFilter;
-                return;
-            }
-        } failure:^(NSError *error) {
-            NSLog(@"Issues posting group. BAD");
-        }];
     }
     
     else {
+
         // This means that we have a present group. But are about to update its filters (or cridentials if you will).
         IRGroup *groupWithCurrentFilter = [[IRGroup alloc] initWithOwnGroupOfGender:weAreSegmentedControl.selectedSegmentIndex //0 = Males, 1 = Both, 2 = Females
                                                                    lookingForGender:lookingForSegmentedControl.selectedSegmentIndex //0 = Males, 1 = Both, 2 = Females
@@ -376,7 +396,10 @@
         } failure:^(NSError *error) {
             NSLog(@"Issues posting group. BAD");
         }];
+     
     }
+     */
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

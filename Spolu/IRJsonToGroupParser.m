@@ -46,7 +46,8 @@
                                                      imageUrl:[diction objectForKey:@"image"]
                                                        gender:[[diction objectForKey:@"gender"] integerValue]
                                                           age:[[diction objectForKey:@"age"] integerValue]
-                                                     distance:[[diction objectForKey:@"distance_km"] integerValue]];
+                                                     distance:[[diction objectForKey:@"distance_km"] integerValue]
+                                                         name:[diction objectForKey:@"name"]];
             
             if ([diction objectForKey:@"channel"]) {
                 group.channel = [diction objectForKey:@"channel"];
@@ -61,7 +62,8 @@
                                                  imageUrl:[responseObject objectForKey:@"image"]
                                                    gender:[[responseObject objectForKey:@"gender"] integerValue]
                                                       age:[[responseObject objectForKey:@"age"] integerValue]
-                                                 distance:[[responseObject objectForKey:@"distance_km"] integerValue]];
+                                                 distance:[[responseObject objectForKey:@"distance_km"] integerValue]
+                                                     name:[responseObject objectForKey:@"name"]];
         
         if ([responseObject objectForKey:@"channel"]) {
             group.channel = [responseObject objectForKey:@"channel"];

@@ -1083,13 +1083,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Spolu/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Spolu/VoiceLib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cfc74a08-2669-4706-acd2-4078c537559f";
 			};
 			name = Debug;
 		};
@@ -1105,13 +1106,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Spolu/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Spolu/VoiceLib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cfc74a08-2669-4706-acd2-4078c537559f";
 			};
 			name = Release;
 		};

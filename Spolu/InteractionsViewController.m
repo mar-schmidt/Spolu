@@ -94,8 +94,16 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(tableViewScrollToBottom) name:UIKeyboardDidShowNotification object:nil];
     
+    IFView = [[IRInputFunctionView alloc] initWithSuperVC:self];
+    IFView.delegate = self;
+    [self.view addSubview:IFView];
+    
+    IFView.isAbleToSendTextMessage = YES;
+    
     // Have an conversation up initially from currentConversationDataSource if it exist
     if (!_matchedGroupsDataSourceManager.currentConversationDataSource) {
+        
+        
         // Check if there actually are any conversations in conversationsDataSource. If not. We'll fetch existing conversations from backend
         NSLog(@"No current conversation exists in currentConversationsDataSource. Checking for existing converastions...");
         if (_matchedGroupsDataSourceManager.groupConversationsDataSource.count > 0) {
@@ -107,13 +115,22 @@
             IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
             
             [matchServiceHandler getMatchesConversationsWithCompletionBlock:^(NSArray *groupConversations) {
-                if (groupConversations.count > 0) {
+                if (groupConversations && groupConversations.count > 0) {
                     
                     // There are matches. Adding them to matchedGroupsDataSource
                     NSLog(@"Matches found in backend! Adding these to matchedGroupsDataSource...");
                     IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
-                    
                     matchedGroupsDataSourceManager.groupConversationsDataSource = [groupConversations mutableCopy];
+                    
+                    // Opening first conversation
+                    _matchedGroupsDataSourceManager.currentConversationDataSource = _matchedGroupsDataSourceManager.groupConversationsDataSource[0];
+                    
+                    // Subscribe to all channels
+                    IRWebSocketServiceHandler *webSocketHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
+                    [webSocketHandler subscribeToAllAvailableChannels];
+                } else {
+                    NSLog(@"No matches found in backend...");
+                    IFView.isAbleToSendTextMessage = NO;
                 }
 
             } failure:^(NSError *error) {
@@ -192,9 +209,6 @@
     
     //[self.chatModel populateRandomDataSource];
     
-    IFView = [[IRInputFunctionView alloc] initWithSuperVC:self];
-    IFView.delegate = self;
-    [self.view addSubview:IFView];
     
     [self.chatTableView reloadData];
 }
@@ -217,7 +231,8 @@
     //adjust ChatTableView's height
     if (notification.name == UIKeyboardWillShowNotification) {
         self.bottomConstraint.constant = keyboardEndFrame.size.height+40;
-    }else{
+        [_sideMenu hide];
+    } else {
         self.bottomConstraint.constant = 40;
     }
     
@@ -368,6 +383,7 @@
 
 - (IBAction)showSidebar:(id)sender {
     [_sideMenu toggleMenu];
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
 
 #pragma mark InteractionsConversationsMenuDelegate methods

@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448588966.880383"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "-fayeClient:didReceiveMessage:fromChannel:"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448588967.31927"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "-fayeClient:didReceiveMessage:fromChannel:"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
-            landmarkName = "-getGroupConversationFromChannel:withCompletionBlock:"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "-getGroupConversationFromChannel:withCompletionBlock:"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,13 +73,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "-getGroupConversationFromChannel:withCompletionBlock:"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -89,13 +89,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "-getGroupConversationFromChannel:withCompletionBlock:"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,13 +105,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "-getGroupConversationFromChannel:withCompletionBlock:"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -121,13 +121,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "-getGroupConversationFromChannel:withCompletionBlock:"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -137,13 +137,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "-getGroupConversationFromChannel:withCompletionBlock:"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -153,171 +153,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
+            filePath = "Spolu/IRMatchServiceHandler.m"
+            timestampString = "449184897.979752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
-            landmarkName = "-getGroupConversationFromChannel:withCompletionBlock:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "-getGroupConversationFromChannel:withCompletionBlock:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__81-[IRWebSocketServiceHandler getGroupConversationFromChannel:withCompletionBlock:]_block_invoke"
-                  moduleName = "Spolu"
-                  urlString = "file:///Users/Marcus/Documents/Dev/Spolu/Spolu/IRWebSocketServiceHandler.m"
-                  timestampString = "448592645.022868"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "143"
-                  endingLineNumber = "143"
-                  offsetFromSymbolStart = "712">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__81-[IRWebSocketServiceHandler getGroupConversationFromChannel:withCompletionBlock:]_block_invoke87"
-                  moduleName = "Spolu"
-                  urlString = "file:///Users/Marcus/Documents/Dev/Spolu/Spolu/IRWebSocketServiceHandler.m"
-                  timestampString = "448592645.023097"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "143"
-                  endingLineNumber = "143"
-                  offsetFromSymbolStart = "43">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448590494.180978"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "-fayeClient:didReceiveMessage:fromChannel:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448590494.586232"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
-            landmarkName = "-fayeClient:didReceiveMessage:fromChannel:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "-fayeClient:didReceiveMessage:fromChannel:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Spolu/IRWebSocketServiceHandler.m"
-            timestampString = "448592640.03941"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "-fayeClient:didReceiveMessage:fromChannel:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Spolu/IRJsonToGroupParser.m"
-            timestampString = "448590632.725715"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "-parseGroupsFromResponseObject:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Spolu/IRJsonToGroupParser.m"
-            timestampString = "448590633.293588"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "-parseGroupsFromResponseObject:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Spolu/IRJsonToGroupParser.m"
-            timestampString = "448590633.593146"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "-parseGroupsFromResponseObject:"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
+            landmarkName = "-postMyGroup:withBase64Image:withDeviceToken:andCompletionBlockSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

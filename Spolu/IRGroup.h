@@ -11,7 +11,7 @@
 
 typedef enum {
     IRGenderTypeMales    = 0,
-    IRGenderTypeBoth    = 1,
+    IRGenderTypeBoth     = 1,
     IRGenderTypeFemales  = 2
 } GenderType;
 
@@ -39,21 +39,26 @@ typedef enum {
 @property (nonatomic) NSInteger distance;
 @property (nonatomic) BOOL match;
 @property (nonatomic, strong) NSString *channel;
+@property (nonatomic, strong) NSString *name;
 
 - (id)initWithGroupId:(NSInteger)groupId
              imageUrl:(NSString *)imageUrl
                gender:(NSInteger)genderInt
                   age:(NSInteger)age
-             distance:(NSInteger)distanceInKm;
+             distance:(NSInteger)distanceInKm
+                 name:(NSString *)name;
 
 - (id)initWithOwnGroupOfGender:(NSInteger)genderInt
-      lookingForGender:(NSInteger)lookingGenderInt
-                   age:(NSInteger)years
-    lookingForAgeLower:(NSInteger)lower
-    lookingForAgeUpper:(NSInteger)upper
-      locationLatitude:(double)latitude
-     locationLongitude:(double)longitude
-lookingForInAreaWithDistanceInKm:(NSInteger)km;
+              lookingForGender:(NSInteger)lookingGenderInt
+                           age:(NSInteger)years
+            lookingForAgeLower:(NSInteger)lower
+            lookingForAgeUpper:(NSInteger)upper
+              locationLatitude:(double)latitude
+             locationLongitude:(double)longitude
+lookingForInAreaWithDistanceInKm:(NSInteger)km
+                          name:(NSString *)name
+                            gId:(NSInteger)groupId
+                      imageUrl:(NSString *)imageUrl;
 
 - (IRGroup *)randomGroupWithId:(NSInteger)gId;
 

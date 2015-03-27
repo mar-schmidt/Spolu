@@ -30,6 +30,21 @@
         
         
         
+        _groupNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(_circleView.frame.origin.x + 105,
+                                                                    5,
+                                                                    80,
+                                                                    10)];
+        _groupNameLabel.backgroundColor = [UIColor clearColor];
+        _groupNameLabel.numberOfLines = 1;
+        _groupNameLabel.minimumScaleFactor = 0.9f;
+        _groupNameLabel.adjustsFontSizeToFitWidth = YES;
+        _groupNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        _groupNameLabel.textAlignment = NSTextAlignmentLeft;
+        _groupNameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17.f];
+        
+        
+        
+        
         
         _messageMatchLabel = [[UILabel alloc] initWithFrame:CGRectMake(_circleView.frame.origin.x + 105,
                                                                        20,

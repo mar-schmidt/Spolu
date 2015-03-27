@@ -36,25 +36,38 @@
     return _sharedIRMatchedGroupsDataSourceManager;
 }
 
+
+- (void)sendMessage:(IRMessage *)message forGroupConversation:(IRGroupConversation *)groupConversation
+{
+    // Begin encapsulating message in messageframe, then update the conversationDataSource array as well as sending message through to websocketservicehandler
+    [_currentConversationDataSource.messages addObject:[self embedMessageInMessageFrame:message]];
+    
+    IROwnGroup *ownGroup = [IROwnGroup sharedGroup];
+    [self sendMessageToWebSocketServiceHandler:message toGroup:groupConversation.group fromGroup:ownGroup];
+}
+
+
+
 /****
  *
  * Self -> WebSocketServiceHandler
  * We need to send through our received message to the WebSocketServiceHandler
  *
  ****/
-- (void)sendMessageToWebSocketServiceHandler:(IRMessage *)message toGroup:(IRGroup *)group
+- (void)sendMessageToWebSocketServiceHandler:(IRMessage *)message toGroup:(IRGroup *)group fromGroup:(IROwnGroup *)fromGroup
 {
     IRWebSocketServiceHandler *webSocketServiceHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
     
-    [webSocketServiceHandler sendMessage:message toGroup:group toChannel:group.channel];
+    [webSocketServiceHandler sendMessage:@{
+                                           @"user_id":          [NSString stringWithFormat:@"%ld", (long)fromGroup.group.groupId], // My user
+                                           @"other_user_id":    [NSString stringWithFormat:@"%ld", (long)group.groupId], // User we send to
+                                           @"text":             message.strContent // Message we send
+                                           }
+                                 toGroup:group
+                               toChannel:group.channel];
 }
 
-- (void)sendMessage:(IRMessage *)message forGroupConversation:(IRGroupConversation *)groupConversation
-{
-    // Begin encapsulating message in messageframe, then update the conversationDataSource array as well as sending message through to websocketservicehandler
-    [_currentConversationDataSource.messages addObject:[self embedMessageInMessageFrame:message]];
-    [self sendMessageToWebSocketServiceHandler:message toGroup:groupConversation.group];
-}
+
 
 /****
  *

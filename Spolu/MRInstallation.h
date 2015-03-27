@@ -12,6 +12,7 @@
 @interface MRInstallation : AFHTTPSessionManager
 
 @property (nonatomic, strong) NSData *deviceTokenFromData;
+@property (nonatomic, strong) NSString *deviceToken;
 
 + (MRInstallation *)currentInstallation;
 - (void)saveInBackground;

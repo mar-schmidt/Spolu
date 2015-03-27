@@ -29,12 +29,13 @@
         parameters[@"token"] = _deviceTokenFromData;
         
         // Print the device token to log for debug
-        NSString* deviceToken = [[[[_deviceTokenFromData description]
+        NSString *devToken = [[[[_deviceTokenFromData description]
                                     stringByReplacingOccurrencesOfString: @"<" withString: @""]
                                    stringByReplacingOccurrencesOfString: @">" withString: @""]
                                   stringByReplacingOccurrencesOfString: @" " withString: @""];
         
-        NSLog(@"Device Token: %@",deviceToken);
+        NSLog(@"Device Token: %@", devToken);
+        _deviceToken = devToken;
         
         /*[self POST:@"https://spolu.herokuapp.com/registerDevice"
         parameters:_deviceTokenFromData

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) IRGroupConversation *groupConversation;
 @property (nonatomic, strong) UIView *circleView;
 @property (nonatomic, strong) UIImageView *groupImageView;
+@property (nonatomic, strong) UILabel *groupNameLabel;
 @property (nonatomic, strong) UILabel *messageMatchLabel;
 @property (nonatomic, strong) UILabel *latestMessageReceived;
 

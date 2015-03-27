@@ -8,6 +8,7 @@
 
 #import "IRMatchServiceHandler.h"
 #import "EligibleGroupsDataSource.h"
+#import "MRInstallation.h"
 
 // Api key and address
 static NSString * const ApiKey = @"ASDJOO12893891JAHDS";
@@ -37,12 +38,12 @@ static NSString * const ApiAddress = @"http://192.168.1.137:3000";
         
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
+        MRInstallation *installation = [MRInstallation currentInstallation];
         
         // Set the headers
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        //[self.requestSerializer setValue:FathomelessApiKey forHTTPHeaderField:@"Authorization"];
-        //[self.requestSerializer setValue:[NSString stringWithFormat:@"Token token=%@", ApiKey] forHTTPHeaderField:@"Authorization"];
+        [self.requestSerializer setValue:[NSString stringWithFormat:@"Token token=%@", installation.deviceToken] forHTTPHeaderField:@"Authorization"];
         
         // Set EligibleGroupsDataSource as delegate. That class will hold on to all the groups currenctly available
         EligibleGroupsDataSource *dataSource = [EligibleGroupsDataSource sharedEligibleGroupsDataSource];
@@ -62,6 +63,7 @@ static NSString * const ApiAddress = @"http://192.168.1.137:3000";
 
 - (void)getEligibleGroupsResultForGroup:(IRGroup *)group
 {
+    NSLog(@"GET /nearby from backend...");
     // API request
     [self GET:[NSString stringWithFormat:@"%@/nearby", ApiAddress]
    parameters:nil
@@ -70,6 +72,8 @@ static NSString * const ApiAddress = @"http://192.168.1.137:3000";
               
               // Parse dictionary responseObject to group object
               NSMutableArray *groups = [jsonParser parseGroupsFromResponseObject:responseObject];
+              
+              NSLog(@"Got %ld eligible groups from backend...", (long)groups.count);
               
               [self.delegate matchServiceHandler:self didReceiveEligibleGroups:groups];
           }
@@ -83,24 +87,44 @@ static NSString * const ApiAddress = @"http://192.168.1.137:3000";
 
 - (void)getMyGroupWithCompletionBlockSuccess:(void (^)(IRGroup *))myGroup failure:(void (^)(NSError *))failure
 {
+    NSLog(@"Check backend if our group exists depending on our auth-token...");
     // API request
-    [self GET:[NSString stringWithFormat:@"%@/groups/mygroup", ApiAddress]
+    [self GET:[NSString stringWithFormat:@"%@/auth", ApiAddress]
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
           
-          NSInteger groupId = [[responseObject objectForKey:@"_id"] integerValue];
-          NSString *imageUrl = [responseObject objectForKey:@"image"];
-          NSInteger genderInt = [[responseObject objectForKey:@"gender"] integerValue];
-          NSInteger age = [[responseObject objectForKey:@"age"] integerValue];
-          
-          IRGroup *myNewGroup = [[IRGroup alloc] initWithGroupId:groupId
-                                                        imageUrl:imageUrl
-                                                          gender:genderInt
-                                                             age:age
-                                                        distance:0];
-          
-          myGroup(myNewGroup);
-          
+          if (![responseObject objectForKey:@"error"]) {
+              NSInteger genderInt = [[responseObject objectForKey:@"gender"] integerValue];
+              NSInteger lookingForGenderInt = [[responseObject objectForKey:@"looking_for_gender"] integerValue];
+              NSInteger age = [[responseObject objectForKey:@"age"] integerValue];
+              NSInteger lookingForAgeLower = [[responseObject objectForKey:@"looking_for_age_lower"] integerValue];
+              NSInteger lookingForAgeUpper = [[responseObject objectForKey:@"looking_for_age_upper"] integerValue];
+              double latitude = [[responseObject objectForKey:@"latitude"] doubleValue];
+              double longitude = [[responseObject objectForKey:@"longitude"] doubleValue];
+              NSInteger distance = [[responseObject objectForKey:@"distance"] integerValue];
+              NSString *name = [responseObject objectForKey:@"name"];
+              NSInteger groupId = [[responseObject objectForKey:@"_id"] integerValue];
+              NSString *imageUrl = [responseObject objectForKey:@"image"];
+              
+              NSLog(@"Group with id %ld exists in backend. Returning it...", (long)groupId);
+              
+              
+              IRGroup *myNewGroup = [[IRGroup alloc] initWithOwnGroupOfGender:genderInt
+                                                             lookingForGender:lookingForGenderInt
+                                                                          age:age
+                                                           lookingForAgeLower:lookingForAgeLower
+                                                           lookingForAgeUpper:lookingForAgeUpper
+                                                             locationLatitude:latitude
+                                                            locationLongitude:longitude
+                                             lookingForInAreaWithDistanceInKm:distance
+                                                                         name:name
+                                                                          gId:groupId
+                                                                     imageUrl:imageUrl];
+              
+              myGroup(myNewGroup);
+          } else {
+              NSLog(@"No group exists in backend...");
+          }
       }
       failure:^(NSURLSessionDataTask *task, NSError *error) {
           if ([self.delegate respondsToSelector:@selector(matchServiceHandler:didFailWithError:)]) {
@@ -159,36 +183,17 @@ static NSString * const ApiAddress = @"http://192.168.1.137:3000";
  *
  ******/
 
-- (void)postMyGroup:(IRGroup *)group withBase64Image:(NSString *)base64Image andCompletionBlockSuccess:(void (^)(BOOL))success failure:(void (^)(NSError *))failure
+- (void)postMyGroup:(IRGroup *)group withBase64Image:(NSString *)base64Image withDeviceToken:(NSString *)token andCompletionBlockSuccess:(void (^)(BOOL, NSInteger))success failure:(void (^)(NSError *))failure
 {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    
     NSMutableDictionary *picFileDict = [NSMutableDictionary dictionary];
     
     picFileDict[@"file"] = base64Image;
     picFileDict[@"original_filename"] = @"bajs";
     picFileDict[@"filename"] = @"KNUUULLA CARLOS";
     
-    /*
-     {
-         "id": 1,
-         "latitude": 12,
-         "longitude": 57.6870556,
-         "gender": 0,
-         "looking_for_gender": 1,
-         "age": 22,
-         "distance": 20,
-         "looking_for_upper_age": 30,
-         "looking_for_lower_age": 20,
-         "picture_path": {
-             "file": "BASE64skit",
-             "original_filename": "my file name",
-             "filename": "my file name"
-         }
-     }
-     */
-    
     // Parameters that are sent to API
+    parameters[@"name"] = group.name;
     parameters[@"gender"] = [NSString stringWithFormat:@"%ld", (long)group.genderInt];
     parameters[@"looking_for_gender"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForGenderInt];
     parameters[@"age"] = [NSString stringWithFormat:@"%ld", (long)group.age];
@@ -198,18 +203,34 @@ static NSString * const ApiAddress = @"http://192.168.1.137:3000";
     parameters[@"longitude"] = [NSString stringWithFormat:@"%ld", (long)group.locationLong];
     parameters[@"distance"] = [NSString stringWithFormat:@"%ld", (long)group.lookingForInAreaWithDistanceInKm];
     parameters[@"picture_path"] = picFileDict;
+    parameters[@"ios_token"] = token;
     
     [self POST:[NSString stringWithFormat:@"%@/users", ApiAddress]
     parameters:parameters
        success:^(NSURLSessionDataTask *task, id responseObject) {
            NSInteger ourGroupId = [[responseObject objectForKey:@"_id"] integerValue];
+           
+           NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+           [dateFormatter setLocale:[NSLocale currentLocale]];
+           [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+           [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+           NSDate *date = [[NSDate alloc] init];
+           date = [dateFormatter dateFromString:[responseObject objectForKey:@"expiry_date"]];
+           
+           NSLog(@"%@", date);
+           
+           // Store the data
+           //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+           //[defaults setObject:date forKey:@"expiry_date"];
+           //[defaults synchronize];
+           
+           NSLog(@"Data saved");
+           
            if (ourGroupId) {
                NSLog(@"Successfully added our group to backend with id %ld", (long)ourGroupId);
-               /*
-               IROwnGroup *ownGroup = [IROwnGroup sharedGroup];
-               ownGroup.group = group;
-               success(YES);
-                */
+               
+               success(YES, ourGroupId);
+               
            }
        }
        failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -219,7 +240,7 @@ static NSString * const ApiAddress = @"http://192.168.1.137:3000";
        }];
 }
 
-- (void)postLikeForGroup:(IRGroup *)group withCompletionBlockMatch:(void (^)(BOOL))match failure:(void (^)(NSError *))failure
+- (void)postLikeForGroup:(IRGroup *)group withCompletionBlockMatch:(void (^)(BOOL, NSString *))match failure:(void (^)(NSError *))failure
 {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
@@ -234,10 +255,12 @@ static NSString * const ApiAddress = @"http://192.168.1.137:3000";
           BOOL matched = [[responseObject objectForKey:@"match"] boolValue];
           if (matched == YES) {
               group.match = YES;
-              match(YES);
+              group.groupId = [[responseObject objectForKey:@"user_id"] integerValue];
+              group.channel = [responseObject objectForKey:@"channel"];
+              match(YES, group.channel);
           } else {
               // No match!
-              match(NO);
+              match(NO, nil);
           }
       }
       failure:^(NSURLSessionDataTask *task, NSError *error) {

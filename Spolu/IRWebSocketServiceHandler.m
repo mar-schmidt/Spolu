@@ -50,15 +50,25 @@
 }
 
 
+
 - (void)subscribeToChannel:(NSString *)channel
 {
     NSLog(@"Subscribing to channel: %@", channel);
     [_webSocketClient subscribeToChannel:channel];
 }
 
+- (void)subscribeToAllAvailableChannels
+{
+    IRMatchedGroupsDataSourceManager *matchedGroupDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
+    for (IRGroupConversation *groupConversation in matchedGroupDataSourceManager.groupConversationsDataSource) {
+        [self subscribeToChannel:groupConversation.conversationChannel];
+    }
+}
+
 - (void)sendMessage:(NSDictionary *)message toGroup:(IRGroup *)group toChannel:(NSString *)channel
 {
-    //NSLog(@"Sending message: %@, to group: %ld, to channel: %@...", message.strContent, (long)group.groupId, channel);
+    IROwnGroup *ownGroup = [IROwnGroup sharedGroup];
+    NSLog(@"Sending message: %@, from my group: %ld to group: %ld, to channel: %@...", [message objectForKey:@"text"], (long)ownGroup.group.groupId, (long)group.groupId, channel);
     
     [_webSocketClient sendMessage:message toChannel:channel];
 }
@@ -70,6 +80,10 @@
 - (void)fayeClient:(MZFayeClient *)client didConnectToURL:(NSURL *)url
 {
     NSLog(@"Connected to faye server on %@", url);
+    IRMatchedGroupsDataSourceManager *matchedGroupDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
+    if (matchedGroupDataSourceManager.groupConversationsDataSource.count > 0) {
+        [self subscribeToAllAvailableChannels];
+    }
 }
 
 - (void)fayeClient:(MZFayeClient *)client didDisconnectWithError:(NSError *)error
@@ -94,17 +108,25 @@
 
 - (void)fayeClient:(MZFayeClient *)client didReceiveMessage:(NSDictionary *)messageData fromChannel:(NSString *)channel
 {
-    NSLog(@"Received message from faye: %@, From channel: %@", messageData[@"text"], channel);
+    IROwnGroup *ownGroup = [IROwnGroup sharedGroup];
 
-    [self getGroupConversationFromChannel:channel withCompletionBlock:^(IRGroupConversation *groupConversation) {
+    [self getGroupConversationForUser:[messageData objectForKey:@"user_id"] withCompletionBlock:^(IRGroupConversation *groupConversation) {
         if (groupConversation) {
-            IRMessage *message = [self createNewMessageFromGroupConversation:groupConversation withMessage:messageData[@"text"]];
+            // Check if this is from my own group. If not, proceed and received the message
+            NSString *receivedFromUserId = [messageData objectForKey:@"user_id"];
+            NSString *ownUserId = [NSString stringWithFormat:@"%ld", (long)ownGroup.group.groupId];
             
-            NSDictionary *userInfo = @{@"message" : message,
-                                       @"group" : groupConversation.group,
-                                       @"channel" : channel};
-            NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-            [nc postNotificationName:@"newMessageReceived" object:self userInfo:userInfo];
+            if (![receivedFromUserId isEqualToString:ownUserId]) {
+                NSLog(@"Received message from faye: %@, from channel: %@", messageData[@"text"], channel);
+                IRMessage *message = [self createNewMessageFromGroupConversation:groupConversation withMessage:messageData[@"text"]];
+                
+                NSDictionary *userInfo = @{@"message" : message,
+                                           @"group" : groupConversation.group,
+                                           @"channel" : channel};
+                NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+                [nc postNotificationName:@"newMessageReceived" object:self userInfo:userInfo];
+
+            }
         }
         // Error handling goes here
     }];
@@ -113,13 +135,14 @@
 
 
 
-- (void)getGroupConversationFromChannel:(NSString *)channel withCompletionBlock:(void (^)(IRGroupConversation *blockGroupConversation))groupFromChannel
+- (void)getGroupConversationForUser:(NSString *)user withCompletionBlock:(void (^)(IRGroupConversation *blockGroupConversation))groupFromChannel
 {
     IRMatchedGroupsDataSourceManager *matchedGroupsDataSource = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
     if (matchedGroupsDataSource.groupConversationsDataSource.count > 0) {
         // If there are a group in matchedGroupDataSource.groupConversationsDataSource which corresponds to the input channel, return it
         for (IRGroupConversation *groupConversation in matchedGroupsDataSource.groupConversationsDataSource) {
-            if ([groupConversation.conversationChannel isEqualToString:channel]) {
+            NSString *groupId = [NSString stringWithFormat:@"%ld", (long)groupConversation.group.groupId];
+            if ([groupId isEqualToString:user]) {
                 groupFromChannel(groupConversation);
                 return;
             }
@@ -132,7 +155,7 @@
     
         [matchedServiceHandler getMatchesConversationsWithCompletionBlock:^(NSArray *groupConversations) {
             for (IRGroupConversation *groupConversation in groupConversations) {
-                if ([groupConversation.conversationChannel isEqualToString:channel]) {
+                if ([groupConversation.conversationChannel isEqualToString:user]) {
                     // Return the new group to the block
                     NSLog(@"Found corresponding group conversations in backend");
                     groupFromChannel(groupConversation);

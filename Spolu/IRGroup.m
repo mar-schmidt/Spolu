@@ -21,7 +21,7 @@
     return self;
 }
 
-- (id)initWithGroupId:(NSInteger)groupId imageUrl:(NSString *)imageUrl gender:(NSInteger)genderInt age:(NSInteger)age distance:(NSInteger)distanceInKm
+- (id)initWithGroupId:(NSInteger)groupId imageUrl:(NSString *)imageUrl gender:(NSInteger)genderInt age:(NSInteger)age distance:(NSInteger)distanceInKm name:(NSString *)name
 {
     self = [super init];
     if (self) {
@@ -30,6 +30,53 @@
         _genderInt = genderInt;
         _age = age;
         _distance = distanceInKm;
+        _name = name;
+        
+        // Download image
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        NSLog(@"Starting downloading image for group %ld", (long)_groupId);
+        [manager downloadImageWithURL:[NSURL URLWithString:imageUrl]
+                              options:0
+                             progress:^(NSInteger receivedSize, NSInteger expectedSize)
+         {
+             // progression tracking code
+         }
+                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
+         {
+             if (image) {
+                 _downloadedImage = image;
+                 NSLog(@"Downloaded image completed for group %ld", (long)_groupId);
+             }
+         }];
+    }
+    return self;
+}
+
+- (id)initWithOwnGroupOfGender:(NSInteger)genderInt
+              lookingForGender:(NSInteger)lookingGenderInt
+                           age:(NSInteger)years
+            lookingForAgeLower:(NSInteger)lower
+            lookingForAgeUpper:(NSInteger)upper
+              locationLatitude:(double)latitude
+             locationLongitude:(double)longitude
+lookingForInAreaWithDistanceInKm:(NSInteger)km
+                          name:(NSString *)name
+                            gId:(NSInteger)groupId
+                      imageUrl:(NSString *)imageUrl
+{
+    self = [super init];
+    if (self) {
+        _genderInt = genderInt;
+        _lookingForGenderInt = lookingGenderInt;
+        _age = years;
+        _lookingForAgeLower = lower;
+        _lookingForAgeUpper = upper;
+        _locationLat = latitude;
+        _locationLong = longitude;
+        _lookingForInAreaWithDistanceInKm = km;
+        _name = name;
+        _groupId = groupId;
+        _imageUrl = imageUrl;
         
         // Download image
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -48,29 +95,6 @@
                  NSLog(@"Downloaded image completed for group %ld", (long)_groupId);
              }
          }];
-    }
-    return self;
-}
-
-- (id)initWithOwnGroupOfGender:(NSInteger)genderInt
-              lookingForGender:(NSInteger)lookingGenderInt
-                           age:(NSInteger)years
-            lookingForAgeLower:(NSInteger)lower
-            lookingForAgeUpper:(NSInteger)upper
-              locationLatitude:(double)latitude
-             locationLongitude:(double)longitude
-lookingForInAreaWithDistanceInKm:(NSInteger)km
-{
-    self = [super init];
-    if (self) {
-        _genderInt = genderInt;
-        _lookingForGenderInt = lookingGenderInt;
-        _age = years;
-        _lookingForAgeLower = lower;
-        _lookingForAgeUpper = upper;
-        _locationLat = latitude;
-        _locationLong = longitude;
-        _lookingForInAreaWithDistanceInKm = km;
     }
     return self;
 }

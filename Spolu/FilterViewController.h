@@ -34,11 +34,10 @@
     __weak IBOutlet JFADoubleSlider *lookingForAgeSlider;
     
     __weak IBOutlet UIPickerView *pickerView;
-    
-    IROwnGroup *ownGroup;
 }
 
 @property (nonatomic, strong) IRLocationServiceHandler *locationServiceHandler;
+@property (nonatomic, strong) IROwnGroup *ownGroup;
 
 // Navbar elements
 - (IBAction)startCamera:(id)sender;

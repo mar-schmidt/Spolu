@@ -17,7 +17,7 @@
     NSDictionary *aps = userInfo[@"aps"];
     NSString *alertMessage = aps[@"alert"];
     
-    if (pushCode == 1) { // pushCode 1 = New match
+    if (pushCode == 1) { // New match
         NSLog(@"Push Notification received: %@ from group %ld", alertMessage, (long)groupId);
         
         IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
@@ -52,37 +52,31 @@
             }];
         }
         
-        
-        
-        
-        /*
-        
-        // Create group from this push-match
-        [self groupFromMatchPush:userInfo withCompletionGroup:^(IRGroup *match) {
-            // Check matchedGroups array for this group, if it doesnt exists, we'll add it to matchedGroups
-            IRMatchedGroups *matchedGroups = [IRMatchedGroups sharedMatchedGroups];
-            NSMutableArray *matchedGroupsArrayCopy = [matchedGroups.groups copy];
-            if (matchedGroupsArrayCopy && matchedGroupsArrayCopy.count > 0) {
-                // Previous matches exist. Check if this match exists.
-                for (IRGroup *group in matchedGroupsArrayCopy) {
-                    if (match.groupId == group.groupId) {
-                        // Received push-match-group already exists matchedGroups.group array, then we wont need to do anything.
-                    } else {
-                        // Allright, received push-match-group does not exists. Then we'll add it and notify about it
-                        [matchedGroups.groups addObject:match];
-                        [self sendNotificationAboutMatchWithGroup:match];
-                    }
-                }
-            } else {
-                // No previus matches exist in matchedGroup. Adding this one
-                [matchedGroups.groups addObject:match];
-                [self sendNotificationAboutMatchWithGroup:match];
-            }
-        }];
-         */
     }
-    else if (pushCode == 2) { // Common announcement
-        
+    else if (pushCode == 2) { // Message received
+        if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
+            IRWebSocketServiceHandler *webSocketHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
+            IROwnGroup *ownGroup = [IROwnGroup sharedGroup];
+            
+            // Get the current group conversation from received message
+            [webSocketHandler getGroupConversationForUser:userInfo[@"user_id"] withCompletionBlock:^(IRGroupConversation *blockGroupConversation) {
+                if (blockGroupConversation) {
+                    // Check if this is from my own group. If not, proceed and received the message
+                    NSString *receivedFromUserId = userInfo[@"user_id"];
+                    NSString *ownUserId = [NSString stringWithFormat:@"%ld", (long)ownGroup.group.groupId];
+                    
+                    if (![receivedFromUserId isEqualToString:ownUserId]) {
+                        NSLog(@"Received message from faye (via Push): %@, from channel: %@", userInfo[@"text"], blockGroupConversation.conversationChannel);
+                        
+                        IRMessage *message = [webSocketHandler createNewMessageFromGroupConversation:blockGroupConversation withMessage:userInfo[@"text"]];
+                        
+                        [self sendNotificationMessageReceived:message FromGroupConversation:blockGroupConversation];
+                    }
+                } else {
+                    NSLog(@"Message received via Push but couldnt find corresponding conversation for it...");
+                }
+            }];
+        }
     }
     else if (pushCode == 3) {
         
@@ -94,6 +88,14 @@
         
     }
 
+}
+
++ (void)sendNotificationMessageReceived:(IRMessage *)message FromGroupConversation:(IRGroupConversation *)groupConversation
+{
+    NSDictionary *userInfo = @{@"group" : groupConversation,
+                               @"channel" : groupConversation.conversationChannel};
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:@"newMatchReceived" object:self userInfo:userInfo];
 }
 
 + (void)sendNotificationAboutMatchWithGroup:(IRGroupConversation *)groupConversation
@@ -126,9 +128,17 @@
     IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
     
     [matchServiceHandler getMatchesConversationsWithCompletionBlock:^(NSArray *groupConversations) {
-        NSLog(@"Received %ld matches", (long)groupConversations.count);
-
-        matchedGroupConversations(groupConversations);
+        if (groupConversations.count > 0) {
+            NSLog(@"Received %ld matches", (long)groupConversations.count);
+            
+            // Return the groupConversations array and subscribe to its channels
+            matchedGroupConversations(groupConversations);
+            
+            IRWebSocketServiceHandler *webSocketHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
+            for (IRGroupConversation *groupConversation in groupConversations) {
+                [webSocketHandler subscribeToChannel:groupConversation.conversationChannel];
+            }
+        }
 
     } failure:^(NSError *error) {
         NSLog(@"Failed retrieving matches. %@", error.localizedDescription);
@@ -148,7 +158,14 @@
     IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
     [matchServiceHandler getRecentMatchWithGroupId:groupId
                                 andCompletionBlock:^(IRGroup *group) {
-                                    matchedGroup(group);
+                                    if (group) {
+                                        // Return the matched group and subscribe to its channel
+                                        matchedGroup(group);
+                                        
+                                        IRWebSocketServiceHandler *webSocketHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
+                                        [webSocketHandler subscribeToChannel:group.channel];
+                                    }
+                                    
                                 } failure:^(NSError *error) {
                                     NSLog(@"Failed retrieving newly matched group. %@", error.localizedDescription);
                                 }];

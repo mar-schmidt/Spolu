@@ -40,9 +40,23 @@
 - (void)subscribeToChannel:(NSString *)channel;
 
 /**
+ * Subscribes to all available channels (conversations) in IRMatchedGroupsDataSourceManager.groupConversationsDataSource
+ */
+- (void)subscribeToAllAvailableChannels;
+
+/**
  * Sends a message to a specific group and channel
  */
 - (void)sendMessage:(NSDictionary *)message toGroup:(IRGroup *)group toChannel:(NSString *)channel;
 
+/**
+ * Finds the current groupConversation object
+ */
+- (void)getGroupConversationForUser:(NSString *)user withCompletionBlock:(void (^)(IRGroupConversation *blockGroupConversation))groupFromChannel;
+
+/**
+ * Creates a new messageObject from input string
+ */
+- (IRMessage *)createNewMessageFromGroupConversation:(IRGroupConversation *)groupConversation withMessage:(NSString *)receivedMessage;
 
 @end

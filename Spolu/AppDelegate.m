@@ -35,7 +35,7 @@
         UIUserNotificationSettings* notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
         
-        //register to receive notifications
+        // Register to receive notifications
         [application registerForRemoteNotifications];
     }
     else {
@@ -87,6 +87,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -102,6 +103,38 @@
      _receivedUserInfo = nil;
     }
      */
+    
+    IROwnGroup *ownGroup = [IROwnGroup sharedGroup];
+    if (!ownGroup.group) {
+        MRInstallation *installation = [MRInstallation currentInstallation];
+        if (installation.deviceToken) {
+            [self askBackendForOwnGroupWithSuccessBlock:^(IRGroup *backendGroup) {
+                ownGroup.group = backendGroup;
+            }];
+        } else {
+            // Device token not yet available. Waiting some seconds
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                // Non-main thread.
+                [NSThread sleepForTimeInterval:2.0f];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Returns to main thread.
+                    [self askBackendForOwnGroupWithSuccessBlock:^(IRGroup *backendGroup) {
+                        ownGroup.group = backendGroup;
+                    }];
+                });
+            });
+        }
+    }
+}
+
+- (void)askBackendForOwnGroupWithSuccessBlock:(void (^)(IRGroup *backendGroup))backendGroup
+{
+    IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
+    [matchServiceHandler getMyGroupWithCompletionBlockSuccess:^(IRGroup *group) {
+        backendGroup(group);
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

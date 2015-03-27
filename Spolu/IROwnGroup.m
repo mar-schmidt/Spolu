@@ -25,14 +25,7 @@
 {
     self = [super init];
     if (self) {
-        if (!_group) {
-            IRMatchServiceHandler *matchServiceHandler = [IRMatchServiceHandler sharedMatchServiceHandler];
-            [matchServiceHandler getMyGroupWithCompletionBlockSuccess:^(IRGroup *group) {
-                _group = group;
-            } failure:^(NSError *error) {
-                
-            }];
-        }
+
     }
     return self;
 }

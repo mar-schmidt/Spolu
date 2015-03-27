@@ -25,9 +25,9 @@
 - (instancetype)initWithBaseURL:(NSURL *)url;
 
 // Post
-- (void)postMyGroup:(IRGroup *)group withBase64Image:(NSString *)base64Image andCompletionBlockSuccess:(void (^)(BOOL succeeded))success failure:(void (^)(NSError *error))failure;
+- (void)postMyGroup:(IRGroup *)group withBase64Image:(NSString *)base64Image withDeviceToken:(NSString *)token andCompletionBlockSuccess:(void (^)(BOOL succeeded, NSInteger groupId))success failure:(void (^)(NSError *error))failure;
 - (void)postUpdateForMyGroup:(IRGroup *)group withCompletionBlockSuccess:(void (^)(BOOL succeeded))success failure:(void (^)(NSError *error))failure;
-- (void)postLikeForGroup:(IRGroup *)group withCompletionBlockMatch:(void (^)(BOOL matching))match failure:(void (^)(NSError *error))failure;
+- (void)postLikeForGroup:(IRGroup *)group withCompletionBlockMatch:(void (^)(BOOL matching, NSString *channel))match failure:(void (^)(NSError *error))failure;
 - (void)postPassForGroup:(IRGroup *)group withCompletionBlockSuccess:(void (^)(BOOL succeeded))success failure:(void (^)(NSError *error))failure;
 
 // Get

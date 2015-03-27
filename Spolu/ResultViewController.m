@@ -183,7 +183,7 @@
         // Adding this due to a shitty bug i cannot track. Take _currentGroup.groupId (since its correct) and point it to a new IRGroup instance which we will use for the async like response block. Later we will get ID in the response which we can double check against.
         IRGroup *likedGroup = _currentGroup;
 
-        [matchServiceHandler postLikeForGroup:likedGroup withCompletionBlockMatch:^(BOOL matching) {
+        [matchServiceHandler postLikeForGroup:likedGroup withCompletionBlockMatch:^(BOOL matching, NSString *channel) {
             if (matching) {
                 // We got a match!
                 NSLog(@"!!!!!!!!! Matched with group %ld !!!!!!!!!!!!", (long)likedGroup.groupId);
@@ -191,7 +191,11 @@
                 IRMatchedGroupsDataSourceManager *matchedGroupsDataSourceManager = [IRMatchedGroupsDataSourceManager sharedMatchedGroups];
                 IRGroupConversation *newGroupConversation = [matchedGroupsDataSourceManager createNewGroupConversationWithMessage:nil fromGroup:likedGroup];
 
-                // NEED TO ADD CHANNEL HERE
+                // Add the channel to the groupConversation and subscribe to it
+                newGroupConversation.conversationChannel = channel;
+                
+                IRWebSocketServiceHandler *webSocketServiceHandler = [IRWebSocketServiceHandler sharedWebSocketHandler];
+                [webSocketServiceHandler subscribeToChannel:channel];
                 
                 [matchedGroupsDataSourceManager.groupConversationsDataSource addObject:newGroupConversation];
 
@@ -267,8 +271,8 @@
     }
     
     if ([eligibleGroupsDataSource.dataSource count] == 0) {
+        // retry nearby api call
         return nil;
-        
     }
     
     // UIView+MDCSwipeToChoose and MDCSwipeToChooseView are heavily customizable.
